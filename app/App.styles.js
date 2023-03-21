@@ -3,6 +3,11 @@ import { StyleSheet, Dimensions } from 'react-native'
 const { height } = Dimensions.get('window')
 
 export default StyleSheet.create({
+globalContainer: {
+    flex: 1,
+    backgroundColor: 'white'
+//    paddingVertical: '%'
+  },
   container: {
     flex: 1,
     justifyContent: 'space-between',
