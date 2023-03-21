@@ -20,12 +20,12 @@ const Card = ({ card }) => (
   </View>
 )
 
-Card.propTypes = {
-  card: shape({
-    photo: ImageSourcePropType,
-    name: string,
-    age: number,
-  }).isRequired,
-}
+//Card.propTypes = {
+//  card: shape({
+//    photo: ImageSourcePropType,
+//    name: string,
+//    age: number,
+//  }).isRequired,
+//}
 
 export default Card
