@@ -1,24 +1,44 @@
 import React, { useRef } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import Swiper from 'react-native-deck-swiper'
+import { Stack, useRouter } from 'expo-router';
 import { photoCards } from '../constants'
-import { Card, IconButton, OverlayLabel } from '../components'
+import { Card, IconButton, OverlayLabel, ScreenHeaderBtn } from '../components'
 import styles from './App.styles'
 
 const Home = () => {
-  const useSwiper = useRef(null).current
+  const router = useRouter();
+  const swiperRef = useRef(null);
 
-  const handleOnSwipedLeft = () => useSwiper.swipeLeft()
-  const handleOnSwipedTop = () => useSwiper.swipeTop()
-  const handleOnSwipedRight = () => useSwiper.swipeRight()
+  const handleOnSwipedLeft = () => {}
+  const handleOnSwipedTop = () => {}
+  const handleOnSwipedRight = () => {}
+
+  const handleSwipeBack = () => {
+      if(swiperRef.current){
+          swiperRef.current.swipeBack();
+      }
+    };
 
   return (
     <View
       style={styles.container}
     >
+    <Stack.Screen options={{
+            headerStyle: { backgroundColor: "black"},
+            headerShadowVisible: false,
+            headerLeft: () => {
+                return <Text style={{color:"white"}}>Soulspark Logo</Text>
+            },
+            headerRight: () => {
+               return <ScreenHeaderBtn iconUrl={require('../assets/profile.jpg')} dimension="100%" />
+            },
+            headerTitle: ""
+        }}
+        />
       <View style={styles.swiperContainer}>
         <Swiper
-          ref={useSwiper}
+          ref={swiperRef}
           animateCardOpacity
           containerStyle={styles.container}
           cards={photoCards}
@@ -54,24 +74,25 @@ const Home = () => {
         />
       </View>
       <View style={styles.buttonsContainer}>
-        <IconButton
+
+        <TouchableOpacity><IconButton
           name="close"
           onPress={handleOnSwipedLeft}
           color="white"
           backgroundColor="#E5566D"
-        />
-        <IconButton
-          name="star"
-          onPress={handleOnSwipedTop}
+        /></TouchableOpacity>
+        <TouchableOpacity><IconButton
+          name="back"
+          onPress={handleSwipeBack}
           color="white"
-          backgroundColor="#3CA3FF"
-        />
-        <IconButton
+          backgroundColor="#FFB804"
+        /></TouchableOpacity>
+        <TouchableOpacity><IconButton
           name="heart"
           onPress={handleOnSwipedRight}
           color="white"
           backgroundColor="#4CCC93"
-        />
+        /></TouchableOpacity>
       </View>
       <View style={styles.swipeTextContainer}>
       </View>

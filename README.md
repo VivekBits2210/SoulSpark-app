@@ -6,9 +6,9 @@ Install dependencies \
 `npm install`
 
 Run the app.  \
-`$npx expo start`
+`npx expo start`
 
 Connection refused errors \
-`$npx expo start --tunnel`
+`npx expo start --tunnel`
 
 Download the 'Expo Go' app and scan QR code from above command.

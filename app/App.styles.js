@@ -6,21 +6,19 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
+    flexDirection: 'column',
+    backgroundColor: 'white'
+//    paddingVertical: '%'
   },
   swiperContainer: {
-    height: height - 250,
+    height: height - 120,
   },
   buttonsContainer: {
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
     paddingHorizontal: '15%',
-  },
-  copyright: {
-    textAlign: 'center',
-    fontSize: 10,
-    color: 'black',
-    paddingBottom: 20,
+    marginTop: -120
   },
   overlayWrapper: {
     flexDirection: 'column',
