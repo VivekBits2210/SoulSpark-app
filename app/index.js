@@ -200,18 +200,6 @@ export default function Home() {
 return (
 <View style={styles.globalContainer}
 >
-    <Stack.Screen options={{
-      headerStyle: { backgroundColor: "black"},
-      headerShadowVisible: false,
-      headerLeft: () => {
-      return <Text style={{color:"white"}}>Soulspark Logo</Text>
-      },
-      headerRight: () => {
-      return <ScreenHeaderBtn iconUrl={require('../assets/profile.jpg')} dimension="100%" />
-      },
-      headerTitle: ""
-      }}
-      />
 <MyTabs />
 </View>
   );

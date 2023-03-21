@@ -1,24 +1,30 @@
-import { Stack } from "expo-router";
+import { Text } from 'react-native'
+import { ScreenHeaderBtn } from '../components'
+import { Link, Stack } from "expo-router";
 import { useCallback } from "react";
 import * as SplashScreen from "expo-splash-screen";
 
 SplashScreen.preventAutoHideAsync();
-
+export const unstable_settings = {
+  // Ensure any route can link back to `/`
+  initialRouteName: "index",
+};
 const Layout = () => {
-//    const [fontsLoaded] = useFonts({
-//        DMBold: require('../assets/fonts/DMSans-Bold.ttf'),
-//        DMMedium: require('../assets/fonts/DMSans-Medium.ttf'),
-//        DMRegular: require('../assets/fonts/DMSans-Regular.ttf'),
-//    })
-
-//    const onLayoutRootView = useCallback(async () => {
-//        if(fontsLoaded) {
-//            await SplashScreen.hideAsync();
-//        }
-//    }, [fontsLoaded])
-//
-//    if(!fontsLoaded) return null;
-    return <Stack />;
+    return (<Stack>
+                   <Stack.Screen options={{
+                         headerStyle: { backgroundColor: "black"},
+                         headerShadowVisible: false,
+                         headerLeft: () => {
+                         return <Text style={{color:"white"}}>Soulspark Logo</Text>
+                         },
+                         headerRight: () => {
+                         return <ScreenHeaderBtn iconUrl={require('../assets/profile.jpg')} dimension="100%" />
+                         },
+                         headerTitle: ""
+                         }}
+                         name="index"
+                         />
+                 </Stack>);
 }
 
 export default Layout;
