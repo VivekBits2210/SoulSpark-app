@@ -1,11 +1,12 @@
-import { Chat, MessageType } from '@flyerhq/react-native-chat-ui';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Chat, MessageType } from '@flyerhq/react-native-chat-ui'
+import { NavigationContainer } from '@react-navigation/native'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import React, { useRef, useState } from 'react'
-import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native'
+import { View, Text, TouchableOpacity, SafeAreaView, Pressable } from 'react-native'
+import Modal from "react-native-modal"
 import Swiper from 'react-native-deck-swiper'
-import { Stack, useRouter } from 'expo-router';
+import { Stack, useRouter } from 'expo-router'
 import { photoCards } from '../constants'
 import { Card, IconButton, OverlayLabel, ScreenHeaderBtn } from '../components'
 import styles from './App.styles'
@@ -31,8 +32,28 @@ const SwipeScreen = () => {
       }
     };
 
+  const [modalVisible, setModalVisible] = useState(true);
   return (
   <View style={styles.container}>
+   <Modal
+          animationOut="fadeOutUp"
+          backgroundOpacity="0.7"
+          transparent={true}
+          isVisible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Swipe carefully, you cannot match with more than three partners!</Text>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                    onPress={() => setModalVisible(!modalVisible)}>
+                <Text style={styles.textStyle}>OK</Text>
+              </Pressable>
+            </View>
+          </View>
+    </Modal>
       <View style={styles.swiperContainer}>
         <Swiper
           ref={swiperRef}
@@ -179,18 +200,18 @@ export default function Home() {
 return (
 <View style={styles.globalContainer}
 >
-  <Stack.Screen options={{
-  headerStyle: { backgroundColor: "black"},
-  headerShadowVisible: false,
-  headerLeft: () => {
-  return <Text style={{color:"white"}}>Soulspark Logo</Text>
-  },
-  headerRight: () => {
-  return <ScreenHeaderBtn iconUrl={require('../assets/profile.jpg')} dimension="100%" />
-  },
-  headerTitle: ""
-  }}
-  />
+    <Stack.Screen options={{
+      headerStyle: { backgroundColor: "black"},
+      headerShadowVisible: false,
+      headerLeft: () => {
+      return <Text style={{color:"white"}}>Soulspark Logo</Text>
+      },
+      headerRight: () => {
+      return <ScreenHeaderBtn iconUrl={require('../assets/profile.jpg')} dimension="100%" />
+      },
+      headerTitle: ""
+      }}
+      />
 <MyTabs />
 </View>
   );
