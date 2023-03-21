@@ -11,7 +11,7 @@ export default StyleSheet.create({
 //    paddingVertical: '%'
   },
   swiperContainer: {
-    height: height - 120,
+    height: height - 70,
   },
   buttonsContainer: {
     justifyContent: 'space-between',

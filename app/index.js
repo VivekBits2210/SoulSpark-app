@@ -1,12 +1,14 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useRef } from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native'
 import Swiper from 'react-native-deck-swiper'
 import { Stack, useRouter } from 'expo-router';
 import { photoCards } from '../constants'
 import { Card, IconButton, OverlayLabel, ScreenHeaderBtn } from '../components'
 import styles from './App.styles'
-
-const Home = () => {
+const SwipeScreen = () => {
   const router = useRouter();
   const swiperRef = useRef(null);
 
@@ -21,21 +23,7 @@ const Home = () => {
     };
 
   return (
-    <View
-      style={styles.container}
-    >
-    <Stack.Screen options={{
-            headerStyle: { backgroundColor: "black"},
-            headerShadowVisible: false,
-            headerLeft: () => {
-                return <Text style={{color:"white"}}>Soulspark Logo</Text>
-            },
-            headerRight: () => {
-               return <ScreenHeaderBtn iconUrl={require('../assets/profile.jpg')} dimension="100%" />
-            },
-            headerTitle: ""
-        }}
-        />
+  <View>
       <View style={styles.swiperContainer}>
         <Swiper
           ref={swiperRef}
@@ -96,8 +84,77 @@ const Home = () => {
       </View>
       <View style={styles.swipeTextContainer}>
       </View>
-    </View>
+  </View>
   )
 }
 
-export default Home
+function ChatScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: "white" }}>
+      <Text>Chat Window!</Text>
+    </View>
+  );
+}
+
+const Tab = createBottomTabNavigator();
+
+function MyTabs() {
+  return (
+  <Tab.Navigator
+          screenOptions={({ route }) => ({
+            headerShown: false,
+            tabBarIcon: ({ focused, color, size }) => {
+              if (route.name === 'Swipe') {
+                return (
+                  <MaterialCommunityIcons
+                    name={
+                      focused
+                        ? 'cards'
+                        : 'cards-outline'
+                    }
+                    size={size}
+                    color={color}
+                  />
+                );
+              } else if (route.name === 'Chat') {
+
+                return (
+                  <Ionicons
+                    name={focused ? 'chatbubble' : 'chatbubble-outline'}
+                    size={size}
+                    color={color}
+                  />
+                );
+              }
+            },
+            tabBarInactiveTintColor: 'gray',
+            tabBarActiveTintColor: 'tomato',
+          })}
+        >
+      <Tab.Screen name="Swipe" component={SwipeScreen} />
+      <Tab.Screen name="Chat" component={ChatScreen} />
+    </Tab.Navigator>
+  );
+}
+
+export default function Home() {
+return (
+<View
+style={styles.container}
+>
+  <Stack.Screen options={{
+  headerStyle: { backgroundColor: "black"},
+  headerShadowVisible: false,
+  headerLeft: () => {
+  return <Text style={{color:"white"}}>Soulspark Logo</Text>
+  },
+  headerRight: () => {
+  return <ScreenHeaderBtn iconUrl={require('../assets/profile.jpg')} dimension="100%" />
+  },
+  headerTitle: ""
+  }}
+  />
+<MyTabs />
+</View>
+  );
+}
