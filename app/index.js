@@ -14,9 +14,16 @@ const SwipeScreen = () => {
   const router = useRouter();
   const swiperRef = useRef(null);
 
-  const handleOnSwipedLeft = () => {}
-  const handleOnSwipedTop = () => {}
-  const handleOnSwipedRight = () => {}
+  const handleOnSwipedLeft = () => {
+    if(swiperRef.current){
+        swiperRef.current.swipeLeft();
+    }
+  }
+  const handleOnSwipedRight = () => {
+    if(swiperRef.current){
+          swiperRef.current.swipeRight();
+     }
+  }
 
   const handleSwipeBack = () => {
       if(swiperRef.current){
@@ -159,7 +166,7 @@ function MyTabs() {
               }
             },
             tabBarInactiveTintColor: 'gray',
-            tabBarActiveTintColor: 'tomato',
+            tabBarActiveTintColor: 'black',
           })}
         >
       <Tab.Screen name="Swipe" component={SwipeScreen} />
