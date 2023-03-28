@@ -10,6 +10,12 @@ import { Stack, useRouter } from 'expo-router'
 import { photoCards } from '../constants'
 import { Card, IconButton, OverlayLabel, ScreenHeaderBtn } from '../components'
 import styles from './App.styles'
+import CryptoJS from 'crypto-js';
+
+const encryptEmail = (email, salt) => {
+  const encrypted = CryptoJS.AES.encrypt(email, salt);
+  return encrypted.toString();
+};
 
 const SwipeScreen = () => {
   const router = useRouter();
