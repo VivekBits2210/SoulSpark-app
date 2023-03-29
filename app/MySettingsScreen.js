@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { SettingsScreen } from "react-native-settings-screen"
 
-const data: SettingsData = [
+const data = [
   { type: 'CUSTOM_VIEW', key: 'hero', render: this.renderHero },
   {
     type: 'SECTION',
@@ -123,7 +123,7 @@ const data: SettingsData = [
   },
 ]
 
-const Settings = () => {
+const MySettingsScreen = () => {
   const router = useRouter();
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -147,4 +147,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default MySettingsScreen;
