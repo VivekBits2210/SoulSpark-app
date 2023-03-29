@@ -8,7 +8,7 @@ Install dependencies \
 Run the app.  \
 `npx expo start`
 
-Connection refused errors \
+Connection refused errors \ 
 `npx expo start --tunnel`
 
 Download the 'Expo Go' app and scan QR code from above command.
