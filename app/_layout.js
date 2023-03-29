@@ -1,6 +1,6 @@
 import { Text } from 'react-native'
 import { ScreenHeaderBtn } from '../components'
-import { Stack } from "expo-router";
+import { Stack, useRouter  } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 
 SplashScreen.preventAutoHideAsync();
@@ -9,6 +9,7 @@ export const unstable_settings = {
   initialRouteName: "index",
 };
 const Layout = () => {
+  const router = useRouter();
 return (<Stack>
 <Stack.Screen options={{
 headerStyle: { backgroundColor: "black"},
@@ -17,7 +18,7 @@ headerLeft: () => {
 return <Text style={{color:"white"}}>Soulspark Logo</Text>
 },
 headerRight: () => {
-return <ScreenHeaderBtn iconUrl={require('../assets/profile.jpg')} dimension="100%" />
+return <ScreenHeaderBtn iconUrl={require('../assets/profile.jpg')} dimension="100%" handlePress={() => router.push("/Settings")} />
 },
 headerTitle: ""
 }}
