@@ -18,8 +18,8 @@ const renderHero = () => (
   <View style={styles.heroContainer}>
     <Image source={require('../assets/profile.jpg')} style={styles.heroImage} />
     <View style={{ flex: 1 }}>
-      <Text style={styles.heroTitle}>Jan Söndermann</Text>
-      <Text style={styles.heroSubtitle}>jan+git@primlo.com</Text>
+      <Text style={styles.heroTitle}>Vivek Nayak</Text>
+      <Text style={styles.heroSubtitle}>viveknayak2210@gmail.com</Text>
     </View>
     <Chevron />
   </View>
