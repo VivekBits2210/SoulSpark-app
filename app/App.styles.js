@@ -6,14 +6,12 @@ export default StyleSheet.create({
 globalContainer: {
     flex: 1,
     backgroundColor: 'white'
-//    paddingVertical: '%'
   },
   container: {
     flex: 1,
     justifyContent: 'space-between',
     flexDirection: 'column',
     backgroundColor: 'white'
-//    paddingVertical: '%'
   },
   swiperContainer: {
     height: height - 70,
