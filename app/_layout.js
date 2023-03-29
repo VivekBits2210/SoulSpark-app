@@ -18,7 +18,7 @@ headerLeft: () => {
 return <Text style={{color:"white"}}>Soulspark Logo</Text>
 },
 headerRight: () => {
-return <ScreenHeaderBtn iconUrl={require('../assets/profile.jpg')} dimension="100%" handlePress={() => router.push("/MySettingsScreen")} />
+return <ScreenHeaderBtn iconUrl={require('../assets/profile.jpg')} dimension="100%" handlePress={() => router.push("/Settings")} />
 },
 headerTitle: ""
 }}
