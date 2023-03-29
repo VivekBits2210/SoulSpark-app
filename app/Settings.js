@@ -18,14 +18,14 @@ const renderHero = () => (
   <View style={styles.heroContainer}>
     <Image source={require('../assets/profile.jpg')} style={styles.heroImage} />
     <View style={{ flex: 1 }}>
-      <Text style={styles.heroTitle}>Vivek Nayak</Text>
-      <Text style={styles.heroSubtitle}>viveknayak2210@gmail.com</Text>
+      <Text style={styles.heroTitle}>Jan Söndermann</Text>
+      <Text style={styles.heroSubtitle}>jan+git@primlo.com</Text>
     </View>
     <Chevron />
   </View>
 )
 
-export default function MySettingsScreen()  {
+export default function Settings()  {
   state = {
     refreshing: false,
   }
@@ -155,9 +155,9 @@ export default function MySettingsScreen()  {
   return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" backgroundColor="black" />
-        {/* <View style={styles.navBar}>
+        <View style={styles.navBar}>
           <Text style={styles.navBarTitle}>Settings</Text>
-        </View> */}
+        </View>
         <SettingsScreen
           data={this.settingsData}
           globalTextStyle={{ fontFamily }}

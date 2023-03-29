@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import SwipeScreen from './SwipeScreen';
 import ChatScreen from './ChatScreen';
+import ChatSelectionScreen from './ChatSelectionScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,7 +27,7 @@ function MyTabs() {
                       color={color}
                     />
                   );
-                } else if (route.name === 'Chat') {
+                } else {
   
                   return (
                     <Ionicons
@@ -42,7 +43,8 @@ function MyTabs() {
             })}
           >
         <Tab.Screen name="Swipe" component={SwipeScreen} />
-        <Tab.Screen name="Chat" component={ChatScreen} />
+        {/* <Tab.Screen name="Chat" component={ChatScreen} /> */}
+        <Tab.Screen name="Chat" component={ChatSelectionScreen} />
       </Tab.Navigator>
     );
 }
