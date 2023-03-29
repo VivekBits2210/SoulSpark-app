@@ -13,7 +13,7 @@ import image3 from "../assets/3.jpg";
 // ...and so on for all the images
 
 const images = [image0, image1, image2, image3]
-const names = ['Nicole','Sarika', 'Shanaiya', 'Fraida']
+const names = ['Nicole','Sarika', 'Shanaiya', 'Chenguang']
 
 export const SBImageItem = ({
   style,
