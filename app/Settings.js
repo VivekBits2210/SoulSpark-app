@@ -155,9 +155,9 @@ export default function Settings()  {
   return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" backgroundColor="black" />
-        <View style={styles.navBar}>
-          <Text style={styles.navBarTitle}>Settings</Text>
-        </View>
+        {/* <View style={styles.navBar}> */}
+          {/* <Text style={styles.navBarTitle}>Settings</Text> */}
+        {/* </View> */}
         <SettingsScreen
           data={this.settingsData}
           globalTextStyle={{ fontFamily }}

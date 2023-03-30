@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import { Chat } from '@flyerhq/react-native-chat-ui';
 
 function ChatScreen() {
@@ -30,6 +30,7 @@ function ChatScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
+      <StatusBar barStyle="light-content" backgroundColor="black" />
       <Chat
               messages={messages}
               onSendPress={handleSendPress}

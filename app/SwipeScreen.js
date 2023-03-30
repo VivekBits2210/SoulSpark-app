@@ -4,7 +4,7 @@ import Swiper from 'react-native-deck-swiper'
 import { useRouter } from 'expo-router'
 import { photoCards } from '../constants'
 
-import { View, Text, TouchableOpacity, Pressable } from 'react-native'
+import { View, Text, TouchableOpacity, Pressable, StatusBar } from 'react-native'
 import { Card, IconButton, OverlayLabel } from '../components'
 import styles from './App.styles'
 
@@ -32,6 +32,7 @@ const SwipeScreen = () => {
     const [modalVisible, setModalVisible] = useState(true);
     return (
     <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="black" />
      <Modal
             animationOut="fadeOutUp"
             backgroundOpacity="0.7"
