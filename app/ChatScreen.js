@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, StatusBar } from 'react-native';
 import { Chat } from '@flyerhq/react-native-chat-ui';
+import * as Progress from 'react-native-progress';
 
 function ChatScreen() {
     const uuidv4 = () => {
@@ -29,8 +30,10 @@ function ChatScreen() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View style={{ flex: 1, backgroundColor: "white"  }}>
       <StatusBar barStyle="light-content" backgroundColor="black" />
+      <Progress.Bar progress={0.25} color={"rgba(80, 0, 128, 0.7)"} borderColor={"rgba(80, 0, 128, 1)"} borderRadius={0} height={3  } width={null}/>
+
       <Chat
               messages={messages}
               onSendPress={handleSendPress}
