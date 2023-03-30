@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, StatusBar } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -30,6 +30,7 @@ export default function ChatSelectionScreen() {
 
   return (
     <View style={{ flex: 1, paddingTop: 10 }}>
+      <StatusBar barStyle="light-content" backgroundColor="black" />
       <Carousel
         {...baseOptions}
         loop={false}

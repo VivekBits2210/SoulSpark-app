@@ -16,16 +16,14 @@ const fontFamily = Platform.OS === 'ios' ? 'Avenir' : 'sans-serif'
 
 const renderHero = () => (
   <View style={styles.heroContainer}>
-    <Image source={require('../assets/profile.jpg')} style={styles.heroImage} />
+    <Image source={require('../assets/0.jpg')} style={styles.heroImage} />
     <View style={{ flex: 1 }}>
-      <Text style={styles.heroTitle}>Vivek Nayak</Text>
-      <Text style={styles.heroSubtitle}>viveknayak2210@gmail.com</Text>
+      <Text style={styles.heroTitle}>Nicole</Text>
     </View>
-    <Chevron />
   </View>
 )
 
-export default function Settings()  {
+export default function Customization()  {
   state = {
     refreshing: false,
   }
