@@ -68,6 +68,26 @@ headerTitle: ""
 }}
 name="Settings"
 />
+<Stack.Screen options={{
+headerStyle: { backgroundColor: "black"},
+headerShadowVisible: false,
+headerBackTitle:'Back',
+headerLeft: () => {
+return (
+  <View style={{flex:1, paddingLeft:0, flexDirection: 'row'}}>
+<HeaderBackButton tintColor="white" onPress={()=>router.back()} style={{paddingLeft:0}}></HeaderBackButton>
+{/* <ScreenHeaderBtn iconUrl={require('../assets/0.jpg')} dimension="100%" handlePress={() => router.push("/Settings")}>
+</ScreenHeaderBtn> */}
+  <Text style={{color:"white", alignSelf: 'center', fontSize: 22, paddingLeft: 10}}>Customization</Text>
+
+  </View>
+  )
+},
+headerTitle: ""
+}}
+name="Customization"
+/>
+
 </Stack>);
 }
 
