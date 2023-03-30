@@ -2,14 +2,10 @@ import { Text, View, TouchableOpacity  } from 'react-native'
 import { ScreenHeaderBtn } from '../components'
 import { Stack, useRouter  } from "expo-router";
 import { HeaderBackButton } from 'react-navigation-stack';
+import UnmatchMenu from './UnmatchMenu';
 import * as SplashScreen from "expo-splash-screen";
 
 SplashScreen.preventAutoHideAsync();
-
-const handleItemClick = () => {
-  
-}
-console.log("hey");
 export const unstable_settings = {
   // Ensure any route can link back to `/`
   initialRouteName: "index",
@@ -43,6 +39,11 @@ return (
 </ScreenHeaderBtn></TouchableOpacity>
   <Text style={{color:"white", alignSelf: 'center', fontSize: 22, paddingLeft: 10}} onPress={() => router.push("/Customization")}>Nicole</Text>
   </View>
+  )
+},
+headerRight: () => {
+  return (
+    <UnmatchMenu></UnmatchMenu>
   )
 },
 headerTitle: ""
