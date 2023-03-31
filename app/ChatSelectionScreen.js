@@ -2,6 +2,7 @@ import * as React from "react";
 import { View, TouchableOpacity, StatusBar } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/AntDesign'
 
 import { SBItem } from "../components/SBItem";
 import SButton from "../components/SButton";
@@ -12,8 +13,8 @@ const PAGE_WIDTH = window.width;
 
 export default function ChatSelectionScreen() {
   const [data, setData] = React.useState([...new Array(4).keys()]);
-  const [isFast, setIsFast] = React.useState(false);
-  const [isAutoPlay, setIsAutoPlay] = React.useState(false);
+  // const [isFast, setIsFast] = React.useState(false);
+  // const [isAutoPlay, setIsAutoPlay] = React.useState(false);
   const [isPagingEnabled, setIsPagingEnabled] = React.useState(true);
   const ref = React.useRef(null);
 
@@ -103,20 +104,30 @@ export default function ChatSelectionScreen() {
           ref.current?.scrollTo({ count: -1, animated: true });
         }}
       >
-              <Ionicons
+              {/* <Ionicons
                       name={'arrow-back-sharp'}
                       color={'white'}
-                    />
+                    /> */}
+                    <Icon
+                                name={"left"}
+                                size={15}
+                                color={"white"}
+                            />
       </SButton>
       <SButton
         onPress={() => {
           ref.current?.scrollTo({ count: 1, animated: true });
         }}
       >
-              <Ionicons
+              {/* <Ionicons
                       name={'arrow-forward-sharp'}
                       color={'white'}
-                    />
+                    /> */}
+                    <Icon
+                                name={"right"}
+                                size={15}
+                                color={"white"}
+                            />
       </SButton>
       </View>
     </View>
