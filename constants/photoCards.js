@@ -54,8 +54,8 @@ const photoCards = [
     key: "Ty4f_NOFO60'",
   },
   {
-    name: 'Teymi Townsend',
-    age: 30,
+    name: 'Nicole',
+    age: 24,
     photo: require('../assets/teymi-townsend-AvLHH8qYbAI-unsplash.jpg'),
     key: "AvLHH8qYbAI'",
   },
