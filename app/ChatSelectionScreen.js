@@ -19,8 +19,8 @@ export default function ChatSelectionScreen() {
 
   const baseOptions = {
     vertical: false,
-    width: PAGE_WIDTH * 0.85,
-    height: window.height*0.75 ,
+    width: PAGE_WIDTH * 0.83,
+    height: window.height*0.68 ,
   }
 
   const router = useRouter();

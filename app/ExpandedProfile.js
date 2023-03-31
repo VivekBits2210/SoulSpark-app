@@ -21,7 +21,6 @@ export default function ExpandedProfile()  {
 
    return (
       <View style={styles.container}>
-        <StatusBar barStyle="light-content" backgroundColor="black" />
             <View style={styles.card}>
                 <Image
                 style={styles.image}

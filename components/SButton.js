@@ -12,11 +12,11 @@ const SButton = (props) => {
       <TouchableWithoutFeedback onPress={onPress}>
         <View
           style={{
-            marginTop: 20,
+            // marginTop: 20,
             backgroundColor: "#26292E",
             borderRadius: 50,
-            paddingHorizontal: 20,
-            padding: 10,
+            paddingHorizontal: 25,
+            paddingVertical: 20,
           }}
         >
           <Text style={{ color: "white" }}>{children}</Text>
