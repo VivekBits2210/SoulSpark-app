@@ -21,7 +21,7 @@ globalContainer: {
     alignItems: 'center',
     flexDirection: 'row',
     paddingHorizontal: '15%',
-    marginTop: -120
+    marginTop: -150,
   },
   overlayWrapper: {
     flexDirection: 'column',

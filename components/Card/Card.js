@@ -1,16 +1,18 @@
 import React from 'react'
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { View, Text, Image } from 'react-native'
+import { useRouter } from 'expo-router'
 import styles from './Card.styles'
 import IconButton from '../IconButton/IconButton'
 
-const handlePress = () => {
-  console.log("Expand pressed");
-}
+const Card = ({ card }) => {
+  const router = useRouter()
 
-const Card = ({ card }) => (
-  <View
-    style={styles.card}
-  >
+  const handlePress = () => {
+    router.push('/ExpandedProfile')
+  }
+
+  return (<View
+    style={styles.card}>
     <Image
       style={styles.image}
       source={card.photo}
@@ -23,16 +25,17 @@ const Card = ({ card }) => (
       </Text>
       </View>
       <View style={styles.buttonContainer}>
-      <TouchableOpacity style={styles.expandButton}><IconButton
+      <IconButton
             name="down"
             onPress={handlePress}
             color="black"
-            backgroundColor="white"
-          /></TouchableOpacity>
+            backgroundColor="rgba(255, 255, 255, 0.85)"
+            size={10}
+          />
        </View>
     </View>
-  </View>
-)
+  </View>)
+}
 
 //Card.propTypes = {
 //  card: shape({

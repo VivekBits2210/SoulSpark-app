@@ -4,14 +4,14 @@ const { height } = Dimensions.get('window')
 
 export default StyleSheet.create({
   card: {
-  height: height - 300,
+  height: 0.62*height,
   justifyContent: 'center',
   alignItems: 'center',
   backgroundColor: 'white',
   borderRadius: 5,
   shadowColor: 'black',
   shadowOffset: {
-  width: 0,
+  width:62,
   height: 2,
   },
   shadowRadius: 6,

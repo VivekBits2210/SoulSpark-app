@@ -96,18 +96,21 @@ const SwipeScreen = () => {
             onPress={handleOnSwipedLeft}
             color="white"
             backgroundColor="#E5566D"
+            size={20}
           /></TouchableOpacity>
           <TouchableOpacity><IconButton
             name="back"
             onPress={handleSwipeBack}
             color="white"
             backgroundColor="#FFB804"
+            size={20}
           /></TouchableOpacity>
           <TouchableOpacity><IconButton
             name="heart"
             onPress={handleOnSwipedRight}
             color="white"
             backgroundColor="#4CCC93"
+            size={20}
           /></TouchableOpacity>
         </View>
         <View style={styles.swipeTextContainer}>
