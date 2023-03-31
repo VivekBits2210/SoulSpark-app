@@ -1,7 +1,11 @@
 import React from 'react'
-import { View, Text, Image, ImageSourcePropType } from 'react-native'
-import { shape, string, number } from 'prop-types'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import styles from './Card.styles'
+import IconButton from '../IconButton/IconButton'
+
+const handlePress = () => {
+  console.log("Expand pressed");
+}
 
 const Card = ({ card }) => (
   <View
@@ -13,9 +17,19 @@ const Card = ({ card }) => (
       resizeMode="cover"
     />
     <View style={styles.photoDescriptionContainer}>
-      <Text style={styles.text}>
+    <View style={styles.textContainer}>
+      <Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">
         {`${card.name}, ${card.age}`}
       </Text>
+      </View>
+      <View style={styles.buttonContainer}>
+      <TouchableOpacity style={styles.expandButton}><IconButton
+            name="down"
+            onPress={handlePress}
+            color="black"
+            backgroundColor="white"
+          /></TouchableOpacity>
+       </View>
     </View>
   </View>
 )
