@@ -88,7 +88,18 @@ headerTitle: ""
 }}
 name="Customization"
 />
-
+<Stack.Screen options={{
+headerShown: false,
+// headerStyle: { backgroundColor: "black"},
+headerShadowVisible: false,
+// headerLeft: () => {
+// },
+// headerRight: () => {
+// },
+headerTitle: ""
+}}
+name="ExpandedProfile"
+/>
 </Stack>);
 }
 

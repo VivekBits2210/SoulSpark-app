@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, TouchableOpacity, StatusBar } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 import { SBItem } from "../components/SBItem";
 import SButton from "../components/SButton";

@@ -5,15 +5,15 @@ import Icon from 'react-native-vector-icons/AntDesign'
 import styles from './IconButton.styles'
 import { colors } from '../../constants'
 
-const IconButton = ({ onPress, name, backgroundColor, color }) => (
+const IconButton = ({ onPress, name, backgroundColor, color, size }) => (
   <TouchableOpacity
     style={[styles.singleButton, { backgroundColor }]}
     onPress={onPress}
-    activeOpacity={0.85}
+    activeOpacity={0.65}
   >
     <Icon
       name={name}
-      size={20}
+      size={size}
       color={color}
     />
   </TouchableOpacity>
