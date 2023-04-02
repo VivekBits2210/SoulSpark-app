@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Picker } from "@react-native-picker/picker";
 import { CheckBox } from "react-native-elements";
 import SButton from "../components/SButton";
@@ -7,12 +7,10 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   ScrollView,
-  TextInput,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import { Stack, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 
 const listDataGenderFocus = [
   { label: "Male", value: "M" },

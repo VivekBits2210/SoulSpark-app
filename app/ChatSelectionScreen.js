@@ -1,13 +1,12 @@
 import * as React from "react";
 import { View, TouchableOpacity, StatusBar } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
-import { Ionicons } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/AntDesign'
 
 import { SBItem } from "../components/SBItem";
 import SButton from "../components/SButton";
 import { useRouter  } from "expo-router";
-import { ElementsText, window } from "../constants";
+import { window } from "../constants";
 
 const PAGE_WIDTH = window.width;
 
@@ -49,45 +48,6 @@ export default function ChatSelectionScreen() {
           </View>
         )}
       />
-      {/* <SButton
-        onPress={() => {
-          setIsFast(!isFast);
-        }}
-      >
-        {isFast ? "NORMAL" : "FAST"}
-      </SButton> */}
-      {/* <SButton
-        onPress={() => {
-          setIsPagingEnabled(!isPagingEnabled);
-        }}
-      >
-                PagingEnabled:{isPagingEnabled.toString()}
-      </SButton> */}
-      {/* <SButton
-        onPress={() => {
-          setIsAutoPlay(!isAutoPlay);
-        }}
-      >
-        {ElementsText.AUTOPLAY}:{`${isAutoPlay}`}
-      </SButton> */}
-      {/* <SButton
-        onPress={() => {
-          console.log(ref.current?.getCurrentIndex());
-        }}
-      >
-                Log current index
-      </SButton> */}
-      {/* <SButton
-        onPress={() => {
-          setData(
-            data.length === 6
-              ? [...new Array(8).keys()]
-              : [...new Array(6).keys()],
-          );
-        }}
-      >
-                Change data length to:{data.length === 6 ? 8 : 6}
-      </SButton> */}
           <View
       style={{
         flex: 1,
@@ -104,10 +64,6 @@ export default function ChatSelectionScreen() {
           ref.current?.scrollTo({ count: -1, animated: true });
         }}
       >
-              {/* <Ionicons
-                      name={'arrow-back-sharp'}
-                      color={'white'}
-                    /> */}
                     <Icon
                                 name={"left"}
                                 size={15}
@@ -119,10 +75,6 @@ export default function ChatSelectionScreen() {
           ref.current?.scrollTo({ count: 1, animated: true });
         }}
       >
-              {/* <Ionicons
-                      name={'arrow-forward-sharp'}
-                      color={'white'}
-                    /> */}
                     <Icon
                                 name={"right"}
                                 size={15}

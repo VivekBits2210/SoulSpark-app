@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react'
 import Modal from "react-native-modal"
 import Swiper from 'react-native-deck-swiper'
-import { useRouter } from 'expo-router'
 import { photoCards } from '../constants'
 
 import { View, Text, TouchableOpacity, Pressable, StatusBar } from 'react-native'
@@ -9,7 +8,6 @@ import { Card, IconButton, OverlayLabel } from '../components'
 import styles from './App.styles'
 
 const SwipeScreen = () => {
-    const router = useRouter();
     const swiperRef = useRef(null);
   
     const handleOnSwipedLeft = () => {
