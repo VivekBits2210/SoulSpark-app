@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Picker } from "@react-native-picker/picker";
 import { CheckBox } from "react-native-elements";
 import {
   SafeAreaView,
@@ -7,17 +8,24 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  TextInput,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import DatePicker from "react-native-date-picker";
 
 const listData = [
   { label: "Male", value: "M" },
   { label: "Female", value: "F" },
+  { label: "Any", value: "A" },
 ];
 
+
+const ages = [];
+for (let i = 18; i <= 150; i++) {
+  ages[i] = "" + i;
+}
+
 const FormScreen = ({ navigation }) => {
-  const [date, setDate] = useState(new Date());
+  const [age, setAge] = useState(undefined);
   const {
     control,
     handleSubmit,
@@ -32,30 +40,29 @@ const FormScreen = ({ navigation }) => {
             control={control}
             name="age"
             render={({ field: { onChange, value } }) => (
-              <View style={styles.ageBox}>
-                <Text style={styles.label}>Birthday</Text>
-
-                <DatePicker
-                  date={value instanceof Date ? value : new Date()}
-                  onDateChange={(selectedDate) => {
-                    onChange(selectedDate);
-                    setDate(selectedDate);
-                  }}
-                  mode="date"
-                />
+              <View style={styles.textBox}>
+                <Text style={styles.label}>Select an age</Text>
+                <Picker
+                  selectedValue={age}
+                  onValueChange={setAge}
+                >
+                  {ages.map((item, key) => (
+                    <Picker.Item key={key} label={item} value={item} />
+                  ))}
+                </Picker>
               </View>
             )}
             rules={{
               required: {
                 value: true,
-                message: "Please fill out your age",
-              },
+                message: "Please fill out the Age",
+              }
             }}
           />
 
-          {errors.age && (
-            <Text style={styles.errorText}>{errors.age.message}</Text>
-          )}
+          {errors["age"]?.message ? (
+            <Text style={styles.errorText}>{errors["age"]?.message}</Text>
+          ) : null}
 
           <Controller
             control={control}
@@ -206,7 +213,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 10,
-    borderColor: 'rgba(158, 150, 150, 0)'
+    borderColor: "rgba(158, 150, 150, 0)",
   },
   radioButtonLabel: {
     fontSize: 15,
