@@ -44,7 +44,7 @@ export default function ChatSelectionScreen() {
         renderItem={({ index }) => (
           <View style={{ flex: 1, marginLeft: "2.5%" }}>
             <TouchableOpacity style={{width:"100%",height:"100%"}} activeOpacity={0.94} onPress={handleItemClick}>
-            <SBItem key={index} index={index} />
+            <SBItem key={index} index={index} pretty={true}/>
             </TouchableOpacity>
           </View>
         )}

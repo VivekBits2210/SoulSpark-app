@@ -8,8 +8,7 @@ import { SBTextItem } from "./SBTextItem";
 
 export const SBItem = (props) => {
   const { style, index, pretty, testID, ...animatedViewProps } = props;
-  const enablePretty = true;
-  const [isPretty, setIsPretty] = React.useState(pretty || enablePretty);
+  const [isPretty, setIsPretty] = React.useState(pretty);
   return (
     <LongPressGestureHandler
       onActivated={() => {

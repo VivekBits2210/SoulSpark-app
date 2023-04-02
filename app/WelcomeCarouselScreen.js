@@ -78,7 +78,7 @@ function WelcomeCarouselScreen({ navigation }) {
             parallaxScrollingOffset: 50,
           }}
           data={colors}
-          renderItem={({ index }) => <SBItem index={index} />}
+          renderItem={({ index }) => <SBItem index={index} pretty={false} />}
         />
       </View>
       {!!progressValue && (
