@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { Text, View, StyleSheet, Dimensions } from "react-native";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -7,6 +7,7 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
+import { Stack, useRouter } from "expo-router";
 
 import { SBItem } from "../components/SBItem";
 import SButton from "../components/SButton";
@@ -18,11 +19,10 @@ const colors = [
   "#899F9C",
   "#B3C680",
   "#5C6265",
-  "#F5D399",
-  "#F1F1F1",
 ];
 
 function WelcomeCarouselScreen({ navigation }) {
+  const router = useRouter();
   const [isVertical, setIsVertical] = React.useState(false);
   const [autoPlay, setAutoPlay] = React.useState(true);
   const [pagingEnabled, setPagingEnabled] = React.useState(true);
@@ -37,16 +37,24 @@ function WelcomeCarouselScreen({ navigation }) {
     : {
         vertical: false,
         width: PAGE_WIDTH,
-        height: Dimensions.get("window").height,
+        height: window.height * 0.6,
       };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#E4E4E4",
+        marginTop: 150,
+      }}
+    >
       <View
         style={{
           justifyContent: "center",
           alignItems: "center",
-          height: Dimensions.get("window").height * 0.7, // adjust this value for the desired carousel height
+          height: Dimensions.get("window").height * 0.42, // adjust this value for the desired carousel height
         }}
       >
         <Carousel
@@ -54,6 +62,7 @@ function WelcomeCarouselScreen({ navigation }) {
           style={{
             width: PAGE_WIDTH,
             height: Dimensions.get("window").height,
+            marginTop: window.height * 0.2,
           }}
           loop
           pagingEnabled={pagingEnabled}
@@ -95,10 +104,11 @@ function WelcomeCarouselScreen({ navigation }) {
           })}
         </View>
       )}
+      <Text style={styles.baseText}>Marketing Text</Text>
       <View style={styles.loginButtonContainer}>
         <SButton
           onPress={() => {
-            navigation.navigate("FormScreen");
+            router.push("FormScreen");
           }}
           style={styles.loginButton}
         >
@@ -166,7 +176,7 @@ const PaginationItem = (props) => {
 
 const styles = StyleSheet.create({
   loginButtonContainer: {
-    position: "absolute",
+    marginBottom: 20,
     bottom: 20,
     alignSelf: "center", // center login button horizontally
   },
@@ -176,6 +186,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     color: "white",
     fontWeight: "bold",
+    marginBottom: 10,
+  },
+  baseText: {
+    marginBottom: 50,
   },
 });
 
