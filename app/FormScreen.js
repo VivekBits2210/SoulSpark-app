@@ -14,11 +14,17 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { Stack, useRouter } from "expo-router";
 
+const listDataGenderFocus = [
+  { label: "Male", value: "M" },
+  { label: "Female", value: "F" },
+  { label: "Any", value: "E" },
+];
+
 const listData = [
   { label: "Male", value: "M" },
   { label: "Female", value: "F" },
-  { label: "Any", value: "A" },
 ];
+
 
 const ages = [""];
 for (let i = 18; i <= 150; i++) {
@@ -103,7 +109,7 @@ const FormScreen = ({ navigation }) => {
               <View style={styles.textBox}>
                 <Text style={styles.label}>Looking For</Text>
 
-                {listData.map((item) => (
+                {listDataGenderFocus.map((item) => (
                   <CheckBox
                     key={item.value}
                     containerStyle={styles.radioButtonRow}

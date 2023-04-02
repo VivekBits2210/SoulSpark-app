@@ -1,17 +1,20 @@
 import React from 'react';
+import { View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import SwipeScreen from './SwipeScreen';
-import ChatScreen from './ChatScreen';
 import ChatSelectionScreen from './ChatSelectionScreen';
 import WelcomeCarouselScreen from './WelcomeCarouselScreen';
-
 const Tab = createBottomTabNavigator();
 
 
 
 function MyTabs() {
     return (
+      <View style={{
+        flex: 1,
+        backgroundColor: 'white'
+      }}>
     <Tab.Navigator
             screenOptions={({ route }) => ({
               headerShown: false,
@@ -54,10 +57,10 @@ function MyTabs() {
             })}
           >
         <Tab.Screen name="Swipe" component={SwipeScreen} />
-        {/* <Tab.Screen name="Chat" component={ChatScreen} /> */}
         <Tab.Screen name="Chat" component={ChatSelectionScreen} />
         <Tab.Screen name="Welcome" component={WelcomeCarouselScreen} />
       </Tab.Navigator>
+      </View>
     );
 }
 

@@ -51,7 +51,7 @@ const InterestsScreen = ({ navigation }) => {
         <View margin={50}>
           <SButton
             onPress={() => {
-              router.push("SwipeScreen");
+              router.push("MyTabs");
               console.log(selectedInterests);
             }}
             style={styles.loginButton}

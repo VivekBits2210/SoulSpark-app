@@ -15,8 +15,8 @@ import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-native-date-picker";
 
 const listData = [
-  { label: "Male", value: "male" },
-  { label: "Female", value: "female" },
+  { label: "Male", value: "M" },
+  { label: "Female", value: "F" },
 ];
 
 const FormScreen = ({ navigation }) => {
