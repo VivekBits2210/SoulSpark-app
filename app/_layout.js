@@ -92,8 +92,8 @@ headerBackTitle:'',
 headerLeft: () => {
 return (
   <View style={{flex:1, paddingLeft:0, flexDirection: 'row'}}>
-<HeaderBackButton tintColor="white" onPress={()=>router.back()} style={{paddingLeft:0}}></HeaderBackButton>
-<Text style={{color:"white"}}>Soulspark Logo</Text>
+  <HeaderBackButton tintColor="white" onPress={()=>router.back()} style={{paddingLeft:0}}></HeaderBackButton>
+    <Text style={{color:"white", alignSelf: 'center', fontSize: 22, paddingLeft: 10}}>Soulspark Logo</Text>
   </View>
   )
 },
@@ -108,8 +108,8 @@ headerBackTitle:'',
 headerLeft: () => {
 return (
   <View style={{flex:1, paddingLeft:0, flexDirection: 'row'}}>
-<HeaderBackButton tintColor="white" onPress={()=>router.back()} style={{paddingLeft:0}}></HeaderBackButton>
-<Text style={{color:"white"}}>Soulspark Logo</Text>
+  <HeaderBackButton tintColor="white" onPress={()=>router.back()} style={{paddingLeft:0}}></HeaderBackButton>
+    <Text style={{color:"white", alignSelf: 'center', fontSize: 22, paddingLeft: 10}}>Soulspark Logo</Text>
   </View>
   )
 },
