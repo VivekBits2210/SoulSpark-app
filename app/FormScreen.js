@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { CheckBox } from "react-native-elements";
+import SButton from "../components/SButton";
 import {
   SafeAreaView,
   StyleSheet,
@@ -11,6 +12,7 @@ import {
   TextInput,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
+import { Stack, useRouter } from "expo-router";
 
 const listData = [
   { label: "Male", value: "M" },
@@ -18,14 +20,14 @@ const listData = [
   { label: "Any", value: "A" },
 ];
 
-
-const ages = [];
+const ages = [""];
 for (let i = 18; i <= 150; i++) {
   ages[i] = "" + i;
 }
 
 const FormScreen = ({ navigation }) => {
-  const [age, setAge] = useState(undefined);
+  const router = useRouter();
+  // const [age, setAge] = useState(undefined);
   const {
     control,
     handleSubmit,
@@ -42,10 +44,7 @@ const FormScreen = ({ navigation }) => {
             render={({ field: { onChange, value } }) => (
               <View style={styles.textBox}>
                 <Text style={styles.label}>Select an age</Text>
-                <Picker
-                  selectedValue={age}
-                  onValueChange={setAge}
-                >
+                <Picker selectedValue={value} onValueChange={onChange}>
                   {ages.map((item, key) => (
                     <Picker.Item key={key} label={item} value={item} />
                   ))}
@@ -56,7 +55,7 @@ const FormScreen = ({ navigation }) => {
               required: {
                 value: true,
                 message: "Please fill out the Age",
-              }
+              },
             }}
           />
 
@@ -134,15 +133,15 @@ const FormScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.container}>
-          <TouchableOpacity
-            style={styles.button}
+          <SButton
             onPress={handleSubmit((formValue) => {
               console.log("Form Value", JSON.stringify(formValue));
-              navigation.navigate("InterestsScreen");
+              router.push("InterestsScreen");
             })}
+            style={styles.loginButton}
           >
-            <Text style={styles.buttonText}>Submit</Text>
-          </TouchableOpacity>
+            Submit
+          </SButton>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -162,6 +161,8 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "90%",
+    marginTop: 10,
+    marginBottom: 20,
   },
   textBox: {
     backgroundColor: "#fafafa",
