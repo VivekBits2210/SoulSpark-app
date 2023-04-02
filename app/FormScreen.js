@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Picker } from "@react-native-picker/picker";
 import { CheckBox } from "react-native-elements";
 import SButton from "../components/SButton";
@@ -7,18 +7,22 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   ScrollView,
-  TextInput,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import { Stack, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
+
+const listDataGenderFocus = [
+  { label: "Male", value: "M" },
+  { label: "Female", value: "F" },
+  { label: "Any", value: "E" },
+];
 
 const listData = [
   { label: "Male", value: "M" },
   { label: "Female", value: "F" },
-  { label: "Any", value: "A" },
 ];
+
 
 const ages = [""];
 for (let i = 18; i <= 150; i++) {
@@ -103,7 +107,7 @@ const FormScreen = ({ navigation }) => {
               <View style={styles.textBox}>
                 <Text style={styles.label}>Looking For</Text>
 
-                {listData.map((item) => (
+                {listDataGenderFocus.map((item) => (
                   <CheckBox
                     key={item.value}
                     containerStyle={styles.radioButtonRow}

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
-import { Button, Chip, Text, useTheme } from "react-native-paper";
+import { Chip, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Stack, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import SButton from "../components/SButton";
 
 const interests = [
@@ -21,7 +21,6 @@ const interests = [
 const InterestsScreen = ({ navigation }) => {
   const router = useRouter();
   const [selectedInterests, setSelectedInterests] = useState([]);
-  const { colors } = useTheme();
 
   const toggleInterest = (interest) => {
     if (selectedInterests.includes(interest)) {
@@ -51,7 +50,7 @@ const InterestsScreen = ({ navigation }) => {
         <View margin={50}>
           <SButton
             onPress={() => {
-              router.push("SwipeScreen");
+              router.push("MyTabs");
               console.log(selectedInterests);
             }}
             style={styles.loginButton}

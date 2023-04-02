@@ -7,11 +7,11 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
-import { Stack, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 
 import { SBItem } from "../components/SBItem";
 import SButton from "../components/SButton";
-import { ElementsText, window } from "../constants";
+import { window } from "../constants";
 
 const PAGE_WIDTH = window.width;
 const colors = [
@@ -78,7 +78,7 @@ function WelcomeCarouselScreen({ navigation }) {
             parallaxScrollingOffset: 50,
           }}
           data={colors}
-          renderItem={({ index }) => <SBItem index={index} />}
+          renderItem={({ index }) => <SBItem index={index} pretty={false} />}
         />
       </View>
       {!!progressValue && (
