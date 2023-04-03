@@ -1,20 +1,33 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, useSearchParams } from "expo-router";
 import styles from "./Card.styles";
 import IconButton from "../IconButton/IconButton";
+import { useEffect } from "react";
 
 const Card = ({ card }) => {
   const router = useRouter();
+  const id = card.key;
 
-  console.log("inside CARD: " + card.name);
+  useEffect(() => {
+    console.log("card mount");
+  }, []);
+  useEffect(
+    () => () => {
+      console.log("card unmount");
+    },
+    []
+  );
+  console.log("inside CARD: " + id);
   const handlePress = () => {
-    router.push("/ExpandedProfile");
+    router.push(
+      `/ExpandedProfile?name=${card.name}&age=${card.age}&bio=${card.bio}&bot_id=${id}`
+    );
   };
 
   return (
     <View style={styles.card}>
-      <Image style={styles.image} source={card.photo} resizeMode="cover" />
+      <Image style={styles.image} source={3} resizeMode="cover" />
       <View style={styles.photoDescriptionContainer}>
         <View style={styles.textContainer}>
           <Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">

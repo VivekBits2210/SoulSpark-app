@@ -31,7 +31,8 @@ const SwipeScreen = () => {
             name: data[i].name,
             age: data[i].age,
             photo: src,
-            key: Math.random() * 1000000,
+            bio: data[i].bio,
+            key: data[i].bot_id,
           });
         }
         setPhotoCards(result);
@@ -47,7 +48,8 @@ const SwipeScreen = () => {
   //   return await getProfilesForSwipe(20);
   // })().then((res) => console.log(res[0].name));
 
-  const handleOnSwipedLeft = () => {
+  const handleOnSwipedLeft = (e) => {
+    console.log("LEFT");
     if (swiperRef.current) {
       swiperRef.current.swipeLeft();
     }
@@ -102,7 +104,6 @@ const SwipeScreen = () => {
             cardIndex={0}
             backgroundColor="white"
             stackSize={4}
-            infinite
             showSecondCard
             animateOverlayLabelsOpacity
             disableBottomSwipe={true}
