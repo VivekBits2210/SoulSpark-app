@@ -15,7 +15,7 @@ const { height } = Dimensions.get("window");
 
 export default function ExpandedProfile() {
   const router = useRouter();
-  const { name, age, bio, bot_id } = useSearchParams();
+  const { name, age, bio, photo, bot_id } = useSearchParams();
 
   const handleBackPress = () => {
     router.back();
@@ -24,11 +24,7 @@ export default function ExpandedProfile() {
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        <Image
-          style={styles.image}
-          source={require("../assets/0.jpg")}
-          resizeMode="cover"
-        />
+        <Image style={styles.image} source={photo} resizeMode="cover" />
         <View style={styles.photoDescriptionContainer}>
           <View style={styles.textContainer}>
             <Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">

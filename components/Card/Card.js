@@ -21,7 +21,7 @@ const Card = ({ card }) => {
   console.log("inside CARD: " + id);
   const handlePress = () => {
     router.push(
-      `/ExpandedProfile?name=${card.name}&age=${card.age}&bio=${card.bio}&bot_id=${id}`
+      `/ExpandedProfile?name=${card.name}&age=${card.age}&bio=${card.bio}&photo=${card.photo}&bot_id=${id}`
     );
   };
 

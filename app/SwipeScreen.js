@@ -3,6 +3,7 @@ import Modal from "react-native-modal";
 import Swiper from "react-native-deck-swiper";
 import { useRouter } from "expo-router";
 import { getProfilesForSwipe } from "./APIFunctions";
+import { encrypEmail } from "../constants";
 // import { photoCards, setPhotoCards } from "../constants";
 
 import {
@@ -21,12 +22,14 @@ const SwipeScreen = () => {
   const [photoCards, setPhotoCards] = useState([]);
 
   const getProfilesForSwipe = (n) => {
-    fetch(`https://api-soulspark.com/ai-profiles/fetch-profile?n=${n}`)
+    fetch(
+      `https://api-soulspark.com/ai-profiles/fetch-profile?n=${n}&email=${encrypEmail}`
+    )
       .then((res) => res.json())
       .then((data) => {
         let result = [];
         for (let i = 0; i < data.length; i++) {
-          let src = `data:image/jpeg;base64,${data[i].profile_image};`;
+          let src = `<will change later>.jpg`;
           result.push({
             name: data[i].name,
             age: data[i].age,
@@ -48,8 +51,17 @@ const SwipeScreen = () => {
   //   return await getProfilesForSwipe(20);
   // })().then((res) => console.log(res[0].name));
 
-  const handleOnSwipedLeft = (e) => {
-    console.log("LEFT");
+  const getBotId = (cardIndex) => {
+    const bot_id = photoCards[cardIndex].key;
+    console.log(bot_id);
+    fetch(
+      `https://api-soulspark.com/chat-module/fetch-chat-history?lines=0&bot_id=${bot_id}&email=${encrypEmail}`
+    )
+      .then((res) => res.json())
+      .then((json) => console.log(json));
+  };
+
+  const handleOnSwipedLeft = () => {
     if (swiperRef.current) {
       swiperRef.current.swipeLeft();
     }
@@ -108,6 +120,7 @@ const SwipeScreen = () => {
             animateOverlayLabelsOpacity
             disableBottomSwipe={true}
             disableTopSwipe={true}
+            onSwipedRight={getBotId}
             overlayLabels={{
               left: {
                 title: "NOPE",
