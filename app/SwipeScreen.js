@@ -18,22 +18,31 @@ import styles from "./App.styles";
 const SwipeScreen = () => {
   const router = useRouter();
   const swiperRef = useRef(null);
-  const [loaded, setLoaded] = useState(false);
   const [photoCards, setPhotoCards] = useState([]);
 
   const getProfilesForSwipe = (n) => {
     fetch(`https://api-soulspark.com/ai-profiles/fetch-profile?n=${n}`)
       .then((res) => res.json())
-      .then((json) => {
-        console.log(json[0].name);
-        setLoaded(true);
-        setPhotoCards(json);
+      .then((data) => {
+        let result = [];
+        for (let i = 0; i < data.length; i++) {
+          let src = `data:image/jpeg;base64,${data[i].profile_image};`;
+          result.push({
+            name: data[i].name,
+            age: data[i].age,
+            photo: src,
+            key: Math.random() * 1000000,
+          });
+        }
+        setPhotoCards(result);
       });
   };
 
-  useEffect(getProfilesForSwipe(20), []);
+  useEffect(() => {
+    getProfilesForSwipe(20);
+  }, []);
 
-  console.log("HAHA: " + photoCards[0].name);
+  // console.log("HAHA: " + JSON.stringify(photoCards[0]));
   // const photoCards = (async () => {
   //   return await getProfilesForSwipe(20);
   // })().then((res) => console.log(res[0].name));
@@ -83,7 +92,7 @@ const SwipeScreen = () => {
         </View>
       </Modal>
       <View style={styles.swiperContainer}>
-        {loaded ? (
+        {photoCards.length > 0 ? (
           <Swiper
             ref={swiperRef}
             animateCardOpacity
