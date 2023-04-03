@@ -5,6 +5,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import SwipeScreen from './SwipeScreen';
 import ChatSelectionScreen from './ChatSelectionScreen';
 import WelcomeCarouselScreen from './WelcomeCarouselScreen';
+import Coffee from './Coffee';
 const Tab = createBottomTabNavigator();
 
 
@@ -41,11 +42,21 @@ function MyTabs() {
                     />
                   );
                 }
-                else {
+                else if(route.name=="Welcome") {
   
                   return (
                     <Ionicons
                       name={focused ? 'walk' : 'walk-outline'}
+                      size={size}
+                      color={color}
+                    />
+                  );
+                }
+                else if(route.name=="Coffee") {
+  
+                  return (
+                    <Ionicons
+                      name={focused ? 'cafe' : 'cafe-outline'}
                       size={size}
                       color={color}
                     />
@@ -59,6 +70,7 @@ function MyTabs() {
         <Tab.Screen name="Swipe" component={SwipeScreen} />
         <Tab.Screen name="Chat" component={ChatSelectionScreen} />
         <Tab.Screen name="Welcome" component={WelcomeCarouselScreen} />
+        <Tab.Screen name="Coffee" component={Coffee} />
       </Tab.Navigator>
       </View>
     );
