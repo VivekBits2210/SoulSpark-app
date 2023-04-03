@@ -1,14 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import { View } from "react-native";
-import { useRouter } from "expo-router";
-import styles from "./App.styles";
+import React from "react";
 import MyTabs from "./MyTabs";
-import { fetchProfile } from "./APIFunctions";
 
 export default function Home() {
-  return (
-    <View style={styles.globalContainer}>
-      <MyTabs />
-    </View>
-  );
+  return <MyTabs />;
 }

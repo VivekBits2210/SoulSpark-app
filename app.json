@@ -4,6 +4,11 @@
     "web": {
       "bundler": "metro"
     },
+    "splash": {
+      "image": "./assets/splash.jpeg",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
     "name": "soulspark-app",
     "slug": "soulspark-app"
   }

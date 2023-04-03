@@ -1,16 +1,21 @@
 import React from 'react';
+import { View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import SwipeScreen from './SwipeScreen';
-import ChatScreen from './ChatScreen';
 import ChatSelectionScreen from './ChatSelectionScreen';
-
+import WelcomeCarouselScreen from './WelcomeCarouselScreen';
+import Coffee from './Coffee';
 const Tab = createBottomTabNavigator();
 
 
 
 function MyTabs() {
     return (
+      <View style={{
+        flex: 1,
+        backgroundColor: 'white'
+      }}>
     <Tab.Navigator
             screenOptions={({ route }) => ({
               headerShown: false,
@@ -27,11 +32,31 @@ function MyTabs() {
                       color={color}
                     />
                   );
-                } else {
+                } else if (route.name === 'Chat') {
   
                   return (
                     <Ionicons
                       name={focused ? 'chatbubble' : 'chatbubble-outline'}
+                      size={size}
+                      color={color}
+                    />
+                  );
+                }
+                else if(route.name=="Welcome") {
+  
+                  return (
+                    <Ionicons
+                      name={focused ? 'walk' : 'walk-outline'}
+                      size={size}
+                      color={color}
+                    />
+                  );
+                }
+                else if(route.name=="Coffee") {
+  
+                  return (
+                    <Ionicons
+                      name={focused ? 'cafe' : 'cafe-outline'}
                       size={size}
                       color={color}
                     />
@@ -43,9 +68,11 @@ function MyTabs() {
             })}
           >
         <Tab.Screen name="Swipe" component={SwipeScreen} />
-        {/* <Tab.Screen name="Chat" component={ChatScreen} /> */}
         <Tab.Screen name="Chat" component={ChatSelectionScreen} />
+        <Tab.Screen name="Welcome" component={WelcomeCarouselScreen} />
+        <Tab.Screen name="Coffee" component={Coffee} />
       </Tab.Navigator>
+      </View>
     );
 }
 
