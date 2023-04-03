@@ -6,9 +6,6 @@ import MyTabs from "./MyTabs";
 import { fetchProfile } from "./APIFunctions";
 
 export default function Home() {
-  useEffect(() => {
-    fetchProfile();
-  }, []);
   return (
     <View style={styles.globalContainer}>
       <MyTabs />
