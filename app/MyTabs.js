@@ -45,16 +45,6 @@ function MyTabs() {
                 />
               );
             }
-            // else if(route.name=="Coffee") {
-
-            //   return (
-            //     <Ionicons
-            //       name={focused ? 'cafe' : 'cafe-outline'}
-            //       size={size}
-            //       color={color}
-            //     />
-            //   );
-            // }
           },
           tabBarInactiveTintColor: "gray",
           tabBarActiveTintColor: "black",
@@ -63,7 +53,6 @@ function MyTabs() {
         <Tab.Screen name="Swipe" component={SwipeScreen} />
         <Tab.Screen name="Chat" component={ChatSelectionScreen} />
         <Tab.Screen name="Welcome" component={WelcomeCarouselScreen} />
-        {/* <Tab.Screen name="Coffee" component={Coffee} /> */}
       </Tab.Navigator>
     </View>
   );

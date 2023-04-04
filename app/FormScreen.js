@@ -86,7 +86,7 @@ const FormScreen = ({ navigation }) => {
 
           <Controller
             control={control}
-            name="yourGender"
+            name="gender"
             render={({ field: { onChange, value } }) => (
               <View style={styles.textBox}>
                 <Text style={styles.label}>Your Gender</Text>
@@ -109,15 +109,15 @@ const FormScreen = ({ navigation }) => {
               },
             }}
           />
-          {errors["yourGender"]?.message ? (
+          {errors["gender"]?.message ? (
             <Text style={styles.errorText}>
-              {errors["yourGender"]?.message}
+              {errors["gender"]?.message}
             </Text>
           ) : null}
 
           <Controller
             control={control}
-            name="preferredGender"
+            name="gender_focus"
             render={({ field: { onChange, value } }) => (
               <View style={styles.textBox}>
                 <Text style={styles.label}>Looking For</Text>
@@ -141,9 +141,9 @@ const FormScreen = ({ navigation }) => {
             }}
           />
 
-          {errors["preferredGender"]?.message ? (
+          {errors["gender_focus"]?.message ? (
             <Text style={styles.errorText}>
-              {errors["preferredGender"]?.message}
+              {errors["gender_focus"]?.message}
             </Text>
           ) : null}
         </View>
@@ -167,7 +167,7 @@ const FormScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "white",
   },
   scrollView: {
     flexGrow: 1,

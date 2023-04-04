@@ -19,7 +19,7 @@ import { useRouter } from "expo-router";
 
 import { SBItem } from "../components/SBItem";
 import { window } from "../constants";
-import googleLogo from "../assets/g-logo.png";
+import googleLogo from "../assets/g-logo-black.jpg";
 
 const PAGE_WIDTH = window.width;
 const colors = ["#26292E", "#899F9C", "#B3C680", "#5C6265"];
@@ -51,6 +51,7 @@ function WelcomeCarouselScreen({ navigation }) {
         alignItems: "center",
         backgroundColor: "#E4E4E4",
         marginTop: 150,
+        backgroundColor: "white",
       }}
     >
       <View
@@ -186,20 +187,23 @@ const styles = StyleSheet.create({
     height: 36,
   },
   customButtonPressed: {
-    opacity: 0.6,
+    opacity: 0.8,
   },
   customButton: {
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 8,
-    borderRadius: 4,
-    backgroundColor: "white",
+    borderRadius: 50,
+    borderWidth: 5,
+    backgroundColor: "black",
     marginTop: 36,
     marginBottom: 36,
+    marginLeft: 36,
+    marginRight: 36,
   },
   customButtonText: {
-    color: "black",
+    color: "white",
     marginLeft: 8,
     fontSize: 16,
   },
