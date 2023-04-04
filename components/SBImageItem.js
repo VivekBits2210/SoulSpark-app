@@ -1,20 +1,9 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
-import image0 from "../assets/0.jpg";
-import image1 from "../assets/1.jpg";
-import image2 from "../assets/2.jpg";
-import image3 from "../assets/3.jpg";
 // ...and so on for all the images
 
-const images = [image0, image1, image2, image3];
-const names = ["Nicole", "Sarika", "Shanaiya", "Chenguang"];
-
-export const SBImageItem = ({ style, index: _index, showIndex = true }) => {
-  const index = (_index || 0) + 1;
-  const source = React.useRef({
-    uri: `https://picsum.photos/id/${index}/400/300`,
-  }).current;
-
+export const SBImageItem = ({ key, style, text, showIndex = true, src }) => {
+  console.log(text);
   return (
     <View
       style={[
@@ -27,7 +16,7 @@ export const SBImageItem = ({ style, index: _index, showIndex = true }) => {
       ]}
     >
       {/* <ActivityIndicator size="small" /> */}
-      <Image key={index} style={styles.image} source={images[_index]} />
+      <Image key={key} style={styles.image} src={src} />
       <Text
         style={{
           position: "absolute",
@@ -42,7 +31,7 @@ export const SBImageItem = ({ style, index: _index, showIndex = true }) => {
           marginTop: "auto", // Add marginTop: 'auto'
         }}
       >
-        {names[_index]}
+        {text}
       </Text>
     </View>
   );
