@@ -90,7 +90,9 @@ const Layout = () => {
                   <ScreenHeaderBtn
                     iconUrl={{ uri: src }}
                     dimension="100%"
-                    handlePress={() => router.push("/Customization")}
+                    handlePress={() =>
+                      router.push(`/Customization?name=${name}&id=${id}`)
+                    }
                   ></ScreenHeaderBtn>
                 </TouchableOpacity>
                 <Text
@@ -100,7 +102,9 @@ const Layout = () => {
                     fontSize: 22,
                     paddingLeft: 10,
                   }}
-                  onPress={() => router.push("/Customization")}
+                  onPress={() =>
+                    router.push(`/Customization?name=${name}&id=${id}`)
+                  }
                 >
                   {name}
                 </Text>

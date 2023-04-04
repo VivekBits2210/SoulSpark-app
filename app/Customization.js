@@ -15,25 +15,30 @@ import {
   SettingsData,
   Chevron,
 } from "react-native-settings-screen";
+import { useSearchParams } from "expo-router";
 
 const fontFamily = Platform.OS === "ios" ? "Avenir" : "sans-serif";
 
-const renderHero = () => (
-  <View style={styles.heroContainer}>
-    <Image source={require("../assets/0.jpg")} style={styles.heroImage} />
-    <View style={{ flex: 1 }}>
-      <Text style={styles.heroTitle}>Nicole</Text>
+function renderHero(name, src) {
+  return (
+    <View style={styles.heroContainer}>
+      <Image source={{ uri: src }} style={styles.heroImage} />
+      <View style={{ flex: 1 }}>
+        <Text style={styles.heroTitle}>{name}</Text>
+      </View>
     </View>
-  </View>
-);
+  );
+}
 
 export default function Customization() {
+  const { name, id } = useSearchParams();
+  const src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${id}.jpg`;
   state = {
     refreshing: false,
   };
 
   settingsData = [
-    { type: "CUSTOM_VIEW", key: "hero", render: renderHero },
+    { type: "CUSTOM_VIEW", key: "hero", render: () => renderHero(name, src) },
     {
       type: "SECTION",
       header: "My Section".toUpperCase(),
