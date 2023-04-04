@@ -1,8 +1,6 @@
-import React from 'react'
-import MyTabs from './MyTabs'
+import React from "react";
+import MyTabs from "./MyTabs";
 
 export default function Home() {
-return (
-<MyTabs />
-  );
+  return <MyTabs />;
 }

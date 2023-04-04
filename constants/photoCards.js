@@ -1,4 +1,10 @@
-const photoCards = [
+import { useState } from "react";
+
+const [photoCards, setPhotoCards] = useState([]);
+
+export default { photoCards, setPhotoCards };
+
+/* [
   {
     name: 'Austin Wade',
     age: 22,
@@ -74,3 +80,5 @@ const photoCards = [
 ]
 
 export default photoCards
+
+*/
