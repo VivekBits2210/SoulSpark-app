@@ -107,6 +107,10 @@ const FormScreen = ({ navigation }) => {
               },
             }}
           />
+          {errors["yourGender"]?.message ? (
+            <Text style={styles.errorText}>{errors["yourGender"]?.message}</Text>
+          ) : null}
+
 
 
           <Controller
@@ -134,6 +138,11 @@ const FormScreen = ({ navigation }) => {
               },
             }}
           />
+
+          {errors["preferredGender"]?.message ? (
+            <Text style={styles.errorText}>{errors["preferredGender"]?.message}</Text>
+          ) : null}
+
 
         </View>
 

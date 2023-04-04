@@ -10,7 +10,6 @@ import Carousel from "react-native-reanimated-carousel";
 import { useRouter } from "expo-router";
 
 import { SBItem } from "../components/SBItem";
-import SButton from "../components/SButton";
 import { window } from "../constants";
 import googleLogo from '../assets/g-logo.png';
 
