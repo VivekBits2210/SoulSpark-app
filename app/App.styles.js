@@ -14,14 +14,17 @@ export default StyleSheet.create({
     backgroundColor: "white",
   },
   swiperContainer: {
-    height: height * 0.5,
+    height: height * 0.75,
   },
   buttonsContainer: {
+    flex: 1,
     justifyContent: "space-between",
-    alignItems: "center",
+    marginTop: "2%",
+    alignItems: "flex-start", 
+    // position: "relative",
+    // paddingBottom: height*0.01,
     flexDirection: "row",
     paddingHorizontal: "15%",
-    height: height * 0.55,
   },
   overlayWrapper: {
     flexDirection: "column",
