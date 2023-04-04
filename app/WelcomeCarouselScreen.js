@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Dimensions,
   Image,
-  Button, Pressable,
+  Button,
+  Pressable,
 } from "react-native";
 import Animated, {
   Extrapolate,
@@ -107,7 +108,7 @@ function WelcomeCarouselScreen({ navigation }) {
         </View>
       )}
       <Text style={styles.baseText}>Marketing Text</Text>
-      
+
       <Pressable
         style={({ pressed }) => [
           styles.customButton,
@@ -180,28 +181,28 @@ const PaginationItem = (props) => {
 };
 
 const styles = StyleSheet.create({
-    logo: {    
-      width: 36,    
-      height: 36,  
-    },  
-    customButtonPressed: {
-      opacity: 0.6, 
-    },
-    customButton: {
-      flexDirection: "row",
-      alignItems: "center",
-      paddingHorizontal: 16,
-      paddingVertical: 8,
-      borderRadius: 4,
-      backgroundColor: "white",
-      marginTop: 36,
-      marginBottom: 36,
-    },
-    customButtonText: {
-      color: "black",
-      marginLeft: 8,
-      fontSize: 16, 
-    },
+  logo: {
+    width: 36,
+    height: 36,
+  },
+  customButtonPressed: {
+    opacity: 0.6,
+  },
+  customButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 4,
+    backgroundColor: "white",
+    marginTop: 36,
+    marginBottom: 36,
+  },
+  customButtonText: {
+    color: "black",
+    marginLeft: 8,
+    fontSize: 16,
+  },
 });
 
 export default WelcomeCarouselScreen;
