@@ -4,7 +4,6 @@ import Swiper from "react-native-deck-swiper";
 import { useRouter } from "expo-router";
 import { getProfilesForSwipe } from "./APIFunctions";
 import { encrypEmail } from "../constants";
-// import { photoCards, setPhotoCards } from "../constants";
 
 import {
   View,

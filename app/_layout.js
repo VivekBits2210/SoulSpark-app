@@ -259,6 +259,16 @@ const Layout = () => {
                   onPress={() => router.back()}
                   style={{ paddingLeft: 0 }}
                 ></HeaderBackButton>
+                <Text
+                  style={{
+                    color: "white",
+                    alignSelf: "center",
+                    fontSize: 22,
+                    paddingLeft: 10,
+                  }}
+                >
+                  Customization
+                </Text>
               </View>
             );
           },

@@ -3,22 +3,11 @@ import { View, Text, Image } from "react-native";
 import { useRouter, useSearchParams } from "expo-router";
 import styles from "./Card.styles";
 import IconButton from "../IconButton/IconButton";
-import { useEffect } from "react";
 
 const Card = ({ card }) => {
   const router = useRouter();
   const id = card.key;
 
-  useEffect(() => {
-    console.log("card mount");
-  }, []);
-  useEffect(
-    () => () => {
-      console.log("card unmount");
-    },
-    []
-  );
-  console.log("inside CARD: " + id);
   const handlePress = () => {
     router.push(
       `/ExpandedProfile?name=${card.name}&age=${card.age}&bio=${card.bio}&bot_id=${id}`
@@ -51,13 +40,5 @@ const Card = ({ card }) => {
     </View>
   );
 };
-
-//Card.propTypes = {
-//  card: shape({
-//    photo: ImageSourcePropType,
-//    name: string,
-//    age: number,
-//  }).isRequired,
-//}
 
 export default Card;
