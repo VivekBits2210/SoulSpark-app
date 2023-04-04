@@ -2,13 +2,7 @@ import React from "react";
 import { Picker } from "@react-native-picker/picker";
 import { CheckBox } from "react-native-elements";
 import SButton from "../components/SButton";
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-} from "react-native";
+import { SafeAreaView, StyleSheet, Text, View, ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "expo-router";
 
