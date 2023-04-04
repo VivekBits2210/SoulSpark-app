@@ -110,9 +110,7 @@ const FormScreen = ({ navigation }) => {
             }}
           />
           {errors["gender"]?.message ? (
-            <Text style={styles.errorText}>
-              {errors["gender"]?.message}
-            </Text>
+            <Text style={styles.errorText}>{errors["gender"]?.message}</Text>
           ) : null}
 
           <Controller
