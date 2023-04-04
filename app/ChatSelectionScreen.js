@@ -3,9 +3,10 @@ import { View, Text, TouchableOpacity, StatusBar } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useEffect } from "react";
-import { SBItem } from "../components/SBItem";
+import { SBItem, SBItemChatSelect } from "../components/SBItem";
 import SButton from "../components/SButton";
 import { useRouter } from "expo-router";
+import { useFocusEffect } from "@react-navigation/native";
 import { encrypEmail, window } from "../constants";
 import { useState } from "react";
 
@@ -27,6 +28,7 @@ export default function ChatSelectionScreen() {
       .then((json) => {
         console.log(json);
         let result = [];
+        console.log(json.data[0].bot_id);
         for (let i = 0; i < json.data.length; i++) {
           let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${json.data[i].bot_id}.jpg`;
           result.push({
@@ -36,36 +38,35 @@ export default function ChatSelectionScreen() {
             index: i,
           });
         }
-        console.log(result);
+        console.log(result[0].key);
         setChats(result);
       });
   };
 
-  useEffect(getSelectedProfiles, []);
+  useFocusEffect(React.useCallback(getSelectedProfiles, []));
+
+  // useEffect(getSelectedProfiles, []);
 
   const baseOptions = {
     vertical: false,
     width: PAGE_WIDTH * 0.83,
     height: window.height * 0.68,
   };
+  let chatIndex = 0;
 
   const router = useRouter();
-  const handleItemClick = () => {
-    router.push("./ChatScreen");
-  };
 
   // let bot = { index: 1, name: "sus", photo: "srrc", key: "skey" };
   function fn({ item }) {
-    let bot = item;
+    console.log("sus: ", item.key);
     return (
       <View style={{ flex: 1, marginLeft: "2.5%" }}>
-        <TouchableOpacity
-          style={{ width: "100%", height: "100%" }}
-          activeOpacity={0.94}
-          onPress={handleItemClick}
-        >
-          <SBItem key={bot.key} name={bot.name} src={bot.photo} pretty={true} />
-        </TouchableOpacity>
+        <SBItemChatSelect
+          id={item.key}
+          name={item.name}
+          src={item.photo}
+          pretty={true}
+        />
       </View>
     );
   }
@@ -82,7 +83,7 @@ export default function ChatSelectionScreen() {
           scrollAnimationDuration={750}
           data={chats}
           pagingEnabled={isPagingEnabled}
-          onSnapToItem={(index) => console.log("current index:", index)}
+          onSnapToItem={(index) => (chatIndex = index)}
           renderItem={fn}
         />
       ) : (
