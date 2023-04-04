@@ -43,11 +43,9 @@ export default function ChatSelectionScreen() {
       });
   };
 
-  // useFocusEffect(
-  //   React.useCallback(() => console.log("updated: chat selection"))
-  // );
+  useFocusEffect(React.useCallback(getSelectedProfiles, []));
 
-  useEffect(getSelectedProfiles, []);
+  // useEffect(getSelectedProfiles, []);
 
   const baseOptions = {
     vertical: false,
