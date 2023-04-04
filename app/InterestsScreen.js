@@ -31,7 +31,7 @@ const InterestsScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: "#E4E4E4" }]}>
+    <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Text style={styles.title}>Select your interests</Text>
         <View style={styles.chipContainer}>
@@ -66,6 +66,7 @@ const InterestsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
   },
   scrollView: {
     flexGrow: 1,

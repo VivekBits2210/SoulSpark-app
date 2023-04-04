@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Dimensions,
   Image,
-  Button, Pressable,
+  Button,
+  Pressable,
 } from "react-native";
 import Animated, {
   Extrapolate,
@@ -18,7 +19,7 @@ import { useRouter } from "expo-router";
 
 import { SBItem } from "../components/SBItem";
 import { window } from "../constants";
-import googleLogo from "../assets/g-logo.png";
+import googleLogo from "../assets/g-logo-black.jpg";
 
 const PAGE_WIDTH = window.width;
 const colors = ["#26292E", "#899F9C", "#B3C680", "#5C6265"];
@@ -50,6 +51,7 @@ function WelcomeCarouselScreen({ navigation }) {
         alignItems: "center",
         backgroundColor: "#E4E4E4",
         marginTop: 150,
+        backgroundColor: "white",
       }}
     >
       <View
@@ -107,7 +109,7 @@ function WelcomeCarouselScreen({ navigation }) {
         </View>
       )}
       <Text style={styles.baseText}>Marketing Text</Text>
-      
+
       <Pressable
         style={({ pressed }) => [
           styles.customButton,
@@ -180,28 +182,31 @@ const PaginationItem = (props) => {
 };
 
 const styles = StyleSheet.create({
-    logo: {    
-      width: 36,    
-      height: 36,  
-    },  
-    customButtonPressed: {
-      opacity: 0.6, 
-    },
-    customButton: {
-      flexDirection: "row",
-      alignItems: "center",
-      paddingHorizontal: 16,
-      paddingVertical: 8,
-      borderRadius: 4,
-      backgroundColor: "white",
-      marginTop: 36,
-      marginBottom: 36,
-    },
-    customButtonText: {
-      color: "black",
-      marginLeft: 8,
-      fontSize: 16, 
-    },
+  logo: {
+    width: 36,
+    height: 36,
+  },
+  customButtonPressed: {
+    opacity: 0.8,
+  },
+  customButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 50,
+    borderWidth: 5,
+    backgroundColor: "black",
+    marginTop: 36,
+    marginBottom: 36,
+    marginLeft: 36,
+    marginRight: 36,
+  },
+  customButtonText: {
+    color: "white",
+    marginLeft: 8,
+    fontSize: 16,
+  },
 });
 
 export default WelcomeCarouselScreen;

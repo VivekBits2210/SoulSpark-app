@@ -2,25 +2,33 @@ import React from "react";
 import { Picker } from "@react-native-picker/picker";
 import { CheckBox } from "react-native-elements";
 import SButton from "../components/SButton";
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from "react-native";
 import { SafeAreaView, StyleSheet, Text, View, ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "expo-router";
 
 const CustomRadioButton = ({ label, value, selectedValue, onValueChange }) => {
   const isSelected = value === selectedValue;
-  
+
   return (
     <TouchableOpacity
       style={[styles.radioButtonRow, isSelected && styles.radioButtonSelected]}
       onPress={() => onValueChange(value)}
     >
-      <View style={[styles.radioButton, isSelected && styles.radioButtonActive]} />
-      <Text style={[styles.radioButtonLabel, isSelected && styles.radioButtonLabelSelected]}>{label}</Text>
+      <View
+        style={[styles.radioButton, isSelected && styles.radioButtonActive]}
+      />
+      <Text
+        style={[
+          styles.radioButtonLabel,
+          isSelected && styles.radioButtonLabelSelected,
+        ]}
+      >
+        {label}
+      </Text>
     </TouchableOpacity>
   );
 };
-
 
 const listDataGenderFocus = [
   { label: "Male", value: "M" },
@@ -78,7 +86,7 @@ const FormScreen = ({ navigation }) => {
 
           <Controller
             control={control}
-            name="yourGender"
+            name="gender"
             render={({ field: { onChange, value } }) => (
               <View style={styles.textBox}>
                 <Text style={styles.label}>Your Gender</Text>
@@ -101,15 +109,13 @@ const FormScreen = ({ navigation }) => {
               },
             }}
           />
-          {errors["yourGender"]?.message ? (
-            <Text style={styles.errorText}>{errors["yourGender"]?.message}</Text>
+          {errors["gender"]?.message ? (
+            <Text style={styles.errorText}>{errors["gender"]?.message}</Text>
           ) : null}
-
-
 
           <Controller
             control={control}
-            name="preferredGender"
+            name="gender_focus"
             render={({ field: { onChange, value } }) => (
               <View style={styles.textBox}>
                 <Text style={styles.label}>Looking For</Text>
@@ -133,11 +139,11 @@ const FormScreen = ({ navigation }) => {
             }}
           />
 
-          {errors["preferredGender"]?.message ? (
-            <Text style={styles.errorText}>{errors["preferredGender"]?.message}</Text>
+          {errors["gender_focus"]?.message ? (
+            <Text style={styles.errorText}>
+              {errors["gender_focus"]?.message}
+            </Text>
           ) : null}
-
-
         </View>
 
         <View style={styles.container}>
@@ -159,7 +165,7 @@ const FormScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "white",
   },
   scrollView: {
     flexGrow: 1,
@@ -198,8 +204,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   radioButtonRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 8,
   },
   radioButton: {
@@ -207,22 +213,22 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: "#333",
     marginRight: 10,
   },
   radioButtonActive: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     borderWidth: 0,
   },
   radioButtonLabel: {
     fontSize: 15,
-    color: '#333',
+    color: "#333",
   },
   radioButtonLabelSelected: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   radioButtonSelected: {
-    backgroundColor: '#F5F5F5',
+    backgroundColor: "#F5F5F5",
   },
   button: {
     width: "100%",

@@ -29,7 +29,7 @@ export default function ChatSelectionScreen() {
   };
 
   return (
-    <View style={{ flex: 1, paddingTop: 10 }}>
+    <View style={{ flex: 1, paddingTop: 10, backgroundColor: "white" }}>
       <StatusBar barStyle="light-content" backgroundColor="black" />
       <Carousel
         {...baseOptions}
