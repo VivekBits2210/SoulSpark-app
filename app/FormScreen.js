@@ -23,7 +23,6 @@ const listData = [
   { label: "Female", value: "F" },
 ];
 
-
 const ages = [""];
 for (let i = 18; i <= 150; i++) {
   ages[i] = "" + i;
@@ -31,7 +30,6 @@ for (let i = 18; i <= 150; i++) {
 
 const FormScreen = ({ navigation }) => {
   const router = useRouter();
-  // const [age, setAge] = useState(undefined);
   const {
     control,
     handleSubmit,
@@ -39,8 +37,9 @@ const FormScreen = ({ navigation }) => {
   } = useForm();
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollView}>
+        <Text style={styles.title}>Profile Information</Text>
         <View style={styles.container}>
           <Controller
             control={control}
@@ -128,7 +127,6 @@ const FormScreen = ({ navigation }) => {
               },
             }}
           />
-
           {errors.preferredGender && (
             <Text style={styles.errorText}>
               {errors.preferredGender.message}
@@ -142,9 +140,9 @@ const FormScreen = ({ navigation }) => {
               console.log("Form Value", JSON.stringify(formValue));
               router.push("InterestsScreen");
             })}
-            style={styles.loginButton}
+            style={styles.button}
           >
-            Submit
+            SUBMIT
           </SButton>
         </View>
       </ScrollView>
@@ -155,82 +153,60 @@ const FormScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "space-around",
+    backgroundColor: "#F5F5F5",
   },
   scrollView: {
     flexGrow: 1,
     alignItems: "center",
-    justifyContent: "space-around",
+    justifyContent: "center",
+    padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 20,
   },
   container: {
-    width: "90%",
-    marginTop: 10,
+    width: "100%",
     marginBottom: 20,
   },
   textBox: {
-    backgroundColor: "#fafafa",
-    borderRadius: 10,
-    paddingStart: 5,
-    borderColor: "#e4e4e4",
-    borderWidth: 1,
-    alignSelf: "stretch",
-    marginVertical: 7,
-  },
-  ageBox: {
-    backgroundColor: "#fafafa",
-    borderRadius: 10,
-    paddingStart: 5,
-    borderColor: "#e4e4e4",
-    borderWidth: 1,
-    alignSelf: "stretch",
-    marginVertical: 7,
-  },
-  text: {
-    fontSize: 15,
-    paddingVertical: 10,
-    color: "#333", // Updated color
-  },
-  errorText: {
-    color: "red",
-  },
-  button: {
-    width: "100%",
-    backgroundColor: "#517CFF",
-    borderRadius: 10,
-    paddingVertical: 10,
-    marginVertical: 20,
-  },
-  buttonText: {
-    color: "white",
-    alignSelf: "center",
-  },
-  label: {
-    paddingTop: 10,
-    fontSize: 15,
-    marginBottom: 5,
-    color: "#333", // Updated color
-  },
-  radioGroup: {
-    marginBottom: 15,
-  },
-  radioButtonRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-    borderColor: "rgba(158, 150, 150, 0)",
-  },
-  radioButtonLabel: {
-    fontSize: 15,
-    marginLeft: 5,
-    color: "#333",
-  },
-  genderContainer: {
     backgroundColor: "#fff",
     borderRadius: 10,
     padding: 10,
     borderColor: "#e4e4e4",
     borderWidth: 1,
+    alignSelf: "stretch",
+    marginVertical: 7,
+  },
+  label: {
+    fontSize: 15,
+    color: "#333",
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  errorText: {
+    color: "red",
+    fontSize: 13,
+    marginBottom: 5,
+  },
+  radioButtonRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  radioButtonLabel: {
+    fontSize: 15,
+    color: "#333",
+    marginLeft: 5,
+  },
+  button: {
+    width: "100%",
+    backgroundColor: "#517CFF",
+    borderRadius: 10,
+    paddingVertical: 12,
+    marginBottom: 20,
   },
 });
 
