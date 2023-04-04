@@ -3,7 +3,9 @@ import { ScreenHeaderBtn } from "../components";
 import { Stack, useRouter } from "expo-router";
 import { HeaderBackButton } from "react-navigation-stack";
 import UnmatchMenu from "./UnmatchMenu";
+import { useSearchParams } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
+import { encrypEmail } from "../constants";
 
 SplashScreen.preventAutoHideAsync();
 export const unstable_settings = {
@@ -12,6 +14,9 @@ export const unstable_settings = {
 };
 const Layout = () => {
   const router = useRouter();
+
+  const { name, id } = useSearchParams();
+  let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${id}.jpg`;
   return (
     <Stack>
       <Stack.Screen
@@ -83,9 +88,11 @@ const Layout = () => {
                 ></HeaderBackButton>
                 <TouchableOpacity activeOpacity={0.94}>
                   <ScreenHeaderBtn
-                    iconUrl={require("../assets/0.jpg")}
+                    iconUrl={{ uri: src }}
                     dimension="100%"
-                    handlePress={() => router.push("/Customization")}
+                    handlePress={() =>
+                      router.push(`/Customization?name=${name}&id=${id}`)
+                    }
                   ></ScreenHeaderBtn>
                 </TouchableOpacity>
                 <Text
@@ -95,9 +102,11 @@ const Layout = () => {
                     fontSize: 22,
                     paddingLeft: 10,
                   }}
-                  onPress={() => router.push("/Customization")}
+                  onPress={() =>
+                    router.push(`/Customization?name=${name}&id=${id}`)
+                  }
                 >
-                  Nicole
+                  {name}
                 </Text>
               </View>
             );

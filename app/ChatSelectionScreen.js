@@ -1,12 +1,14 @@
 import * as React from "react";
-import { View, TouchableOpacity, StatusBar } from "react-native";
+import { View, Text, TouchableOpacity, StatusBar } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import Icon from "react-native-vector-icons/AntDesign";
-
-import { SBItem } from "../components/SBItem";
+import { useEffect } from "react";
+import { SBItem, SBItemChatSelect } from "../components/SBItem";
 import SButton from "../components/SButton";
 import { useRouter } from "expo-router";
-import { window } from "../constants";
+import { useFocusEffect } from "@react-navigation/native";
+import { encrypEmail, window } from "../constants";
+import { useState } from "react";
 
 const PAGE_WIDTH = window.width;
 
@@ -16,42 +18,77 @@ export default function ChatSelectionScreen() {
   // const [isAutoPlay, setIsAutoPlay] = React.useState(false);
   const [isPagingEnabled, setIsPagingEnabled] = React.useState(true);
   const ref = React.useRef(null);
+  const [chats, setChats] = useState([]);
+
+  const getSelectedProfiles = () => {
+    fetch(
+      `https://api-soulspark.com/chat-module/fetch-selected-profiles?email=${encrypEmail}`
+    )
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json);
+        let result = [];
+        console.log(json.data[0].bot_id);
+        for (let i = 0; i < json.data.length; i++) {
+          let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${json.data[i].bot_id}.jpg`;
+          result.push({
+            key: json.data[i].bot_id,
+            name: json.data[i].name,
+            photo: src,
+            index: i,
+          });
+        }
+        console.log(result[0].key);
+        setChats(result);
+      });
+  };
+
+  useFocusEffect(React.useCallback(getSelectedProfiles, []));
+
+  // useEffect(getSelectedProfiles, []);
 
   const baseOptions = {
     vertical: false,
     width: PAGE_WIDTH * 0.83,
     height: window.height * 0.68,
   };
+  let chatIndex = 0;
 
   const router = useRouter();
-  const handleItemClick = () => {
-    router.push("./ChatScreen");
-  };
+
+  // let bot = { index: 1, name: "sus", photo: "srrc", key: "skey" };
+  function fn({ item }) {
+    console.log("sus: ", item.key);
+    return (
+      <View style={{ flex: 1, marginLeft: "2.5%" }}>
+        <SBItemChatSelect
+          id={item.key}
+          name={item.name}
+          src={item.photo}
+          pretty={true}
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1, paddingTop: 10, backgroundColor: "white" }}>
       <StatusBar barStyle="light-content" backgroundColor="black" />
-      <Carousel
-        {...baseOptions}
-        loop={false}
-        ref={ref}
-        style={{ width: "100%" }}
-        scrollAnimationDuration={750}
-        data={data}
-        pagingEnabled={isPagingEnabled}
-        onSnapToItem={(index) => console.log("current index:", index)}
-        renderItem={({ index }) => (
-          <View style={{ flex: 1, marginLeft: "2.5%" }}>
-            <TouchableOpacity
-              style={{ width: "100%", height: "100%" }}
-              activeOpacity={0.94}
-              onPress={handleItemClick}
-            >
-              <SBItem key={index} index={index} pretty={true} />
-            </TouchableOpacity>
-          </View>
-        )}
-      />
+      {chats.length > 0 ? (
+        <Carousel
+          {...baseOptions}
+          loop={false}
+          ref={ref}
+          style={{ width: "100%" }}
+          scrollAnimationDuration={750}
+          data={chats}
+          pagingEnabled={isPagingEnabled}
+          onSnapToItem={(index) => (chatIndex = index)}
+          renderItem={fn}
+        />
+      ) : (
+        <Text>Loading...</Text>
+      )}
       <View
         style={{
           flex: 1,
