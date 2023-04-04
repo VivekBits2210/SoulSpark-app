@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export const SBTextItem = ({ style, index }) => {
+export const SBTextItem = ({ text, style }) => {
   return (
     <View style={[styles.container, style]}>
-      <Text style={{ fontSize: 30, color: "black" }}>{index}</Text>
+      <Text style={{ fontSize: 30, color: "black" }}>{text}</Text>
     </View>
   );
 };
