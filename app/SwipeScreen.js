@@ -176,7 +176,6 @@ const SwipeScreen = () => {
           />
         </TouchableOpacity>
       </View>
-      <View style={styles.swipeTextContainer}></View>
     </View>
   );
 };

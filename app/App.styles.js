@@ -9,19 +9,19 @@ export default StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
     flexDirection: "column",
     backgroundColor: "white",
   },
   swiperContainer: {
-    height: height - 70,
+    height: height * 0.5,
   },
   buttonsContainer: {
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
     paddingHorizontal: "15%",
-    marginTop: -150,
+    height: height * 0.55,
   },
   overlayWrapper: {
     flexDirection: "column",
