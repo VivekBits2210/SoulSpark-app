@@ -193,6 +193,7 @@ const styles = StyleSheet.create({
       paddingVertical: 8,
       borderRadius: 4,
       backgroundColor: "white",
+      marginTop: 36,
       marginBottom: 36,
     },
     customButtonText: {
