@@ -17,7 +17,7 @@ return (<Stack>
 headerStyle: { backgroundColor: "black"},
 headerShadowVisible: false,
 headerLeft: () => {
-return <Text style={{color:"white"}}>Soulspark Logo</Text>
+return <Text style={{color:"white"}} onPress={() => router.push("/Coffee")}>SoulSpark Logo</Text>
 },
 headerRight: () => {
 return <ScreenHeaderBtn iconUrl={require('../assets/profile.jpg')} dimension="100%" handlePress={() => router.push("/Settings")} />
@@ -30,7 +30,7 @@ name="index"
 headerStyle: { backgroundColor: "black"},
 headerShadowVisible: false,
 headerLeft: () => {
-return <Text style={{color:"white"}}>Soulspark Logo</Text>
+return <Text style={{color:"white"}} onPress={() => router.push("/Coffee")} >SoulSpark Logo</Text>
 },
 headerRight: () => {
 return <ScreenHeaderBtn iconUrl={require('../assets/profile.jpg')} dimension="100%" handlePress={() => router.push("/Settings")} />
@@ -81,6 +81,23 @@ headerTitle: ""
 name="Settings"
 />
 <Stack.Screen options={{
+headerStyle: { backgroundColor: "black"},
+headerShadowVisible: false,
+headerBackTitle:'',
+headerLeft: () => {
+return (
+  <View style={{flex:1, paddingLeft:0, flexDirection: 'row'}}>
+<HeaderBackButton tintColor="white" onPress={()=>router.back()} style={{paddingLeft:0}}></HeaderBackButton>
+  <Text style={{color:"white", alignSelf: 'center', fontSize: 22, paddingLeft: 10}}>SoulSpark</Text>
+
+  </View>
+  )
+},
+headerTitle: ""
+}}
+name="Coffee"
+/>
+<Stack.Screen options={{
 headerShown: false
 }}
 name="WelcomeCarouselScreen"
@@ -93,7 +110,7 @@ headerLeft: () => {
 return (
   <View style={{flex:1, paddingLeft:0, flexDirection: 'row'}}>
   <HeaderBackButton tintColor="white" onPress={()=>router.back()} style={{paddingLeft:0}}></HeaderBackButton>
-    <Text style={{color:"white", alignSelf: 'center', fontSize: 22, paddingLeft: 10}}>Soulspark Logo</Text>
+    <Text style={{color:"white", alignSelf: 'center', fontSize: 22, paddingLeft: 10}} onPress={() => router.push("/Coffee")}>SoulSpark Logo</Text>
   </View>
   )
 },
@@ -109,7 +126,7 @@ headerLeft: () => {
 return (
   <View style={{flex:1, paddingLeft:0, flexDirection: 'row'}}>
   <HeaderBackButton tintColor="white" onPress={()=>router.back()} style={{paddingLeft:0}}></HeaderBackButton>
-    <Text style={{color:"white", alignSelf: 'center', fontSize: 22, paddingLeft: 10}}>Soulspark Logo</Text>
+    <Text style={{color:"white", alignSelf: 'center', fontSize: 22, paddingLeft: 10}} onPress={() => router.push("/Coffee")}>SoulSpark Logo</Text>
   </View>
   )
 },

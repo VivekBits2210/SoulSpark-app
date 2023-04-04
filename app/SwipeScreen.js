@@ -115,7 +115,8 @@ const SwipeScreen = () => {
             renderCard={(card) => <Card card={card} />}
             cardIndex={0}
             backgroundColor="white"
-            stackSize={4}
+            infinite={true}
+            stackSize={2}
             showSecondCard
             animateOverlayLabelsOpacity
             disableBottomSwipe={true}
