@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, View, StyleSheet, Dimensions, Image, Button } from "react-native";
+import { Text, View, StyleSheet, Dimensions, Image, Button, Pressable } from "react-native";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -107,17 +107,18 @@ function WelcomeCarouselScreen({ navigation }) {
       )}
       <Text style={styles.baseText}>Marketing Text</Text>
       
-      <View style={styles.container}>
-      {/* <View> */}
-        <View style={styles.buttonContainer}>
-          <Image source={googleLogo} style={styles.logo} />
-          <Button title="Sign In with Google" onPress={() => {
-            router.push("FormScreen");
-          }}/>
-        </View>
-        {/* {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
-      </View> */}
-    </View>
+      <Pressable
+        style={({ pressed }) => [
+          styles.customButton,
+          pressed ? styles.customButtonPressed : {},
+        ]}
+        onPress={() => {
+          router.push("FormScreen");
+        }}
+      >
+        <Image source={googleLogo} style={styles.logo} />
+        <Text style={styles.customButtonText}>Continue with Google</Text>
+      </Pressable>
     </View>
   );
 }
@@ -178,24 +179,27 @@ const PaginationItem = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container: {    flex: 1,    justifyContent: 'center',  },  
-  buttonContainer: {    
-    flexDirection: 'row',    
-    alignItems: 'center',    
-    paddingHorizontal: 16,    
-    paddingVertical: 8,    
-    borderRadius: 4,    
-    marginBottom: 36,  },  
     logo: {    
       width: 36,    
-      height: 36,  },  
-    errorText: {    
-      color: 'red',    
-      textAlign: 'center',  
+      height: 36,  
+    },  
+    customButtonPressed: {
+      opacity: 0.6, 
     },
-  baseText: {
-    marginBottom: 50,
-  },
+    customButton: {
+      flexDirection: "row",
+      alignItems: "center",
+      paddingHorizontal: 16,
+      paddingVertical: 8,
+      borderRadius: 4,
+      backgroundColor: "white",
+      marginBottom: 36,
+    },
+    customButtonText: {
+      color: "black",
+      marginLeft: 8,
+      fontSize: 16, 
+    },
 });
 
 export default WelcomeCarouselScreen;

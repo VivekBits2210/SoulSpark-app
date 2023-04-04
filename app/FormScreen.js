@@ -83,6 +83,8 @@ const FormScreen = ({ navigation }) => {
                     uncheckedIcon="circle-o"
                     checked={value === item.value}
                     onPress={() => onChange(item.value)}
+                    titleProps={{ style: { fontWeight: 'normal', marginLeft: 10 } }}
+                    checkedColor="black"
                   />
                 ))}
               </View>
@@ -116,6 +118,8 @@ const FormScreen = ({ navigation }) => {
                     uncheckedIcon="circle-o"
                     checked={value === item.value}
                     onPress={() => onChange(item.value)}
+                    titleProps={{ style: { fontWeight: 'normal', marginLeft: 10} }}
+                    checkedColor="black"
                   />
                 ))}
               </View>
@@ -195,11 +199,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 10,
+    backgroundColor: 'transparent',
+    borderWidth: 0,
   },
   radioButtonLabel: {
     fontSize: 15,
     color: "#333",
-    marginLeft: 5,
+    fontFamily: 'Roboto',
   },
   button: {
     width: "100%",
