@@ -27,7 +27,11 @@ const Card = ({ card }) => {
 
   return (
     <View style={styles.card}>
-      <Image style={styles.image} source={{uri:card.photo}} resizeMode="cover" />
+      <Image
+        style={styles.image}
+        source={{ uri: card.photo }}
+        resizeMode="cover"
+      />
       <View style={styles.photoDescriptionContainer}>
         <View style={styles.textContainer}>
           <Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">

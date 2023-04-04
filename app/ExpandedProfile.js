@@ -24,7 +24,13 @@ export default function ExpandedProfile() {
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        <Image style={styles.image} source={{uri:`https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${bot_id}.jpg`}} resizeMode="cover" />
+        <Image
+          style={styles.image}
+          source={{
+            uri: `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${bot_id}.jpg`,
+          }}
+          resizeMode="cover"
+        />
         <View style={styles.photoDescriptionContainer}>
           <View style={styles.textContainer}>
             <Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">
