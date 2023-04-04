@@ -1,21 +1,28 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, Image, Linking , StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, Image, Linking, StyleSheet } from 'react-native';
 import image0 from "../assets/icon.png";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingLeft: 10,
-    paddingTop: 5,
+    padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  touchableOpacity: {
+    width: '100%',
+    height: '50%',
+    marginBottom: 20,
   },
   image: {
-    width: '50%',
-    height: '50%',
+    width: '100%',
+    height: '100%',
   },
   text: {
-    fontSize: 20,
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333',
   },
 });
 
@@ -23,10 +30,7 @@ export default function Coffee() {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-      style={{
-        width: "100%",
-        height: "50%"
-      }}
+        style={styles.touchableOpacity}
         onPress={() =>
           Linking.openURL('https://www.patreon.com/SoulSpark784/membership')
         }
@@ -35,7 +39,7 @@ export default function Coffee() {
           key={"dfsdfsd"}
           style={styles.image}
           source={image0}
-          resizeMode="contain"
+          resizeMode="cover"
         />
       </TouchableOpacity>
       <Text style={styles.text}>Buy me a coffee</Text>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, View, StyleSheet, Dimensions } from "react-native";
+import { Text, View, StyleSheet, Dimensions, Image, Button } from "react-native";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -12,6 +12,7 @@ import { useRouter } from "expo-router";
 import { SBItem } from "../components/SBItem";
 import SButton from "../components/SButton";
 import { window } from "../constants";
+import googleLogo from '../assets/g-logo.png';
 
 const PAGE_WIDTH = window.width;
 const colors = [
@@ -105,16 +106,18 @@ function WelcomeCarouselScreen({ navigation }) {
         </View>
       )}
       <Text style={styles.baseText}>Marketing Text</Text>
-      <View style={styles.loginButtonContainer}>
-        <SButton
-          onPress={() => {
+      
+      <View style={styles.container}>
+      {/* <View> */}
+        <View style={styles.buttonContainer}>
+          <Image source={googleLogo} style={styles.logo} />
+          <Button title="Sign In with Google" onPress={() => {
             router.push("FormScreen");
-          }}
-          style={styles.loginButton}
-        >
-          Login with Google
-        </SButton>
-      </View>
+          }}/>
+        </View>
+        {/* {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
+      </View> */}
+    </View>
     </View>
   );
 }
@@ -175,19 +178,21 @@ const PaginationItem = (props) => {
 };
 
 const styles = StyleSheet.create({
-  loginButtonContainer: {
-    marginBottom: 20,
-    bottom: 20,
-    alignSelf: "center", // center login button horizontally
-  },
-  loginButton: {
-    backgroundColor: "red",
-    padding: 10,
-    borderRadius: 5,
-    color: "white",
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
+  container: {    flex: 1,    justifyContent: 'center',  },  
+  buttonContainer: {    
+    flexDirection: 'row',    
+    alignItems: 'center',    
+    paddingHorizontal: 16,    
+    paddingVertical: 8,    
+    borderRadius: 4,    
+    marginBottom: 36,  },  
+    logo: {    
+      width: 36,    
+      height: 36,  },  
+    errorText: {    
+      color: 'red',    
+      textAlign: 'center',  
+    },
   baseText: {
     marginBottom: 50,
   },

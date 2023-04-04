@@ -19,7 +19,7 @@ const SButton = (props) => {
             paddingVertical: 20,
           }}
         >
-          <Text style={{ color: "white" }}>{children}</Text>
+          <Text style={{ color: "white", textAlign: "center" }}>{children}</Text>
         </View>
       </TouchableWithoutFeedback>
   );
