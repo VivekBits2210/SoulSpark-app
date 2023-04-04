@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { View, StatusBar } from "react-native";
 import { Chat } from "@flyerhq/react-native-chat-ui";
 import * as Progress from "react-native-progress";
+import { encrypEmail } from "../constants";
+import { useEffect } from "react";
+import { useSearchParams } from "expo-router";
 
 function ChatScreen() {
+  const { id } = useSearchParams();
   const uuidv4 = () => {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
       const r = Math.floor(Math.random() * 16);
@@ -11,13 +15,24 @@ function ChatScreen() {
       return v.toString(16);
     });
   };
+  const [level, setLevel] = useState(-1);
   const [messages, setMessages] = useState([]);
-  const user = { id: "06c33e8b-e835-4736-80f4-63f44b66666c" };
+  const user = { id: encrypEmail };
 
   const addMessage = (message) => {
     setMessages([message, ...messages]);
   };
 
+  function getLevel() {
+    fetch(
+      `https://api-soulspark.com/chat-module/fetch-chat-history?bot_id=${id}&email=${encrypEmail}&bot_id=${id}`
+    )
+      .then((res) => res.json())
+      .then((json) => {
+        setLevel(json.level);
+      });
+  }
+  useEffect(getLevel, []);
   const handleSendPress = (message) => {
     const textMessage = {
       author: user,
@@ -33,7 +48,8 @@ function ChatScreen() {
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar barStyle="light-content" backgroundColor="black" />
       <Progress.Bar
-        progress={0.25}
+        // progress={0}
+        progress={level < 0 ? 0 : level - Math.floor(level)}
         color={"rgba(80, 0, 128, 0.7)"}
         borderColor={"rgba(80, 0, 128, 1)"}
         borderRadius={0}
