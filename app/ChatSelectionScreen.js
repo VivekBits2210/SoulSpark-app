@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { SBItem, SBItemChatSelect } from "../components/SBItem";
 import SButton from "../components/SButton";
 import { useRouter } from "expo-router";
+import { useFocusEffect } from "@react-navigation/native";
 import { encrypEmail, window } from "../constants";
 import { useState } from "react";
 
@@ -41,6 +42,10 @@ export default function ChatSelectionScreen() {
         setChats(result);
       });
   };
+
+  // useFocusEffect(
+  //   React.useCallback(() => console.log("updated: chat selection"))
+  // );
 
   useEffect(getSelectedProfiles, []);
 

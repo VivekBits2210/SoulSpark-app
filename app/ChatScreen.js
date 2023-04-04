@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, StatusBar } from "react-native";
 import { Chat } from "@flyerhq/react-native-chat-ui";
 import * as Progress from "react-native-progress";
-import { encrypEmail } from "../constants";
+import { email, encrypEmail } from "../constants";
 import { useEffect } from "react";
 import { useSearchParams } from "expo-router";
 
@@ -17,7 +17,7 @@ function ChatScreen() {
   };
   const [level, setLevel] = useState(-1);
   const [messages, setMessages] = useState([]);
-  const user = { id: encrypEmail };
+  const user = { id: email };
 
   const addMessage = (message) => {
     setMessages([message, ...messages]);
@@ -29,6 +29,20 @@ function ChatScreen() {
     )
       .then((res) => res.json())
       .then((json) => {
+        let result = [];
+        for (let i = 0; i < json.history.length; i++) {
+          result.push({
+            author: { id: json.history[i].who },
+            createdAt: Date.now(),
+            id: uuidv4(),
+            text: json.history[i].message,
+            type: "text",
+          });
+          // setMessages([result[i], ...messages]);
+        }
+
+        setMessages(result);
+        console.log("message: ", messages);
         setLevel(json.level);
       });
   }
