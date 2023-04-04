@@ -21,13 +21,13 @@ const Card = ({ card }) => {
   console.log("inside CARD: " + id);
   const handlePress = () => {
     router.push(
-      `/ExpandedProfile?name=${card.name}&age=${card.age}&bio=${card.bio}&photo=${card.photo}&bot_id=${id}`
+      `/ExpandedProfile?name=${card.name}&age=${card.age}&bio=${card.bio}&bot_id=${id}`
     );
   };
 
   return (
     <View style={styles.card}>
-      <Image style={styles.image} source={3} resizeMode="cover" />
+      <Image style={styles.image} source={{uri:card.photo}} resizeMode="cover" />
       <View style={styles.photoDescriptionContainer}>
         <View style={styles.textContainer}>
           <Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">

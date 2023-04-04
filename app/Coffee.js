@@ -3,36 +3,42 @@ import { View, TouchableOpacity, Text, Image, Linking , StyleSheet } from 'react
 import image0 from "../assets/icon.png";
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingLeft: 10,
+    paddingTop: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   image: {
-    width: '80%',
-    height: '80%',
-    paddingLeft: '5%',
-    alignContent: 'center',
-    top: 0,
+    width: '50%',
+    height: '50%',
   },
   text: {
-    marginLeft: 15,
     fontSize: 20,
   },
 });
 
 export default function Coffee() {
-    // const source = React.useRef({
-    // uri: `https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg`,
-    // }).current;
   return (
-    <View style={{ flex: 1, paddingTop: 5 }}>
-        <TouchableOpacity
-      onPress={() =>
-        Linking.openURL('https://www.patreon.com/SoulSpark784/membership')
-      }>
+    <View style={styles.container}>
+      <TouchableOpacity
+      style={{
+        width: "100%",
+        height: "50%"
+      }}
+        onPress={() =>
+          Linking.openURL('https://www.patreon.com/SoulSpark784/membership')
+        }
+      >
         <Image
-        key={"dfsdfsd"}
-        style={styles.image}
-        source = {image0}
-        resizeMode="contain"/>
-        </TouchableOpacity>
-              <Text style={styles.text}>Buy me a coffee</Text>
+          key={"dfsdfsd"}
+          style={styles.image}
+          source={image0}
+          resizeMode="contain"
+        />
+      </TouchableOpacity>
+      <Text style={styles.text}>Buy me a coffee</Text>
     </View>
   );
 }
