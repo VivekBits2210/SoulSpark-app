@@ -58,7 +58,7 @@ const FormScreen = ({ navigation }) => {
             rules={{
               required: {
                 value: true,
-                message: "Please fill out the Age",
+                message: "Please fill your Age",
               },
             }}
           />
@@ -91,7 +91,7 @@ const FormScreen = ({ navigation }) => {
             rules={{
               required: {
                 value: true,
-                message: "Please fill out gender",
+                message: "Please fill your Gender",
               },
             }}
           />
@@ -124,7 +124,7 @@ const FormScreen = ({ navigation }) => {
             rules={{
               required: {
                 value: true,
-                message: "Please fill out what you're looking for",
+                message: "Please fill your Preference",
               },
             }}
           />

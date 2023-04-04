@@ -3,7 +3,7 @@ import { Image } from "react-native-web";
 const profileApi = "https://api-soulspark.com/ai-profiles/fetch-profile";
 
 export async function fetchProfiles(n) {
-  let result = await fetch(`${profileApi}?n=${n}`)
+  let result = await fetch(`${profileApi}?n=${n}&no_image=True`)
     .then((res) => res.json())
     .catch((err) => console.log(err));
   return result;
