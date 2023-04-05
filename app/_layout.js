@@ -28,18 +28,13 @@ const Layout = () => {
           headerLeft: () => {
             return (
               <View style={{ flex: 1, paddingLeft: 0, flexDirection: "row", alignItems: "center"}}>
-              <HeaderBackButton
-                  tintColor="white"
-                  onPress={() => router.back()}
-                  style={{ paddingLeft: 0 }}
-                ></HeaderBackButton>
               <ScreenHeaderBtn
                 iconUrl={require("../assets/logo_png.png")}
                 dimension="100%"
                 handlePress={() => router.push("/Coffee")}
               />
               <Text
-                style={{ color: "white", fontSize: 16, paddingLeft: 5}}
+                style={{ color: "white", fontSize: 18, paddingLeft: 5, fontFamily: "Roboto"}}
                 onPress={() => router.push("/Coffee")}
               >
                 SoulSpark
@@ -73,7 +68,7 @@ const Layout = () => {
                 handlePress={() => router.push("/Coffee")}
               />
               <Text
-                style={{ color: "white", fontSize: 16, paddingLeft: 5 }}
+                style={{ color: "white", fontSize: 18, paddingLeft: 5, fontFamily: "Roboto" }}
                 onPress={() => router.push("/Coffee")}
               >
                 SoulSpark
@@ -224,7 +219,7 @@ const Layout = () => {
                 handlePress={() => router.push("/Coffee")}
               />
               <Text
-                style={{ color: "white", fontSize: 16, paddingLeft: 5 }}
+                style={{ color: "white", fontSize: 18, paddingLeft: 5, fontFamily: "Roboto" }}
                 onPress={() => router.push("/Coffee")}
               >
                 SoulSpark
@@ -255,7 +250,7 @@ const Layout = () => {
                 handlePress={() => router.push("/Coffee")}
               />
               <Text
-                style={{ color: "white" }}
+                style={{ color: "white", fontSize: 18, paddingLeft: 5, fontFamily: "Roboto" }}
                 onPress={() => router.push("/Coffee")}
               >
                 SoulSpark
