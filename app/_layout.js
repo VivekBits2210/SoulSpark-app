@@ -25,12 +25,11 @@ const Layout = () => {
           headerShadowVisible: false,
           headerLeft: () => {
             return (
-              <Text
-                style={{ color: "white" }}
-                onPress={() => router.push("/Coffee")}
-              >
-                SoulSpark Logo
-              </Text>
+              <ScreenHeaderBtn
+                iconUrl={require("../assets/soulspark_logo.png")}
+                dimension="100%"
+                handlePress={() => router.push("/Coffee")}
+              />
             );
           },
           headerRight: () => {
@@ -52,12 +51,11 @@ const Layout = () => {
           headerShadowVisible: false,
           headerLeft: () => {
             return (
-              <Text
-                style={{ color: "white" }}
-                onPress={() => router.push("/Coffee")}
-              >
-                SoulSpark Logo
-              </Text>
+              <ScreenHeaderBtn
+                iconUrl={require("../assets/soulspark_logo.png")}
+                dimension="100%"
+                handlePress={() => router.push("/Coffee")}
+              />
             );
           },
           headerRight: () => {
@@ -197,17 +195,11 @@ const Layout = () => {
                   onPress={() => router.back()}
                   style={{ paddingLeft: 0 }}
                 ></HeaderBackButton>
-                <Text
-                  style={{
-                    color: "white",
-                    alignSelf: "center",
-                    fontSize: 22,
-                    paddingLeft: 10,
-                  }}
-                  onPress={() => router.push("/Coffee")}
-                >
-                  SoulSpark Logo
-                </Text>
+              <ScreenHeaderBtn
+                iconUrl={require("../assets/soulspark_logo.png")}
+                dimension="100%"
+                handlePress={() => router.push("/Coffee")}
+              />
               </View>
             );
           },
@@ -228,17 +220,11 @@ const Layout = () => {
                   onPress={() => router.back()}
                   style={{ paddingLeft: 0 }}
                 ></HeaderBackButton>
-                <Text
-                  style={{
-                    color: "white",
-                    alignSelf: "center",
-                    fontSize: 22,
-                    paddingLeft: 10,
-                  }}
-                  onPress={() => router.push("/Coffee")}
-                >
-                  SoulSpark Logo
-                </Text>
+              <ScreenHeaderBtn
+                iconUrl={require("../assets/soulspark_logo.png")}
+                dimension="100%"
+                handlePress={() => router.push("/Coffee")}
+              />
               </View>
             );
           },
