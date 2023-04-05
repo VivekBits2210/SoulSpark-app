@@ -110,7 +110,7 @@ const Layout = () => {
             );
           },
           headerRight: () => {
-            return <UnmatchMenu></UnmatchMenu>;
+            return <UnmatchMenu id={id}></UnmatchMenu>;
           },
           headerTitle: "",
         }}
@@ -195,11 +195,11 @@ const Layout = () => {
                   onPress={() => router.back()}
                   style={{ paddingLeft: 0 }}
                 ></HeaderBackButton>
-              <ScreenHeaderBtn
-                iconUrl={require("../assets/soulspark_logo.png")}
-                dimension="100%"
-                handlePress={() => router.push("/Coffee")}
-              />
+                <ScreenHeaderBtn
+                  iconUrl={require("../assets/soulspark_logo.png")}
+                  dimension="100%"
+                  handlePress={() => router.push("/Coffee")}
+                />
               </View>
             );
           },
@@ -220,11 +220,11 @@ const Layout = () => {
                   onPress={() => router.back()}
                   style={{ paddingLeft: 0 }}
                 ></HeaderBackButton>
-              <ScreenHeaderBtn
-                iconUrl={require("../assets/soulspark_logo.png")}
-                dimension="100%"
-                handlePress={() => router.push("/Coffee")}
-              />
+                <ScreenHeaderBtn
+                  iconUrl={require("../assets/soulspark_logo.png")}
+                  dimension="100%"
+                  handlePress={() => router.push("/Coffee")}
+                />
               </View>
             );
           },
