@@ -4,18 +4,19 @@ import { Chip, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import SButton from "../components/SButton";
+import { encrypEmail } from "../constants";
 
 const interests = [
-  "Photography",
-  "Shopping",
-  "Traveling",
-  "Cooking",
-  "Reading",
-  "Gaming",
-  "Fitness",
-  "Music",
-  "Art",
-  "Sports",
+  "photography",
+  "shopping",
+  "traveling",
+  "cooking",
+  "reading",
+  "gaming",
+  "fitness",
+  "music",
+  "art",
+  "sports",
 ];
 
 const InterestsScreen = ({ navigation }) => {
@@ -50,6 +51,18 @@ const InterestsScreen = ({ navigation }) => {
         <View margin={50}>
           <SButton
             onPress={() => {
+              fetch(`https://api-soulspark.com/user-profiles/post-attribute`, {
+                method: "POST",
+                body: JSON.stringify({
+                  email: encrypEmail,
+                  interests: selectedInterests,
+                }),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              })
+                .then((res) => res.json())
+                .then((json) => console.log(json));
               router.push("MyTabs");
               console.log(selectedInterests);
             }}
