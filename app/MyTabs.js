@@ -1,14 +1,29 @@
 import React from "react";
 import { View } from "react-native";
+import { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import SwipeScreen from "./SwipeScreen";
 import ChatSelectionScreen from "./ChatSelectionScreen";
 import WelcomeCarouselScreen from "./WelcomeCarouselScreen";
 import Coffee from "./Coffee";
+import { encrypEmail } from "../constants";
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
+  // const ref = React.useRef(null);
+  // useEffect(() => {
+  //   fetch(
+  //     `https://api-soulspark.com/chat-module/fetch-selected-profiles?email=${encrypEmail}`
+  //   )
+  //     .then((res) => res.json())
+  //     .then((json) => {
+  //       if (json.data.length !== 0) {
+  //         ref.setTab(1);
+  //       }
+  //       console.log("My tabs: ", json);
+  //     });
+  // }, []);
   return (
     <View
       style={{
@@ -17,6 +32,7 @@ function MyTabs() {
       }}
     >
       <Tab.Navigator
+        // ref={ref}
         screenOptions={({ route }) => ({
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {

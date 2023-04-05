@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { encrypEmail } from "../constants";
 
-const UnmatchMenu = () => {
+const UnmatchMenu = (props) => {
   const router = useRouter();
   const [menuVisible, setMenuVisible] = useState(false);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const [unmatchedVisible, setUnmatchedVisible] = useState(false);
-
+  const { id } = props;
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
   };
@@ -23,6 +24,17 @@ const UnmatchMenu = () => {
   };
 
   const handleUnmatch = () => {
+    // unmatch button
+    let data = new FormData();
+    data.append("email", encrypEmail);
+    data.append("bot_id", id);
+    fetch(`https://api-soulspark.com/chat-module/unmatch`, {
+      method: "POST",
+      body: data,
+      redirect: "follow",
+    })
+      .then((res) => res.json())
+      .then((json) => console.log(json));
     router.back();
     setConfirmationVisible(false);
     setUnmatchedVisible(true);

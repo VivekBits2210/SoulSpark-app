@@ -6,6 +6,7 @@ import { TouchableOpacity } from "react-native";
 import { SafeAreaView, StyleSheet, Text, View, ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "expo-router";
+import { encrypEmail } from "../constants";
 
 const CustomRadioButton = ({ label, value, selectedValue, onValueChange }) => {
   const isSelected = value === selectedValue;
@@ -150,6 +151,16 @@ const FormScreen = ({ navigation }) => {
           <SButton
             onPress={handleSubmit((formValue) => {
               console.log("Form Value", JSON.stringify(formValue));
+              formValue.email = encrypEmail;
+              fetch(`https://api-soulspark.com/user-profiles/post-attribute`, {
+                method: "POST",
+                body: JSON.stringify(formValue),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              })
+                .then((res) => res.json())
+                .then((json) => console.log(json));
               router.push("InterestsScreen");
             })}
             style={styles.button}

@@ -15,8 +15,8 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
-import { useRouter } from "expo-router";
-
+import { useFocusEffect, useRouter } from "expo-router";
+import { encrypEmail } from "../constants";
 import { SBItem } from "../components/SBItem";
 import { window } from "../constants";
 import googleLogo from "../assets/g-logo-black.jpg";
@@ -43,6 +43,21 @@ function WelcomeCarouselScreen({ navigation }) {
         width: PAGE_WIDTH,
         height: window.height * 0.6,
       };
+
+  const checkProfileAndRedirect = () => {
+    fetch(
+      `https://api-soulspark.com/user-profiles/fetch-user-info?email=${encrypEmail}`
+    )
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json);
+        if (json.age && json.gender) {
+          if (!json.interests) {
+            router.push("InterestsScreen");
+          } else router.push("MyTabs");
+        } else router.push("FormScreen");
+      });
+  };
 
   return (
     <View
@@ -111,14 +126,14 @@ function WelcomeCarouselScreen({ navigation }) {
         </View>
       )}
       <Text style={styles.baseText}>
-  {currentIndex === 0
-    ? "Welcome to our app!"
-    : currentIndex === 1
-    ? "Discover new colors with us."
-    : currentIndex === 2
-    ? "Get inspired by our color palettes."
-    : "Shop now and save 10%."}
-</Text>
+        {currentIndex === 0
+          ? "Welcome to our app!"
+          : currentIndex === 1
+          ? "Discover new colors with us."
+          : currentIndex === 2
+          ? "Get inspired by our color palettes."
+          : "Shop now and save 10%."}
+      </Text>
 
       <Pressable
         style={({ pressed }) => [
@@ -126,7 +141,7 @@ function WelcomeCarouselScreen({ navigation }) {
           pressed ? styles.customButtonPressed : {},
         ]}
         onPress={() => {
-          router.push("FormScreen");
+          checkProfileAndRedirect();
         }}
       >
         <Image source={googleLogo} style={styles.logo} />
