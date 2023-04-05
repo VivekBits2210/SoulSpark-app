@@ -26,6 +26,7 @@ const colors = ["#26292E", "#899F9C", "#B3C680", "#5C6265"];
 
 function WelcomeCarouselScreen({ navigation }) {
   const router = useRouter();
+  const [currentIndex, setCurrentIndex] = React.useState(0);
   const [isVertical, setIsVertical] = React.useState(false);
   const [autoPlay, setAutoPlay] = React.useState(true);
   const [pagingEnabled, setPagingEnabled] = React.useState(true);
@@ -73,9 +74,10 @@ function WelcomeCarouselScreen({ navigation }) {
           snapEnabled={snapEnabled}
           autoPlay={autoPlay}
           autoPlayInterval={1500}
-          onProgressChange={(_, absoluteProgress) =>
-            (progressValue.value = absoluteProgress)
-          }
+          onProgressChange={(_, absoluteProgress) => {
+            progressValue.value = absoluteProgress;
+            // setCurrentIndex(Math.round(absoluteProgress * (colors.length - 1)));
+          }}
           mode="parallax"
           modeConfig={{
             parallaxScrollingScale: 0.9,
@@ -108,7 +110,15 @@ function WelcomeCarouselScreen({ navigation }) {
           })}
         </View>
       )}
-      <Text style={styles.baseText}>Marketing Text</Text>
+      <Text style={styles.baseText}>
+  {currentIndex === 0
+    ? "Welcome to our app!"
+    : currentIndex === 1
+    ? "Discover new colors with us."
+    : currentIndex === 2
+    ? "Get inspired by our color palettes."
+    : "Shop now and save 10%."}
+</Text>
 
       <Pressable
         style={({ pressed }) => [
