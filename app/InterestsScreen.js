@@ -4,6 +4,7 @@ import { Chip, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import SButton from "../components/SButton";
+import { useEffect } from "react";
 import { encrypEmail } from "../constants";
 
 const interests = [
@@ -22,6 +23,7 @@ const interests = [
 const InterestsScreen = ({ navigation }) => {
   const router = useRouter();
   const [selectedInterests, setSelectedInterests] = useState([]);
+  // const [validInterests, setValidInterests] = useState(false);
 
   const toggleInterest = (interest) => {
     if (selectedInterests.includes(interest)) {
@@ -41,7 +43,10 @@ const InterestsScreen = ({ navigation }) => {
               key={index}
               mode="outlined"
               selected={selectedInterests.includes(interest)}
-              onPress={() => toggleInterest(interest)}
+              onPress={() => {
+                toggleInterest(interest);
+                console.log("length: " + selectedInterests.length);
+              }}
               style={styles.chip}
             >
               {interest}
@@ -51,11 +56,15 @@ const InterestsScreen = ({ navigation }) => {
         <View margin={50}>
           <SButton
             onPress={() => {
+              if (selectedInterests.length === 0) {
+                console.log("no interests selected");
+                return;
+              }
               fetch(`https://api-soulspark.com/user-profiles/post-attribute`, {
                 method: "POST",
                 body: JSON.stringify({
                   email: encrypEmail,
-                  interests: selectedInterests,
+                  interests: selectedInterests.join(","),
                 }),
                 headers: {
                   "Content-Type": "application/json",
@@ -66,9 +75,11 @@ const InterestsScreen = ({ navigation }) => {
               router.push("MyTabs");
               console.log(selectedInterests);
             }}
-            style={styles.loginButton}
+            disabled={!selectedInterests.length}
           >
-            Continue
+            {selectedInterests.length
+              ? "Continue"
+              : "Select at least one interest"}
           </SButton>
         </View>
       </ScrollView>
@@ -102,6 +113,10 @@ const styles = StyleSheet.create({
   },
   continueButton: {
     marginTop: 32,
+  },
+  buttonDisabled: {
+    backgroundColor: "#aaa",
+    color: "#fff",
   },
 });
 
