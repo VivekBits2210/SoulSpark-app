@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import { Card, IconButton, OverlayLabel } from "../components";
 import styles from "./App.styles";
+import { ActivityIndicator } from "react-native-paper";
 
 const SwipeScreen = () => {
   const router = useRouter();
@@ -52,7 +53,6 @@ const SwipeScreen = () => {
 
   const getBotId = (cardIndex) => {
     const bot_id = photoCards[cardIndex].key;
-    console.log(bot_id);
     fetch(
       `https://api-soulspark.com/chat-module/fetch-chat-history?lines=0&bot_id=${bot_id}&email=${encrypEmail}`
     )
@@ -143,7 +143,16 @@ const SwipeScreen = () => {
             }}
           />
         ) : (
-          <Text>Loading...</Text>
+          <View
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+            }}
+          >
+            <ActivityIndicator size="large" color="#000" />
+          </View>
         )}
       </View>
       <View style={styles.buttonsContainer}>

@@ -9,6 +9,7 @@ import { useRouter } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
 import { encrypEmail, window } from "../constants";
 import { useState } from "react";
+import { ActivityIndicator } from "react-native-paper";
 
 const PAGE_WIDTH = window.width;
 
@@ -75,46 +76,57 @@ export default function ChatSelectionScreen() {
     <View style={{ flex: 1, paddingTop: 10, backgroundColor: "white" }}>
       <StatusBar barStyle="light-content" backgroundColor="black" />
       {chats.length > 0 ? (
-        <Carousel
-          {...baseOptions}
-          loop={false}
-          ref={ref}
-          style={{ width: "100%" }}
-          scrollAnimationDuration={750}
-          data={chats}
-          pagingEnabled={isPagingEnabled}
-          onSnapToItem={(index) => (chatIndex = index)}
-          renderItem={fn}
-        />
+        <>
+          <Carousel
+            {...baseOptions}
+            loop={false}
+            ref={ref}
+            style={{ width: "100%" }}
+            scrollAnimationDuration={750}
+            data={chats}
+            pagingEnabled={isPagingEnabled}
+            onSnapToItem={(index) => (chatIndex = index)}
+            renderItem={fn}
+          />
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              paddingLeft: 50,
+              paddingRight: 50,
+              paddingBottom: 10,
+            }}
+          >
+            <SButton
+              onPress={() => {
+                ref.current?.scrollTo({ count: -1, animated: true });
+              }}
+            >
+              <Icon name={"left"} size={15} color={"white"} />
+            </SButton>
+            <SButton
+              onPress={() => {
+                ref.current?.scrollTo({ count: 1, animated: true });
+              }}
+            >
+              <Icon name={"right"} size={15} color={"white"} />
+            </SButton>
+          </View>
+        </>
       ) : (
-        <Text>Loading...</Text>
+        <View
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100%",
+          }}
+        >
+          <ActivityIndicator size="large" color="#000" />
+        </View>
       )}
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          paddingLeft: 50,
-          paddingRight: 50,
-          paddingBottom: 10,
-        }}
-      >
-        <SButton
-          onPress={() => {
-            ref.current?.scrollTo({ count: -1, animated: true });
-          }}
-        >
-          <Icon name={"left"} size={15} color={"white"} />
-        </SButton>
-        <SButton
-          onPress={() => {
-            ref.current?.scrollTo({ count: 1, animated: true });
-          }}
-        >
-          <Icon name={"right"} size={15} color={"white"} />
-        </SButton>
-      </View>
     </View>
   );
 }
