@@ -1,30 +1,33 @@
 import React from "react";
 import { View } from "react-native";
-import { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import SwipeScreen from "./SwipeScreen";
 import ChatSelectionScreen from "./ChatSelectionScreen";
-import WelcomeCarouselScreen from "./WelcomeCarouselScreen";
-import Coffee from "./Coffee";
+import { useEffect } from "react";
 import { encrypEmail } from "../constants";
+import { useFocusEffect } from "expo-router";
 const Tab = createBottomTabNavigator();
 
+
 const MyTabs = (props) => {
-  // const { numProfiles } = props;
-  // const ref = React.useRef(null);
-  // useEffect(() => {
-  //   fetch(
-  //     `https://api-soulspark.com/chat-module/fetch-selected-profiles?email=${encrypEmail}`
-  //   )
-  //     .then((res) => res.json())
-  //     .then((json) => {
-  //       if (json.data.length !== 0) {
-  //         ref.setTab(1);
-  //       }
-  //       console.log("My tabs: ", json);
-  //     });
-  // }, []);
+  const [tabBarOptions, setTabBarOptions] = React.useState({});
+  const handleChatTabPress = () => {
+    setTabBarOptions({});
+  };
+
+  const getSelectedProfiles = () => {
+    fetch(
+      `https://api-soulspark.com/chat-module/fetch-selected-profiles?email=${encrypEmail}`
+    )
+      .then((res) => res.json())
+      .then((json) => {
+        setTabBarOptions({tabBarBadge:json.data.length});
+      });
+  };
+
+  useFocusEffect(React.useCallback(getSelectedProfiles, []));
+
   return (
     <View
       style={{
@@ -33,7 +36,6 @@ const MyTabs = (props) => {
       }}
     >
       <Tab.Navigator
-        // ref={ref}
         screenOptions={({ route }) => ({
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
@@ -54,23 +56,16 @@ const MyTabs = (props) => {
                 />
               );
             }
-            // else if (route.name == "Welcome") {
-            //   return (
-            //     <Ionicons
-            //       name={focused ? "walk" : "walk-outline"}
-            //       size={size}
-            //       color={color}
-            //     />
-            //   );
-            // }
           },
           tabBarInactiveTintColor: "gray",
           tabBarActiveTintColor: "black",
-        })}
+        })} 
       >
         <Tab.Screen name="Swipe" component={SwipeScreen} />
-        <Tab.Screen name="Chat" component={ChatSelectionScreen} options={{ tabBarBadge: 2 }} />
-        {/* <Tab.Screen name="Welcome" component={WelcomeCarouselScreen} /> */}
+        <Tab.Screen name="Chat" component={ChatSelectionScreen} options={tabBarOptions} listeners={{
+            tabPress: handleChatTabPress,
+          }}
+          />
       </Tab.Navigator>
     </View>
   );

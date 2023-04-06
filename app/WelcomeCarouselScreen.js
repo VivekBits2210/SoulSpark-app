@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Dimensions,
   Image,
-  Button,
   Pressable,
 } from "react-native";
 import Animated, {
@@ -15,7 +14,7 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
-import { useFocusEffect, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { encrypEmail } from "../constants";
 import { SBItem } from "../components/SBItem";
 import { window } from "../constants";
