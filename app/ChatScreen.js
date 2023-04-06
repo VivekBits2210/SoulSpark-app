@@ -62,8 +62,7 @@ function ChatScreen() {
     <View style={{ flex: 1, backgroundColor: "white" }}>
       {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
       <Progress.Bar
-        // progress={0}
-        progress={level < 0 ? 0 : 0.8} //level - Math.floor(level)}
+        progress={level < 0 ? 0 : level - Math.floor(level)}
         color={"rgba(111, 97, 232, 0.6)"}
         borderColor={"rgba(111, 97, 232, 1)"}
         borderRadius={0}

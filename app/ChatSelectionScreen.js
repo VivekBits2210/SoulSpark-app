@@ -32,7 +32,7 @@ export default function ChatSelectionScreen() {
         for (let i = 0; i < json.data.length; i++) {
           let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${json.data[i].bot_id}.jpg`;
           result.push({
-            key: json.data[i].bot_id,
+            myKey: json.data[i].bot_id,
             name: json.data[i].name,
             photo: src,
             index: i,
@@ -59,11 +59,11 @@ export default function ChatSelectionScreen() {
   function fn({ item }) {
     console.log("CURRENT",ref.current?.getCurrentIndex());
     ref.current?.scrollTo({index: 0});
-    console.log("sus: ", item.key);
+    console.log("sus: ", item.myKey);
     return (
       <View style={{ flex: 1, marginLeft: "2.5%" }}>
         <SBItemChatSelect
-          id={item.key}
+          id={item.myKey}
           name={item.name}
           src={item.photo}
           pretty={true}

@@ -21,7 +21,7 @@ export const SBItem = (props) => {
         {isPretty ? (
           <SBImageItem
             text={name}
-            key={key}
+            id={key}
             src={src}
             style={style}
           />
@@ -60,7 +60,7 @@ export const SBItemChatSelect = (props) => {
             <SBImageItem
               // onPress={handleItemClick}
               text={name}
-              key={id}
+              id={id}
               src={src}
               style={style}
             />

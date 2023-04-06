@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
 // ...and so on for all the images
 
-export const SBImageItem = ({ key, style, text, showIndex = true, src }) => {
+export const SBImageItem = ({ id, style, text, showIndex = true, src }) => {
   // console.log(text);
   return (
     <View
@@ -15,7 +15,7 @@ export const SBImageItem = ({ key, style, text, showIndex = true, src }) => {
         },
       ]}
     >
-      {typeof src==="number"?<Image key={key} style={styles.image} source={src} />:<Image key={key} style={styles.image} src={src} />}
+      {typeof src==="number"?<Image key={id} style={styles.image} source={src} />:<Image key={id} style={styles.image} src={src} />}
       {text && <Text
         style={{
           position: "absolute",
