@@ -54,15 +54,6 @@ const Layout = () => {
               </View>
             );
           },
-          headerRight: () => {
-            return (
-              <ScreenHeaderBtn
-                iconUrl={require("../assets/profile.jpg")}
-                dimension="100%"
-                handlePress={() => router.push("/Settings")}
-              />
-            );
-          },
           headerTitle: "",
         }}
         name="index"

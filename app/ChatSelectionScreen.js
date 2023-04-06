@@ -19,7 +19,7 @@ export default function ChatSelectionScreen() {
   // const [isAutoPlay, setIsAutoPlay] = React.useState(false);
   const [isPagingEnabled, setIsPagingEnabled] = React.useState(true);
   const ref = React.useRef(null);
-  const [chats, setChats] = useState([]);
+  const [chats, setChats] = useState(null);
 
   const getSelectedProfiles = () => {
     fetch(
@@ -27,9 +27,8 @@ export default function ChatSelectionScreen() {
     )
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
+        // console.log("JSON",json);
         let result = [];
-        console.log(json.data[0].bot_id);
         for (let i = 0; i < json.data.length; i++) {
           let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${json.data[i].bot_id}.jpg`;
           result.push({
@@ -39,7 +38,6 @@ export default function ChatSelectionScreen() {
             index: i,
           });
         }
-        console.log(result[0].key);
         setChats(result);
       });
   };
@@ -59,7 +57,7 @@ export default function ChatSelectionScreen() {
 
   // let bot = { index: 1, name: "sus", photo: "srrc", key: "skey" };
   function fn({ item }) {
-    console.log("sus: ", item.key);
+    // console.log("sus: ", item.key);
     return (
       <View style={{ flex: 1, marginLeft: "2.5%" }}>
         <SBItemChatSelect
@@ -74,9 +72,18 @@ export default function ChatSelectionScreen() {
 
   return (
     <View style={{ flex: 1, paddingTop: 10, backgroundColor: "white" }}>
-      <StatusBar barStyle="light-content" backgroundColor="black" />
-      {chats.length > 0 ? (
-        <>
+      {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
+      {chats? (
+        chats.length==0? (<View style={{
+          height: "100%",
+          width: "100%",
+          flex: 1,
+          justifyContent: "center",
+          alignItems: 'center'}}>
+            <Text style={{color:"grey", textAlign: 'center'}}> 
+              {"No matches yet"}
+            </Text>
+        </View>) :(<>
           <Carousel
             {...baseOptions}
             loop={false}
@@ -100,6 +107,7 @@ export default function ChatSelectionScreen() {
             }}
           >
             <SButton
+              disabled={false}
               onPress={() => {
                 ref.current?.scrollTo({ count: -1, animated: true });
               }}
@@ -107,6 +115,7 @@ export default function ChatSelectionScreen() {
               <Icon name={"left"} size={15} color={"white"} />
             </SButton>
             <SButton
+              disabled={false}
               onPress={() => {
                 ref.current?.scrollTo({ count: 1, animated: true });
               }}
@@ -114,7 +123,7 @@ export default function ChatSelectionScreen() {
               <Icon name={"right"} size={15} color={"white"} />
             </SButton>
           </View>
-        </>
+        </>)
       ) : (
         <View
           style={{

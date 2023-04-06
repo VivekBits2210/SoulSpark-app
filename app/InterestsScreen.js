@@ -45,7 +45,7 @@ const InterestsScreen = ({ navigation }) => {
               selected={selectedInterests.includes(interest)}
               onPress={() => {
                 toggleInterest(interest);
-                console.log("length: " + selectedInterests.length);
+                // console.log("length: " + selectedInterests.length);
               }}
               style={styles.chip}
             >
@@ -57,7 +57,7 @@ const InterestsScreen = ({ navigation }) => {
           <SButton
             onPress={() => {
               if (selectedInterests.length === 0) {
-                console.log("no interests selected");
+                // console.log("no interests selected");
                 return;
               }
               fetch(`https://api-soulspark.com/user-profiles/post-attribute`, {
@@ -72,8 +72,8 @@ const InterestsScreen = ({ navigation }) => {
               })
                 .then((res) => res.json())
                 .then((json) => console.log(json));
-              router.push("MyTabs");
-              console.log(selectedInterests);
+              router.replace("MyTabs");
+              // console.log(selectedInterests);
             }}
             disabled={!selectedInterests.length}
           >

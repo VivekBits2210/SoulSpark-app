@@ -161,7 +161,7 @@ export default function Customization() {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="black" />
+      {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
       {/* <View style={styles.navBar}> */}
       {/* <Text style={styles.navBarTitle}>Settings</Text> */}
       {/* </View> */}

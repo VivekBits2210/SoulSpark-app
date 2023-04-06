@@ -50,12 +50,11 @@ function WelcomeCarouselScreen({ navigation }) {
     )
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         if (json.age && json.gender) {
           if (!json.interests) {
-            router.push("InterestsScreen");
-          } else router.push("MyTabs");
-        } else router.push("FormScreen");
+            router.replace("InterestsScreen");
+          } else router.replace("MyTabs");
+        } else router.replace("FormScreen");
       });
   };
 
@@ -88,11 +87,12 @@ function WelcomeCarouselScreen({ navigation }) {
           pagingEnabled={pagingEnabled}
           snapEnabled={snapEnabled}
           autoPlay={autoPlay}
-          autoPlayInterval={1500}
+          autoPlayInterval={1200}
           onProgressChange={(_, absoluteProgress) => {
             progressValue.value = absoluteProgress;
             // setCurrentIndex(Math.round(absoluteProgress * (colors.length - 1)));
           }}
+          onSnapToItem={(index) => setCurrentIndex(index)}
           mode="parallax"
           modeConfig={{
             parallaxScrollingScale: 0.9,

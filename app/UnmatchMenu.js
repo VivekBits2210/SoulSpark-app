@@ -34,10 +34,11 @@ const UnmatchMenu = (props) => {
       redirect: "follow",
     })
       .then((res) => res.json())
-      .then((json) => console.log(json));
-    router.back();
-    setConfirmationVisible(false);
-    setUnmatchedVisible(true);
+      .then((json) => {
+        setConfirmationVisible(false);
+        setUnmatchedVisible(true);
+        router.back();
+      });
   };
 
   const hideUnmatched = () => {

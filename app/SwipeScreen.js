@@ -80,7 +80,7 @@ const SwipeScreen = () => {
   const [modalVisible, setModalVisible] = useState(true);
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="black" />
+      {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
       <Modal
         animationOut="fadeOutUp"
         backgroundOpacity="0.7"

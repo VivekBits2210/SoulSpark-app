@@ -149,8 +149,9 @@ const FormScreen = ({ navigation }) => {
 
         <View style={styles.container}>
           <SButton
+            disabled={false}
             onPress={handleSubmit((formValue) => {
-              console.log("Form Value", JSON.stringify(formValue));
+              // console.log("Form Value", JSON.stringify(formValue));
               formValue.email = encrypEmail;
               fetch(`https://api-soulspark.com/user-profiles/post-attribute`, {
                 method: "POST",
@@ -165,7 +166,7 @@ const FormScreen = ({ navigation }) => {
             })}
             style={styles.button}
           >
-            SUBMIT
+            Submit
           </SButton>
         </View>
       </ScrollView>

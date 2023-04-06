@@ -1,6 +1,6 @@
 import React from "react";
-import MyTabs from "./MyTabs";
+import WelcomeCarouselScreen from "./WelcomeCarouselScreen";
 
 export default function Home() {
-  return <MyTabs />;
+  return <WelcomeCarouselScreen />;
 }
