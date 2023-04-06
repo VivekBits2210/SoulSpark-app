@@ -19,10 +19,10 @@ import { encrypEmail } from "../constants";
 import { SBItem } from "../components/SBItem";
 import { window } from "../constants";
 import googleLogo from "../assets/g-logo-black.jpg";
-import m0 from "../assets/carousel-0.jpg";
-import m1 from "../assets/carousel-1.jpg";
-import m2 from "../assets/carousel-2.jpg";
-import m3 from "../assets/splash.jpeg";
+import m0 from "../assets/cropped_smiling_woman.jpg";
+import m1 from "../assets/cropped_journey.jpg";
+import m2 from "../assets/cropped_sad_day.jpg";
+import m3 from "../assets/cropped_zen.jpg";
 
 
 const PAGE_WIDTH = window.width;
@@ -92,7 +92,7 @@ function WelcomeCarouselScreen({ navigation }) {
           pagingEnabled={pagingEnabled}
           snapEnabled={snapEnabled}
           autoPlay={autoPlay}
-          autoPlayInterval={1500}
+          autoPlayInterval={1800}
           onProgressChange={(_, absoluteProgress) => {
             progressValue.value = absoluteProgress;
             // setCurrentIndex(Math.round(absoluteProgress * (colors.length - 1)));
@@ -130,16 +130,24 @@ function WelcomeCarouselScreen({ navigation }) {
           })}
         </View>
       )}
-      <Text style={styles.baseText}>
-        {currentIndex === 0
-          ? "Welcome to our app!"
-          : currentIndex === 1
-          ? "Discover new friends"
-          : currentIndex === 2
-          ? "Find the true spark to your soul"
-          : "Make love with amazing AIs"}
-      </Text>
-
+      <View style={{ height: "10%"}}>
+      <Text style={{
+  fontFamily: "Roboto", // change the font family to your desired system font
+  fontSize: 24, // increase the font size to make the text larger
+  fontWeight: "bold", // add font weight to make the text bold
+  color: "black", // change the color of the text
+  textAlign: "center", // center the text
+}}>
+  {currentIndex === 0
+    ? <Text>Interact with fun <Text style={{color: "purple"}}>personalities</Text></Text>
+    : currentIndex === 1
+    ? <Text>Engage in <Text style={{color: "purple"}}>long-form</Text> conversation</Text> 
+    : currentIndex === 2
+    ? <Text>Find your <Text style={{color: "purple"}}>solace</Text> on bad days</Text>
+    : <Text>Unlock your <Text style={{color: "purple"}}>zen</Text></Text>
+  }
+</Text>
+</View>
       <Pressable
         style={({ pressed }) => [
           styles.customButton,
