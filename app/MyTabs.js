@@ -52,15 +52,16 @@ function MyTabs() {
                   color={color}
                 />
               );
-            } else if (route.name == "Welcome") {
-              return (
-                <Ionicons
-                  name={focused ? "walk" : "walk-outline"}
-                  size={size}
-                  color={color}
-                />
-              );
-            }
+            } 
+            // else if (route.name == "Welcome") {
+            //   return (
+            //     <Ionicons
+            //       name={focused ? "walk" : "walk-outline"}
+            //       size={size}
+            //       color={color}
+            //     />
+            //   );
+            // }
           },
           tabBarInactiveTintColor: "gray",
           tabBarActiveTintColor: "black",
@@ -68,7 +69,7 @@ function MyTabs() {
       >
         <Tab.Screen name="Swipe" component={SwipeScreen} />
         <Tab.Screen name="Chat" component={ChatSelectionScreen} />
-        <Tab.Screen name="Welcome" component={WelcomeCarouselScreen} />
+        {/* <Tab.Screen name="Welcome" component={WelcomeCarouselScreen} /> */}
       </Tab.Navigator>
     </View>
   );

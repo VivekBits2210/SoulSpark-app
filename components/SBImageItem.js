@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
 // ...and so on for all the images
 
 export const SBImageItem = ({ key, style, text, showIndex = true, src }) => {
-  console.log(text);
+  // console.log(text);
   return (
     <View
       style={[
