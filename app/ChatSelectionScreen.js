@@ -57,7 +57,9 @@ export default function ChatSelectionScreen() {
 
   // let bot = { index: 1, name: "sus", photo: "srrc", key: "skey" };
   function fn({ item }) {
-    // console.log("sus: ", item.key);
+    console.log("CURRENT",ref.current?.getCurrentIndex());
+    ref.current?.scrollTo({index: 0});
+    console.log("sus: ", item.key);
     return (
       <View style={{ flex: 1, marginLeft: "2.5%" }}>
         <SBItemChatSelect
@@ -73,57 +75,64 @@ export default function ChatSelectionScreen() {
   return (
     <View style={{ flex: 1, paddingTop: 10, backgroundColor: "white" }}>
       {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
-      {chats? (
-        chats.length==0? (<View style={{
-          height: "100%",
-          width: "100%",
-          flex: 1,
-          justifyContent: "center",
-          alignItems: 'center'}}>
-            <Text style={{color:"grey", textAlign: 'center'}}> 
-              {"No matches yet"}
-            </Text>
-        </View>) :(<>
-          <Carousel
-            {...baseOptions}
-            loop={false}
-            ref={ref}
-            style={{ width: "100%" }}
-            scrollAnimationDuration={750}
-            data={chats}
-            pagingEnabled={isPagingEnabled}
-            onSnapToItem={(index) => (chatIndex = index)}
-            renderItem={fn}
-          />
+      {chats ? (
+        chats.length == 0 ? (
           <View
             style={{
+              height: "100%",
+              width: "100%",
               flex: 1,
-              flexDirection: "row",
+              justifyContent: "center",
               alignItems: "center",
-              justifyContent: "space-between",
-              paddingLeft: 50,
-              paddingRight: 50,
-              paddingBottom: 10,
             }}
           >
-            <SButton
-              disabled={false}
-              onPress={() => {
-                ref.current?.scrollTo({ count: -1, animated: true });
-              }}
-            >
-              <Icon name={"left"} size={15} color={"white"} />
-            </SButton>
-            <SButton
-              disabled={false}
-              onPress={() => {
-                ref.current?.scrollTo({ count: 1, animated: true });
-              }}
-            >
-              <Icon name={"right"} size={15} color={"white"} />
-            </SButton>
+            <Text style={{ color: "grey", textAlign: "center" }}>
+              {"No matches yet"}
+            </Text>
           </View>
-        </>)
+        ) : (
+          <>
+            <Carousel
+              {...baseOptions}
+              loop={false}
+              ref={ref}
+              style={{ width: "100%" }}
+              scrollAnimationDuration={750}
+              data={chats}
+              pagingEnabled={isPagingEnabled}
+              onSnapToItem={(index) => (chatIndex = index)}
+              renderItem={fn}
+            />
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                paddingLeft: 50,
+                paddingRight: 50,
+                paddingBottom: 10,
+              }}
+            >
+              <SButton
+                disabled={false}
+                onPress={() => {
+                  ref.current?.scrollTo({ count: -1, animated: true });
+                }}
+              >
+                <Icon name={"left"} size={15} color={"white"} />
+              </SButton>
+              <SButton
+                disabled={false}
+                onPress={() => {
+                  ref.current?.scrollTo({ count: 1, animated: true });
+                }}
+              >
+                <Icon name={"right"} size={15} color={"white"} />
+              </SButton>
+            </View>
+          </>
+        )
       ) : (
         <View
           style={{

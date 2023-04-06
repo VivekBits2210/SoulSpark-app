@@ -15,9 +15,8 @@ export const SBImageItem = ({ key, style, text, showIndex = true, src }) => {
         },
       ]}
     >
-      {/* <ActivityIndicator size="small" /> */}
-      <Image key={key} style={styles.image} src={src} />
-      <Text
+      {typeof src==="number"?<Image key={key} style={styles.image} source={src} />:<Image key={key} style={styles.image} src={src} />}
+      {text && <Text
         style={{
           position: "absolute",
           color: "white",
@@ -32,7 +31,7 @@ export const SBImageItem = ({ key, style, text, showIndex = true, src }) => {
         }}
       >
         {text}
-      </Text>
+      </Text>}
     </View>
   );
 };

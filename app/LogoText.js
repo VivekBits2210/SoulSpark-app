@@ -1,13 +1,13 @@
 import { useRouter } from "expo-router";
 const LogoText = () => {
-    const router = useRouter();
-    return (
+  const router = useRouter();
+  return (
     <Text
-    style={{ color: "white", fontSize: 14, paddingLeft: 5 }}
-    onPress={() => router.push("/Coffee")}
+      style={{ color: "white", fontSize: 14, paddingLeft: 5 }}
+      onPress={() => router.push("/Coffee")}
     >
-    SoulSpark
+      SoulSpark
     </Text>
-    );
-}
+  );
+};
 export default LogoText;

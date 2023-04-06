@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Dimensions,
   Image,
-  Button,
   Pressable,
 } from "react-native";
 import Animated, {
@@ -15,14 +14,20 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
-import { useFocusEffect, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { encrypEmail } from "../constants";
 import { SBItem } from "../components/SBItem";
 import { window } from "../constants";
 import googleLogo from "../assets/g-logo-black.jpg";
+import m0 from "../assets/carousel-0.jpg";
+import m1 from "../assets/carousel-1.jpg";
+import m2 from "../assets/carousel-2.jpg";
+import m3 from "../assets/splash.jpeg";
+
 
 const PAGE_WIDTH = window.width;
 const colors = ["#26292E", "#899F9C", "#B3C680", "#5C6265"];
+const marketing_images = [m0, m1, m2, m3];
 
 function WelcomeCarouselScreen({ navigation }) {
   const router = useRouter();
@@ -87,7 +92,7 @@ function WelcomeCarouselScreen({ navigation }) {
           pagingEnabled={pagingEnabled}
           snapEnabled={snapEnabled}
           autoPlay={autoPlay}
-          autoPlayInterval={1200}
+          autoPlayInterval={1500}
           onProgressChange={(_, absoluteProgress) => {
             progressValue.value = absoluteProgress;
             // setCurrentIndex(Math.round(absoluteProgress * (colors.length - 1)));
@@ -99,7 +104,7 @@ function WelcomeCarouselScreen({ navigation }) {
             parallaxScrollingOffset: 50,
           }}
           data={colors}
-          renderItem={({ index }) => <SBItem index={index} pretty={false} />}
+          renderItem={({ index }) => <SBItem index={index} src={marketing_images[index]} pretty={true} text="" style={{"height":"100%", "width":"100%"}} />}
         />
       </View>
       {!!progressValue && (
@@ -129,10 +134,10 @@ function WelcomeCarouselScreen({ navigation }) {
         {currentIndex === 0
           ? "Welcome to our app!"
           : currentIndex === 1
-          ? "Discover new colors with us."
+          ? "Discover new friends"
           : currentIndex === 2
-          ? "Get inspired by our color palettes."
-          : "Shop now and save 10%."}
+          ? "Find the true spark to your soul"
+          : "Make love with amazing AIs"}
       </Text>
 
       <Pressable
