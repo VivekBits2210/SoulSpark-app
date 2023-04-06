@@ -87,7 +87,7 @@ function WelcomeCarouselScreen({ navigation }) {
           pagingEnabled={pagingEnabled}
           snapEnabled={snapEnabled}
           autoPlay={autoPlay}
-          autoPlayInterval={1200}
+          autoPlayInterval={1500}
           onProgressChange={(_, absoluteProgress) => {
             progressValue.value = absoluteProgress;
             // setCurrentIndex(Math.round(absoluteProgress * (colors.length - 1)));
@@ -99,7 +99,7 @@ function WelcomeCarouselScreen({ navigation }) {
             parallaxScrollingOffset: 50,
           }}
           data={colors}
-          renderItem={({ index }) => <SBItem index={index} pretty={false} />}
+          renderItem={({ index }) => <SBItem index={index} src={"../assets/0.jpg"} pretty={true} text="" style={{"height":"100%", "width":"100%"}} />}
         />
       </View>
       {!!progressValue && (
@@ -129,10 +129,10 @@ function WelcomeCarouselScreen({ navigation }) {
         {currentIndex === 0
           ? "Welcome to our app!"
           : currentIndex === 1
-          ? "Discover new colors with us."
+          ? "Discover new friends"
           : currentIndex === 2
-          ? "Get inspired by our color palettes."
-          : "Shop now and save 10%."}
+          ? "Find the true spark to your soul"
+          : "Make love with amazing AIs"}
       </Text>
 
       <Pressable

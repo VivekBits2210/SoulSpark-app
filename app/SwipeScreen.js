@@ -20,6 +20,8 @@ const SwipeScreen = () => {
   const router = useRouter();
   const swiperRef = useRef(null);
   const [photoCards, setPhotoCards] = useState([]);
+  const [matchedModalVisible, setMatchedModalVisible] = useState(false);
+  const [limitedModalVisible, setLimitedModalVisible] = useState(false);
 
   const getProfilesForSwipe = (n) => {
     fetch(
@@ -57,7 +59,13 @@ const SwipeScreen = () => {
       `https://api-soulspark.com/chat-module/fetch-chat-history?lines=0&bot_id=${bot_id}&email=${encrypEmail}`
     )
       .then((res) => res.json())
-      .then((json) => console.log(json));
+      .then((json) => {
+        console.log("IMPORTANT ANSWER",json)
+        if(json.bot_id)
+          setMatchedModalVisible(true);
+        if(json.error && json.error==="Already matched with 3")
+          setLimitedModalVisible(true);
+      });
   };
 
   const handleOnSwipedLeft = () => {
@@ -98,6 +106,52 @@ const SwipeScreen = () => {
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>OK</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        animationOut="fadeOutUp"
+        backgroundOpacity="0.7"
+        transparent={true}
+        isVisible={matchedModalVisible}
+        onRequestClose={() => {
+          setModalVisible(!matchedModalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>
+              MATCHED!
+            </Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setMatchedModalVisible(!matchedModalVisible)}
+            >
+              <Text style={styles.textStyle}>OK</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        animationOut="fadeOutUp"
+        backgroundOpacity="0.7"
+        transparent={true}
+        isVisible={limitedModalVisible}
+        onRequestClose={() => {
+          setLimitedModalVisible(!limitedModalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>
+              You have already matched with 3 profiles!
+            </Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setLimitedModalVisible(!limitedModalVisible)}
             >
               <Text style={styles.textStyle}>OK</Text>
             </Pressable>

@@ -10,7 +10,8 @@ import Coffee from "./Coffee";
 import { encrypEmail } from "../constants";
 const Tab = createBottomTabNavigator();
 
-function MyTabs() {
+const MyTabs = (props) => {
+  // const { numProfiles } = props;
   // const ref = React.useRef(null);
   // useEffect(() => {
   //   fetch(
@@ -68,7 +69,7 @@ function MyTabs() {
         })}
       >
         <Tab.Screen name="Swipe" component={SwipeScreen} />
-        <Tab.Screen name="Chat" component={ChatSelectionScreen} />
+        <Tab.Screen name="Chat" component={ChatSelectionScreen} options={{ tabBarBadge: 2 }} />
         {/* <Tab.Screen name="Welcome" component={WelcomeCarouselScreen} /> */}
       </Tab.Navigator>
     </View>
