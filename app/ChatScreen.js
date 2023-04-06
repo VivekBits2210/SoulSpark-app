@@ -27,12 +27,12 @@ function ChatScreen() {
   socket = new WebSocket(`wss://api-soulspark.com/ws/chat/`);
 
   socket.onmessage = (message) => {
-    console.log("message by socket: ", message);
+    console.table("message by socket: ", message);
     let messageData = {
-      author: { id: message.who },
+      author: { id: message.data.who },
       createdAt: Date.now(),
       id: uuidv4(),
-      text: message.message,
+      text: message.data.message,
       type: "text",
     };
     addMessage(messageData);
