@@ -57,9 +57,8 @@ export default function ChatSelectionScreen() {
 
   // let bot = { index: 1, name: "sus", photo: "srrc", key: "skey" };
   function fn({ item }) {
-    console.log("CURRENT",ref.current?.getCurrentIndex());
-    ref.current?.scrollTo({index: 0});
-    console.log("sus: ", item.myKey);
+    console.log("CURRENT", ref.current?.getCurrentIndex());
+    ref.current?.scrollTo({ index: 0 });
     return (
       <View style={{ flex: 1, marginLeft: "2.5%" }}>
         <SBItemChatSelect
