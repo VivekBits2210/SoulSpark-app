@@ -20,22 +20,25 @@ function ChatScreen() {
   const user = { id: email };
 
   const addMessage = (message) => {
-    console.log("message: ", message);
+    console.log("in addMessage, message: ", message);
     setMessages([message, ...messages]);
   };
 
   socket = new WebSocket(`wss://api-soulspark.com/ws/chat/`);
 
   socket.onmessage = (message) => {
-    console.table("message by socket: ", message);
-    let messageData = {
-      author: { id: message.data.who },
-      createdAt: Date.now(),
-      id: uuidv4(),
-      text: message.data.message,
-      type: "text",
-    };
-    addMessage(messageData);
+    data = JSON.parse(message.data)
+    if(data.who!==email){
+      const messageData = {
+        author: { id: data.who },
+        createdAt: Date.now(),
+        id: uuidv4(),
+        text: data.message,
+        type: "text",
+      };
+      console.log("calling addMessage from socket.onmessage now with messageData", data.who)
+      addMessage(messageData);
+    }
   };
 
   function getLevel() {
@@ -57,7 +60,7 @@ function ChatScreen() {
         }
 
         setMessages(result);
-        console.log("message: ", messages);
+        console.log("results from the api: ", result);
         setLevel(json.level);
       });
   }
@@ -70,6 +73,7 @@ function ChatScreen() {
       text: message.text,
       type: "text",
     };
+    console.log("calling addMessage from handleSendPress", message)
     addMessage(textMessage);
     socket.send(
       JSON.stringify({

@@ -232,10 +232,10 @@ const SwipeScreen = () => {
         </TouchableOpacity>
         <TouchableOpacity>
           <IconButton
-            name="heart"
+            name="like1"
             onPress={handleOnSwipedRight}
             color="white"
-            backgroundColor="#4CCC93"
+            backgroundColor="#0071C5"
             size={20}
           />
         </TouchableOpacity>
