@@ -57,9 +57,9 @@ function WelcomeCarouselScreen({ navigation }) {
       .then((json) => {
         if (json.age && json.gender) {
           if (!json.interests) {
-            router.replace("InterestsScreen");
+            router.push("InterestsScreen");
           } else router.replace("MyTabs");
-        } else router.replace("FormScreen");
+        } else router.push("FormScreen");
       });
   };
 
