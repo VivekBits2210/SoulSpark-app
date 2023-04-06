@@ -20,10 +20,23 @@ function ChatScreen() {
   const user = { id: email };
 
   const addMessage = (message) => {
+    console.log("message: ", message);
     setMessages([message, ...messages]);
   };
 
   socket = new WebSocket(`wss://api-soulspark.com/ws/chat/`);
+
+  socket.onmessage = (message) => {
+    console.log("message by socket: ", message);
+    let messageData = {
+      author: { id: message.who },
+      createdAt: Date.now(),
+      id: uuidv4(),
+      text: message.message,
+      type: "text",
+    };
+    addMessage(messageData);
+  };
 
   function getLevel() {
     fetch(
@@ -51,12 +64,20 @@ function ChatScreen() {
   useEffect(getLevel, []);
   const handleSendPress = (message) => {
     const textMessage = {
-      email: email,
+      author: { id: email },
+      createdAt: Date.now(),
+      id: uuidv4(),
       text: message.text,
-      bot_id: id,
+      type: "text",
     };
-    socket.send(JSON.stringify(textMessage));
     addMessage(textMessage);
+    socket.send(
+      JSON.stringify({
+        email: email,
+        bot_id: id,
+        text: message.text,
+      })
+    );
   };
 
   return (
