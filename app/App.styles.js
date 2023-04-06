@@ -20,7 +20,7 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     marginTop: "2%",
-    alignItems: "flex-start", 
+    alignItems: "flex-start",
     // position: "relative",
     // paddingBottom: height*0.01,
     flexDirection: "row",

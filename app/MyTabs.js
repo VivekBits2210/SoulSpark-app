@@ -52,7 +52,7 @@ function MyTabs() {
                   color={color}
                 />
               );
-            } 
+            }
             // else if (route.name == "Welcome") {
             //   return (
             //     <Ionicons
