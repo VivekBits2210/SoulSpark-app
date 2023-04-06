@@ -47,7 +47,11 @@ const InterestsScreen = ({ navigation }) => {
                 toggleInterest(interest);
                 // console.log("length: " + selectedInterests.length);
               }}
-              style={styles.chip}
+              style={[
+                styles.chip,
+                selectedInterests.includes(interest) ? styles.chipSelected : styles.chipUnselected,
+              ]}
+              textStyle={selectedInterests.includes(interest) ? styles.chipTextSelected : styles.chipTextUnselected}
             >
               {interest}
             </Chip>
@@ -111,6 +115,20 @@ const styles = StyleSheet.create({
   chip: {
     margin: 4,
   },
+  chipSelected: {
+    backgroundColor: 'black',
+    borderColor: 'white',
+  },
+  chipUnselected: {
+    backgroundColor: 'white',
+    borderColor: 'black',
+  },
+  chipTextSelected: {
+    color: 'white',
+  },
+  chipTextUnselected: {
+    color: 'black',
+  },  
   continueButton: {
     marginTop: 32,
   },
