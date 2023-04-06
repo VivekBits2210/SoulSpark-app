@@ -63,8 +63,10 @@ const SwipeScreen = () => {
         console.log("IMPORTANT ANSWER",json)
         if(json.bot_id)
           setMatchedModalVisible(true);
-        if(json.error && json.error==="Already matched with 3")
+        if(json.error && json.error==="Already matched with 3"){
           setLimitedModalVisible(true);
+          handleSwipeBack();
+        }
       });
   };
 

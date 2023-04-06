@@ -20,9 +20,15 @@ import { encrypEmail } from "../constants";
 import { SBItem } from "../components/SBItem";
 import { window } from "../constants";
 import googleLogo from "../assets/g-logo-black.jpg";
+import m0 from "../assets/carousel-0.jpg";
+import m1 from "../assets/carousel-1.jpg";
+import m2 from "../assets/carousel-2.jpg";
+import m3 from "../assets/splash.jpeg";
+
 
 const PAGE_WIDTH = window.width;
 const colors = ["#26292E", "#899F9C", "#B3C680", "#5C6265"];
+const marketing_images = [m0, m1, m2, m3];
 
 function WelcomeCarouselScreen({ navigation }) {
   const router = useRouter();
@@ -99,7 +105,7 @@ function WelcomeCarouselScreen({ navigation }) {
             parallaxScrollingOffset: 50,
           }}
           data={colors}
-          renderItem={({ index }) => <SBItem index={index} src={"../assets/0.jpg"} pretty={true} text="" style={{"height":"100%", "width":"100%"}} />}
+          renderItem={({ index }) => <SBItem index={index} src={marketing_images[index]} pretty={true} text="" style={{"height":"100%", "width":"100%"}} />}
         />
       </View>
       {!!progressValue && (

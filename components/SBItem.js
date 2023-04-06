@@ -20,7 +20,6 @@ export const SBItem = (props) => {
       <Animated.View testID={testID} style={{ flex: 1 }} {...animatedViewProps}>
         {isPretty ? (
           <SBImageItem
-            // onPress={handleItemClick}
             text={name}
             key={key}
             src={src}
