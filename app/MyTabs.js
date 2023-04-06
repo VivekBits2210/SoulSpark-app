@@ -22,7 +22,7 @@ const MyTabs = (props) => {
     )
       .then((res) => res.json())
       .then((json) => {
-        setTabBarOptions({tabBarBadge:json.data.length});
+        json.data.length==0?setTabBarOptions({}):setTabBarOptions({tabBarBadge:json.data.length});
       });
   };
 
