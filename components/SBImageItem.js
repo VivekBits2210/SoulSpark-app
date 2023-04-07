@@ -4,8 +4,8 @@ import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
 
 export const SBImageItem = ({ id, style, text, showIndex = true, src }) => {
   // console.log(text);
-  if(typeof src!=="number"){
-      src += '?random_number=10'
+  if (typeof src !== "number") {
+    src += "?random_number=10";
   }
   return (
     <View
@@ -19,26 +19,32 @@ export const SBImageItem = ({ id, style, text, showIndex = true, src }) => {
         },
       ]}
     >
-      {typeof src==="number"?<Image key={id} style={styles.image} source={src} />:<Image key={id} style={styles.image} src={src} />}
-      {text && <Text
-        style={{
-          position: "absolute",
-          color: "white",
-          fontSize: 20,
-          textShadowColor: "black",
-          borderRadius: 5,
-          textShadowRadius: 10,
-          overflow: "hidden",
-          paddingHorizontal: 10,
-          paddingTop: 2,
-          paddingLeft: 10,
-          paddingBottom: 6,
-          alignSelf: "flex-start", // Add alignSelf: 'flex-start'
-          marginTop: "auto", // Add marginTop: 'auto'
-        }}
-      >
-        {text}
-      </Text>}
+      {typeof src === "number" ? (
+        <Image key={id} style={styles.image} source={src} />
+      ) : (
+        <Image key={id} style={styles.image} src={src} />
+      )}
+      {text && (
+        <Text
+          style={{
+            position: "absolute",
+            color: "white",
+            fontSize: 20,
+            textShadowColor: "black",
+            borderRadius: 5,
+            textShadowRadius: 10,
+            overflow: "hidden",
+            paddingHorizontal: 10,
+            paddingTop: 2,
+            paddingLeft: 12,
+            paddingBottom: 12,
+            alignSelf: "flex-start", // Add alignSelf: 'flex-start'
+            marginTop: "auto", // Add marginTop: 'auto'
+          }}
+        >
+          {text}
+        </Text>
+      )}
     </View>
   );
 };
