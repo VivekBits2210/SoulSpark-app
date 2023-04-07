@@ -4,6 +4,9 @@ import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
 
 export const SBImageItem = ({ id, style, text, showIndex = true, src }) => {
   // console.log(text);
+  if(typeof src!=="number"){
+      src += '?random_number=10'
+  }
   return (
     <View
       style={[

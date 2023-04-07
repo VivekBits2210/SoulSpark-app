@@ -27,7 +27,7 @@ export default function ExpandedProfile() {
         <Image
           style={styles.image}
           source={{
-            uri: `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${bot_id}.jpg`,
+            uri: `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${bot_id}.jpg?random_number=10`,
           }}
           resizeMode="cover"
         />

@@ -31,7 +31,7 @@ const SwipeScreen = () => {
       .then((data) => {
         let result = [];
         for (let i = 0; i < data.length; i++) {
-          let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${data[i].bot_id}.jpg`;
+          let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${data[i].bot_id}.jpg?random_number=10`
           result.push({
             name: data[i].name,
             age: data[i].age,
