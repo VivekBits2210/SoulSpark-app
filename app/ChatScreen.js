@@ -6,10 +6,12 @@ import { email, encrypEmail } from "../constants";
 import { useEffect } from "react";
 import { useSearchParams } from "expo-router";
 import { Dimensions } from "react-native";
+import { Input } from "@flyerhq/react-native-chat-ui";
+import { KeyboardAccessoryView } from "@flyerhq/react-native-keyboard-accessory-view";
 const windowWidth = Dimensions.get("window").width;
 
 function ChatScreen() {
-  const { id } = useSearchParams();
+  const { name, id } = useSearchParams();
   const uuidv4 = () => {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
       const r = Math.floor(Math.random() * 16);
@@ -19,6 +21,7 @@ function ChatScreen() {
   };
   const [level, setLevel] = useState(-1);
   const [messages, setMessages] = useState([]);
+  const [isTyping, setIsTyping] = useState(false);
   const user = { id: email };
 
   const addMessage = (message) => {
@@ -101,14 +104,19 @@ function ChatScreen() {
     <View style={{ flex: 1, backgroundColor: "white" }}>
       {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
       <View
-        style={{ backgroundColor:"rgba(60, 52, 151, 1)", display: "flex", flexDirection: "row", maxWidth: windowWidth }}
+        style={{
+          backgroundColor: "rgba(60, 52, 151, 1)",
+          display: "flex",
+          flexDirection: "row",
+          maxWidth: windowWidth,
+        }}
       >
         <Progress.Bar
           progress={!level ? 0 : level < 0 ? 0 : level - Math.floor(level)}
           color={"rgba(111, 97, 232, 0.9)"}
           unfilledColor={"rgba(255, 255, 255, 1)"}
           borderColor={"rgba(60, 52, 151, 1)"}
-          style={{borderBottomRightRadius:10, borderTopRightRadius: 10}}
+          style={{ borderBottomRightRadius: 10, borderTopRightRadius: 10 }}
           height={17}
           width={windowWidth * 0.8}
         />
@@ -125,7 +133,57 @@ function ChatScreen() {
         </View>
       </View>
 
-      <Chat messages={messages} onSendPress={handleSendPress} user={user} />
+      <Chat
+        messages={messages}
+        customBottomComponent={() => {
+          return (
+            <>
+              {messages.length && messages[0].author.id === email ? (
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: 200,
+                    height: 40,
+                    backgroundColor: "white",
+                    marginLeft: 20,
+                    marginBottom: 16,
+                    alignItems: "center",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "Poppins",
+                      fontStyle: "italic",
+                      fontSize: 16,
+                    }}
+                  >
+                    {name} is typing...
+                  </Text>
+                </View>
+              ) : (
+                <></>
+              )}
+              <KeyboardAccessoryView
+                renderScrollable={React.useCallback(() => {
+                  <Text></Text>;
+                })}
+                style={{
+                  backgroundColor: "#000",
+                  borderTopLeftRadius: 20,
+                  borderTopRightRadius: 20,
+                }}
+              >
+                <Input
+                  onSendPress={handleSendPress}
+                  sendButtonVisibilityMode="editing"
+                ></Input>
+              </KeyboardAccessoryView>
+            </>
+          );
+        }}
+        user={user}
+      />
     </View>
   );
 }
