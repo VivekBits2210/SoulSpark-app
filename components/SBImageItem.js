@@ -10,7 +10,8 @@ export const SBImageItem = ({ id, style, text, showIndex = true, src }) => {
         styles.container,
         style,
         {
-          justifyContent: "space-between", // Add justifyContent: 'space-between'
+          flexDirection: "column",
+          justifyContent: "flex-end", // Add justifyContent: 'space-between'
           flex: 1, // Add flex: 1
         },
       ]}
@@ -21,12 +22,15 @@ export const SBImageItem = ({ id, style, text, showIndex = true, src }) => {
           position: "absolute",
           color: "white",
           fontSize: 20,
-          backgroundColor: "#333333",
+          textShadowColor: "black",
           borderRadius: 5,
+          textShadowRadius: 10,
           overflow: "hidden",
           paddingHorizontal: 10,
           paddingTop: 2,
-          alignSelf: "flex-end", // Add alignSelf: 'flex-start'
+          paddingLeft: 10,
+          paddingBottom: 6,
+          alignSelf: "flex-start", // Add alignSelf: 'flex-start'
           marginTop: "auto", // Add marginTop: 'auto'
         }}
       >

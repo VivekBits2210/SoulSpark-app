@@ -48,7 +48,7 @@ export default function ChatSelectionScreen() {
 
   const baseOptions = {
     vertical: false,
-    width: PAGE_WIDTH * 0.83,
+    width: PAGE_WIDTH * 0.93,
     height: window.height * 0.68,
   };
   let chatIndex = 0;
@@ -72,7 +72,7 @@ export default function ChatSelectionScreen() {
   }
 
   return (
-    <View style={{ flex: 1, paddingTop: 10, backgroundColor: "white" }}>
+    <View style={{ flex: 1, paddingTop: 40, backgroundColor: "white" }}>
       {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
       {chats ? (
         chats.length == 0 ? (

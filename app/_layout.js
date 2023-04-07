@@ -23,6 +23,7 @@ const Layout = () => {
     <Stack>
       <Stack.Screen
         options={{
+          headerShown: false,
           headerStyle: { backgroundColor: "black" },
           headerShadowVisible: false,
           headerLeft: () => {
@@ -40,7 +41,7 @@ const Layout = () => {
                   dimension="100%"
                   handlePress={() => router.push("/Coffee")}
                 />
-                <Text
+                {/* <Text
                   style={{
                     color: "white",
                     fontSize: 18,
@@ -50,7 +51,7 @@ const Layout = () => {
                   onPress={() => router.push("/Coffee")}
                 >
                   SoulSpark
-                </Text>
+                </Text> */}
               </View>
             );
           },
@@ -60,8 +61,8 @@ const Layout = () => {
       />
       <Stack.Screen
         options={{
-          headerStyle: { backgroundColor: "black" },
-          headerShadowVisible: false,
+          headerStyle: { backgroundColor: "white" },
+          headerShadowVisible: true,
           headerLeft: () => {
             return (
               <View
@@ -77,7 +78,7 @@ const Layout = () => {
                   dimension="100%"
                   handlePress={() => router.push("/Coffee")}
                 />
-                <Text
+                {/* <Text
                   style={{
                     color: "white",
                     fontSize: 18,
@@ -87,7 +88,7 @@ const Layout = () => {
                   onPress={() => router.push("/Coffee")}
                 >
                   SoulSpark
-                </Text>
+                </Text> */}
               </View>
             );
           },
@@ -261,7 +262,7 @@ const Layout = () => {
                   dimension="100%"
                   handlePress={() => router.push("/Coffee")}
                 />
-                <Text
+                {/* <Text
                   style={{
                     color: "white",
                     fontSize: 18,
@@ -271,7 +272,7 @@ const Layout = () => {
                   onPress={() => router.push("/Coffee")}
                 >
                   SoulSpark
-                </Text>
+                </Text> */}
               </View>
             );
           },
@@ -304,7 +305,7 @@ const Layout = () => {
                   dimension="100%"
                   handlePress={() => router.push("/Coffee")}
                 />
-                <Text
+                {/* <Text
                   style={{
                     color: "white",
                     fontSize: 18,
@@ -314,7 +315,7 @@ const Layout = () => {
                   onPress={() => router.push("/Coffee")}
                 >
                   SoulSpark
-                </Text>
+                </Text> */}
               </View>
             );
           },

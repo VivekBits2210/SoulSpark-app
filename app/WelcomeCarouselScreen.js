@@ -70,7 +70,7 @@ function WelcomeCarouselScreen({ navigation }) {
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#E4E4E4",
-        marginTop: 150,
+        marginTop: 180,
         backgroundColor: "white",
       }}
     >
