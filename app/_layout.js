@@ -37,7 +37,7 @@ const Layout = () => {
                 }}
               >
                 <ScreenHeaderBtn
-                  iconUrl={require("../assets/logo_png.png")}
+                  iconUrl={require("../assets/logo_better.png")}
                   dimension="100%"
                   handlePress={() => router.push("/Coffee")}
                 />
@@ -74,7 +74,7 @@ const Layout = () => {
                 }}
               >
                 <ScreenHeaderBtn
-                  iconUrl={require("../assets/logo_png.png")}
+                  iconUrl={require("../assets/logo_better.png")}
                   dimension="150%"
                   handlePress={() => router.push("/Coffee")}
                 />
@@ -259,7 +259,7 @@ const Layout = () => {
                   style={{ paddingLeft: 0 }}
                 ></HeaderBackButton>
                 <ScreenHeaderBtn
-                  iconUrl={require("../assets/logo_png.png")}
+                  iconUrl={require("../assets/logo_better.png")}
                   dimension="100%"
                   handlePress={() => router.push("/Coffee")}
                 />
@@ -302,7 +302,7 @@ const Layout = () => {
                   style={{ paddingLeft: 0 }}
                 ></HeaderBackButton>
                 <ScreenHeaderBtn
-                  iconUrl={require("../assets/logo_png.png")}
+                  iconUrl={require("../assets/logo_better.png")}
                   dimension="100%"
                   handlePress={() => router.push("/Coffee")}
                 />
