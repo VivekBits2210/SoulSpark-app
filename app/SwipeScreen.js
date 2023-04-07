@@ -20,7 +20,10 @@ const SwipeScreen = () => {
   const router = useRouter();
   const swiperRef = useRef(null);
   const [photoCards, setPhotoCards] = useState([]);
-  const [matchedModalVisible, setMatchedModalVisible] = useState(false);
+  const [matchedModalVisible, setMatchedModalVisible] = useState({
+    visible: false,
+    name: null,
+  });
   const [limitedModalVisible, setLimitedModalVisible] = useState(false);
 
   const getProfilesForSwipe = (n) => {
@@ -31,7 +34,7 @@ const SwipeScreen = () => {
       .then((data) => {
         let result = [];
         for (let i = 0; i < data.length; i++) {
-          let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${data[i].bot_id}.jpg?random_number=10`
+          let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${data[i].bot_id}.jpg?random_number=10`;
           result.push({
             name: data[i].name,
             age: data[i].age,
@@ -60,10 +63,10 @@ const SwipeScreen = () => {
     )
       .then((res) => res.json())
       .then((json) => {
-        console.log("IMPORTANT ANSWER",json)
-        if(json.bot_id)
-          setMatchedModalVisible(true);
-        if(json.error && json.error==="Already matched with 3"){
+        console.log("IMPORTANT ANSWER", json);
+        if (json.bot_id)
+          setMatchedModalVisible({ visible: true, name: json.name });
+        if (json.error && json.error === "Already matched with 3") {
           setLimitedModalVisible(true);
           handleSwipeBack();
         }
@@ -118,19 +121,24 @@ const SwipeScreen = () => {
         animationOut="fadeOutUp"
         backgroundOpacity="0.7"
         transparent={true}
-        isVisible={matchedModalVisible}
+        isVisible={matchedModalVisible.visible}
         onRequestClose={() => {
-          setModalVisible(!matchedModalVisible);
+          setMatchedModalVisible({ visible: false, name: null });
         }}
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>
-              Carla wants to talk to you!
+              {`${matchedModalVisible.name} wants to talk to you!`}
             </Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
-              onPress={() => setMatchedModalVisible(!matchedModalVisible)}
+              onPress={() =>
+                setMatchedModalVisible({
+                  visible: false,
+                  name: null,
+                })
+              }
             >
               <Text style={styles.textStyle}>OK</Text>
             </Pressable>
