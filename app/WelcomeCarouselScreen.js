@@ -104,7 +104,7 @@ function WelcomeCarouselScreen({ navigation }) {
             parallaxScrollingOffset: 50,
           }}
           data={colors}
-          renderItem={({ index }) => <SBItem index={index} src={marketing_images[index]} pretty={true} text="" style={{"height":"100%", "width":"100%"}} />}
+          renderItem={({ index }) => <SBItem index={index} src={marketing_images[index]} pretty={true} text="" style={{"height":"100%", "width":"100%", "padding":10}} />}
         />
       </View>
       {!!progressValue && (

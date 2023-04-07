@@ -32,7 +32,7 @@ function renderHero(name, src) {
 
 export default function Customization() {
   const { name, id } = useSearchParams();
-  const src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${id}.jpg`;
+  const src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${id}.jpg?random_number=10`;
   state = {
     refreshing: false,
   };
