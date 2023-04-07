@@ -24,7 +24,6 @@ import m1 from "../assets/cropped_journey.jpg";
 import m2 from "../assets/cropped_sad_day.jpg";
 import m3 from "../assets/cropped_zen.jpg";
 
-
 const PAGE_WIDTH = window.width;
 const colors = ["#26292E", "#899F9C", "#B3C680", "#5C6265"];
 const marketing_images = [m0, m1, m2, m3];
@@ -69,13 +68,13 @@ function WelcomeCarouselScreen({ navigation }) {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#E4E4E4",
-        marginTop: 180,
+        paddingTop: 180,
         backgroundColor: "white",
       }}
     >
       <View
         style={{
+          backgroundColor: "white",
           justifyContent: "center",
           alignItems: "center",
           height: Dimensions.get("window").height * 0.42, // adjust this value for the desired carousel height
@@ -84,6 +83,7 @@ function WelcomeCarouselScreen({ navigation }) {
         <Carousel
           {...baseOptions}
           style={{
+            backgroundColor: "white",
             width: PAGE_WIDTH,
             height: Dimensions.get("window").height,
             marginTop: window.height * 0.2,
@@ -104,7 +104,15 @@ function WelcomeCarouselScreen({ navigation }) {
             parallaxScrollingOffset: 50,
           }}
           data={colors}
-          renderItem={({ index }) => <SBItem index={index} src={marketing_images[index]} pretty={true} text="" style={{"height":"100%", "width":"100%", "padding":10}} />}
+          renderItem={({ index }) => (
+            <SBItem
+              index={index}
+              src={marketing_images[index]}
+              pretty={true}
+              text=""
+              style={{ height: "100%", width: "100%", padding: 10 }}
+            />
+          )}
         />
       </View>
       {!!progressValue && (
@@ -130,24 +138,38 @@ function WelcomeCarouselScreen({ navigation }) {
           })}
         </View>
       )}
-      <View style={{ height: "10%"}}>
-      <Text style={{
-  fontFamily: "Roboto", // change the font family to your desired system font
-  fontSize: 24, // increase the font size to make the text larger
-  fontWeight: "bold", // add font weight to make the text bold
-  color: "black", // change the color of the text
-  textAlign: "center", // center the text
-}}>
-  {currentIndex === 0
-    ? <Text>Interact with fun <Text style={{color: "purple"}}>personalities</Text></Text>
-    : currentIndex === 1
-    ? <Text>Engage in <Text style={{color: "purple"}}>long-form</Text> conversation</Text> 
-    : currentIndex === 2
-    ? <Text>Find your <Text style={{color: "purple"}}>solace</Text> on bad days</Text>
-    : <Text>Unlock your <Text style={{color: "purple"}}>zen</Text></Text>
-  }
-</Text>
-</View>
+      <View style={{ height: "10%" }}>
+        <Text
+          style={{
+            fontFamily: "Roboto", // change the font family to your desired system font
+            fontSize: 24, // increase the font size to make the text larger
+            fontWeight: "bold", // add font weight to make the text bold
+            color: "black", // change the color of the text
+            textAlign: "center", // center the text
+          }}
+        >
+          {currentIndex === 0 ? (
+            <Text>
+              Interact with fun{" "}
+              <Text style={{ color: "purple" }}>personalities</Text>
+            </Text>
+          ) : currentIndex === 1 ? (
+            <Text>
+              Engage in <Text style={{ color: "purple" }}>long-form</Text>{" "}
+              conversation
+            </Text>
+          ) : currentIndex === 2 ? (
+            <Text>
+              Find your <Text style={{ color: "purple" }}>solace</Text> on bad
+              days
+            </Text>
+          ) : (
+            <Text>
+              Unlock your <Text style={{ color: "purple" }}>zen</Text>
+            </Text>
+          )}
+        </Text>
+      </View>
       <Pressable
         style={({ pressed }) => [
           styles.customButton,

@@ -13,6 +13,17 @@ const styles = StyleSheet.create({
     height: dimension,
     borderRadius: 50,
   }),
+  titleContainer: {
+    display: "flex",
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  titleImage: {
+    height: 60,
+    width: 120,
+    objectFit: "contain",
+  },
 });
 
 export default styles;

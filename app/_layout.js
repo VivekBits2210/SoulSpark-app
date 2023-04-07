@@ -8,6 +8,7 @@ import { Logo } from "./Logo";
 import { LogoText } from "./LogoText";
 import * as SplashScreen from "expo-splash-screen";
 import { encrypEmail } from "../constants";
+import ScreenHeaderTitle from "../components/Header/ScreenHeaderTitle";
 
 SplashScreen.preventAutoHideAsync();
 export const unstable_settings = {
@@ -63,14 +64,20 @@ const Layout = () => {
         options={{
           headerStyle: { backgroundColor: "white" },
           headerShadowVisible: true,
-          headerLeft: () => {
+          headerTitleAlign: "center",
+          header: () => {
             return (
               <View
                 style={{
                   flex: 1,
-                  paddingLeft: 0,
                   flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingHorizontal: 20,
                   alignItems: "center",
+                  backgroundColor: "white",
+                  height: 200,
+                  marginTop: 50,
+                  borderBottomColor: "lightgrey",
                 }}
               >
                 <ScreenHeaderBtn
@@ -78,29 +85,53 @@ const Layout = () => {
                   dimension="150%"
                   handlePress={() => router.push("/Coffee")}
                 />
-                {/* <Text
-                  style={{
-                    color: "white",
-                    fontSize: 18,
-                    paddingLeft: 5,
-                    fontFamily: "Roboto",
-                  }}
-                  onPress={() => router.push("/Coffee")}
-                >
-                  SoulSpark
-                </Text> */}
+                <ScreenHeaderTitle src={require("../assets/logo_text.jpg")} />
+                <ScreenHeaderBtn
+                  iconUrl={require("../assets/profile.jpg")}
+                  dimension="100%"
+                  handlePress={() => router.push("/Settings")}
+                />
               </View>
             );
           },
-          headerRight: () => {
-            return (
-              <ScreenHeaderBtn
-                iconUrl={require("../assets/profile.jpg")}
-                dimension="100%"
-                handlePress={() => router.push("/Settings")}
-              />
-            );
-          },
+          // headerLeft: () => {
+          //   return (
+          //     <View
+          //       style={{
+          //         flex: 1,
+          //         paddingLeft: 0,
+          //         flexDirection: "row",
+          //         alignItems: "center",
+          //       }}
+          //     >
+          //       <ScreenHeaderBtn
+          //         iconUrl={require("../assets/logo_better.png")}
+          //         dimension="150%"
+          //         handlePress={() => router.push("/Coffee")}
+          //       />
+          //       {/* <Text
+          //         style={{
+          //           color: "white",
+          //           fontSize: 18,
+          //           paddingLeft: 5,
+          //           fontFamily: "Roboto",
+          //         }}
+          //         onPress={() => router.push("/Coffee")}
+          //       >
+          //         SoulSpark
+          //       </Text> */}
+          //     </View>
+          //   );
+          // },
+          // headerRight: () => {
+          //   return (
+          //     <ScreenHeaderBtn
+          //       iconUrl={require("../assets/profile.jpg")}
+          //       dimension="100%"
+          //       handlePress={() => router.push("/Settings")}
+          //     />
+          //   );
+          // },
           headerTitle: "",
         }}
         name="MyTabs"
@@ -197,6 +228,7 @@ const Layout = () => {
       />
       <Stack.Screen
         options={{
+          // headerShown: false,
           headerStyle: { backgroundColor: "black" },
           headerShadowVisible: false,
           headerBackTitle: "",
@@ -253,27 +285,16 @@ const Layout = () => {
                   alignItems: "center",
                 }}
               >
-                <HeaderBackButton
-                  tintColor="white"
-                  onPress={() => router.back()}
-                  style={{ paddingLeft: 0 }}
-                ></HeaderBackButton>
-                <ScreenHeaderBtn
-                  iconUrl={require("../assets/logo_better.png")}
-                  dimension="100%"
-                  handlePress={() => router.push("/Coffee")}
-                />
-                {/* <Text
+                <Text
                   style={{
                     color: "white",
                     fontSize: 18,
                     paddingLeft: 5,
                     fontFamily: "Roboto",
                   }}
-                  onPress={() => router.push("/Coffee")}
                 >
-                  SoulSpark
-                </Text> */}
+                  Register
+                </Text>
               </View>
             );
           },
@@ -301,22 +322,16 @@ const Layout = () => {
                   onPress={() => router.back()}
                   style={{ paddingLeft: 0 }}
                 ></HeaderBackButton>
-                <ScreenHeaderBtn
-                  iconUrl={require("../assets/logo_better.png")}
-                  dimension="100%"
-                  handlePress={() => router.push("/Coffee")}
-                />
-                {/* <Text
+                <Text
                   style={{
                     color: "white",
                     fontSize: 18,
                     paddingLeft: 5,
                     fontFamily: "Roboto",
                   }}
-                  onPress={() => router.push("/Coffee")}
                 >
-                  SoulSpark
-                </Text> */}
+                  Interests
+                </Text>
               </View>
             );
           },
