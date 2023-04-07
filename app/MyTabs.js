@@ -62,9 +62,10 @@ const MyTabs = (props) => {
         })} 
       >
         <Tab.Screen name="Swipe" component={SwipeScreen} />
-        <Tab.Screen name="Chat" component={ChatSelectionScreen} options={tabBarOptions} listeners={{
-            tabPress: handleChatTabPress,
-          }}
+        <Tab.Screen name="Chat" component={ChatSelectionScreen} 
+        // options={tabBarOptions} listeners={{
+        //     tabPress: handleChatTabPress,
+        //   }}
           />
       </Tab.Navigator>
     </View>

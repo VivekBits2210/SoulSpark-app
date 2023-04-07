@@ -3,9 +3,10 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 
 import styles from "./screenheader.style";
 
-const ScreenHeaderBtn = ({ iconUrl, dimension, handlePress }) => {
+const ScreenHeaderBtn = ({ iconUrl, dimension, handlePress, backgroundColor }) => {
+  const bcColor = backgroundColor?backgroundColor:"white"
   return (
-    <TouchableOpacity style={styles.btnContainer} onPress={handlePress}>
+    <TouchableOpacity style={[styles.btnContainer,{backgroundColor: bcColor}]} onPress={handlePress}>
       <Image
         source={iconUrl}
         resizeMode="cover"
