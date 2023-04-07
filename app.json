@@ -5,9 +5,9 @@
       "bundler": "metro"
     },
     "splash": {
-      "image": "./assets/logo_png.png",
+      "image": "./assets/logo_better.png",
       "resizeMode": "contain",
-      "backgroundColor": "#000000"
+      "backgroundColor": "#ffffff"
     },
     "name": "soulspark-app",
     "slug": "soulspark-app"
