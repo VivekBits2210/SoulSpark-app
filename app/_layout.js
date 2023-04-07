@@ -18,7 +18,7 @@ const Layout = () => {
   const router = useRouter();
 
   const { name, id } = useSearchParams();
-  let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${id}.jpg`;
+  let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${id}.jpg?random_number=10`;
   return (
     <Stack>
       <Stack.Screen
