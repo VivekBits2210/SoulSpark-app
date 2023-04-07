@@ -110,7 +110,7 @@ export default function ChatSelectionScreen() {
                 justifyContent: "space-between",
                 paddingLeft: 50,
                 paddingRight: 50,
-                paddingBottom: 10,
+                paddingBottom: 20,
               }}
             >
               <SButton

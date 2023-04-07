@@ -51,7 +51,7 @@ export default function ExpandedProfile() {
           </View>
         </View>
       </View>
-      <Text style={{ textAlign: "justify", padding: 30 }}>{bio}</Text>
+      <Text style={{ textAlign: "justify", fontFamily: "Roboto", fontSize: 16, padding: 30, textShadowColor: "grey", textShadowRadius: 2 }}>{bio}</Text>
     </View>
   );
 }

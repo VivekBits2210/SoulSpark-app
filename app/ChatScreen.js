@@ -63,7 +63,7 @@ function ChatScreen() {
 
         setMessages(result);
         console.log("results from the api: ", result);
-        setLevel(json.level);
+        setLevel(json.level?json.level:0);
       });
   }
   useEffect(getLevel, []);
@@ -98,7 +98,7 @@ function ChatScreen() {
     <View style={{ flex: 1, backgroundColor: "white" }}>
       {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
       <Progress.Bar
-        progress={level < 0 ? 0 : level - Math.floor(level)}
+        progress={level? 0 : level < 0 ? 0 : level - Math.floor(level)}
         color={"rgba(111, 97, 232, 0.6)"}
         borderColor={"rgba(111, 97, 232, 1)"}
         borderRadius={0}

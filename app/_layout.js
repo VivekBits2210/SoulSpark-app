@@ -75,7 +75,7 @@ const Layout = () => {
               >
                 <ScreenHeaderBtn
                   iconUrl={require("../assets/logo_png.png")}
-                  dimension="100%"
+                  dimension="150%"
                   handlePress={() => router.push("/Coffee")}
                 />
                 {/* <Text
@@ -128,6 +128,7 @@ const Layout = () => {
                 <TouchableOpacity activeOpacity={0.94}>
                   <ScreenHeaderBtn
                     iconUrl={{ uri: src }}
+                    backgroundColor={"black"}
                     dimension="100%"
                     handlePress={() =>
                       router.push(`/Customization?name=${name}&id=${id}`)
