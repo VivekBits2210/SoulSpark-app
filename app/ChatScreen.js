@@ -55,7 +55,7 @@ function ChatScreen() {
         for (let i = json.history.length - 1; i >= 0; i--) {
           result.push({
             author: { id: json.history[i].who },
-            createdAt: Date.now(),
+            createdAt: new Date(json.history[i].timestamp).getTime(),
             id: uuidv4(),
             text: json.history[i].message,
             type: "text",
