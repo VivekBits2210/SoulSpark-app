@@ -87,7 +87,7 @@ const SwipeScreen = () => {
     }
   };
 
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.container}>
       {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
@@ -126,7 +126,7 @@ const SwipeScreen = () => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>
-              MATCHED!
+              Carla wants to talk to you!
             </Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}

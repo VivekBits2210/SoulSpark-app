@@ -45,7 +45,7 @@ function ChatScreen() {
 
   function getLevel() {
     fetch(
-      `https://api-soulspark.com/chat-module/fetch-chat-history?bot_id=${id}&email=${encrypEmail}`
+      `https://api-soulspark.com/chat-module/fetch-chat-history?bot_id=${id}&email=${encrypEmail}&n=50`
     )
       .then((res) => res.json())
       .then((json) => {
