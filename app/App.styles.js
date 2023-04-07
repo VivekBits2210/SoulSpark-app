@@ -14,7 +14,7 @@ export default StyleSheet.create({
     backgroundColor: "white",
   },
   swiperContainer: {
-    marginTop: -15,
+    marginTop: 20,
     height: height * 0.75,
   },
   buttonsContainer: {

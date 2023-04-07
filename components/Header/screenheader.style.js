@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   titleImage: {
+    marginTop: 10,
     height: 60,
     width: 120,
     objectFit: "contain",
