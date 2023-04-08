@@ -53,7 +53,6 @@ const Layout = () => {
       />
       <Stack.Screen
         options={{
-          headerStyle: { backgroundColor: "white" },
           headerShadowVisible: true,
           headerTitleAlign: "center",
           header: () => {
@@ -65,10 +64,10 @@ const Layout = () => {
                   justifyContent: "space-between",
                   paddingHorizontal: 20,
                   paddingTop: 10,
-                  paddingBottom: 30,
+                  paddingBottom: 35,
                   alignItems: "center",
-                  backgroundColor: "white",
                   marginTop: 50,
+                  borderBottomWidth: 0.5,
                   borderBottomColor: "lightgrey",
                 }}
               >
