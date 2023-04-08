@@ -24,6 +24,7 @@ export const SBItem = (props) => {
             id={key}
             src={src}
             style={style}
+            borderRadius={10}
           />
         ) : (
           <SBTextItem text={name} style={style} />
