@@ -9,7 +9,7 @@ const IconButton = ({ onPress, name, backgroundColor, color, size }) => (
   <TouchableOpacity
     style={[styles.singleButton, { backgroundColor }]}
     onPress={onPress}
-    activeOpacity={0.65}
+    activeOpacity={0.5}
   >
     <Icon name={name} size={size} color={color} />
   </TouchableOpacity>

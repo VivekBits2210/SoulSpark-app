@@ -57,6 +57,7 @@ export default StyleSheet.create({
     elevation: 5,
   },
   button: {
+    width: "40%",
     borderRadius: 20,
     padding: 10,
     elevation: 2,
