@@ -30,7 +30,7 @@ export default function ChatSelectionScreen() {
       .then((json) => {
         // console.log("JSON",json);
         let result = [];
-        for (let i = 0; i < json.data.length; i++) {
+        for (let i = json.data.length - 1; i >=0; i--) {
           let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${json.data[i].bot_id}.jpg?random_number=${random_number}`;
           result.push({
             myKey: json.data[i].bot_id,
