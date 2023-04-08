@@ -7,7 +7,7 @@ import { useSearchParams } from "expo-router";
 import { Logo } from "./Logo";
 import { LogoText } from "./LogoText";
 import * as SplashScreen from "expo-splash-screen";
-import { encrypEmail } from "../constants";
+import { encrypEmail, random_number } from "../constants";
 import ScreenHeaderTitle from "../components/Header/ScreenHeaderTitle";
 
 SplashScreen.preventAutoHideAsync();
@@ -19,7 +19,7 @@ const Layout = () => {
   const router = useRouter();
 
   const { name, id } = useSearchParams();
-  let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${id}.jpg?random_number=10`;
+  let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${id}.jpg?random_number=${random_number}`;
   return (
     <Stack>
       <Stack.Screen

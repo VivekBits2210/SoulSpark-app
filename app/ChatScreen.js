@@ -153,7 +153,7 @@ function ChatScreen() {
                 >
                   <Text
                     style={{
-                      fontFamily: "Poppins",
+                      fontFamily: "Roboto",
                       fontStyle: "italic",
                       fontSize: 16,
                     }}

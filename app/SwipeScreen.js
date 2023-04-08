@@ -3,7 +3,7 @@ import Modal from "react-native-modal";
 import Swiper from "react-native-deck-swiper";
 import { useRouter } from "expo-router";
 import { getProfilesForSwipe } from "./APIFunctions";
-import { encrypEmail } from "../constants";
+import { encrypEmail, random_number } from "../constants";
 
 import {
   View,
@@ -34,7 +34,7 @@ const SwipeScreen = () => {
       .then((data) => {
         let result = [];
         for (let i = 0; i < data.length; i++) {
-          let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${data[i].bot_id}.jpg?random_number=10`;
+          let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${data[i].bot_id}.jpg?random_number=${random_number}`;
           result.push({
             name: data[i].name,
             age: data[i].age,

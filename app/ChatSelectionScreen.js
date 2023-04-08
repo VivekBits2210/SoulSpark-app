@@ -7,7 +7,7 @@ import { SBItem, SBItemChatSelect } from "../components/SBItem";
 import SButton from "../components/SButton";
 import { useRouter } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
-import { encrypEmail, window } from "../constants";
+import { encrypEmail, window, random_number } from "../constants";
 import { useState } from "react";
 import { ActivityIndicator } from "react-native-paper";
 
@@ -30,7 +30,7 @@ export default function ChatSelectionScreen() {
         // console.log("JSON",json);
         let result = [];
         for (let i = 0; i < json.data.length; i++) {
-          let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${json.data[i].bot_id}.jpg?random_number=10`;
+          let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${json.data[i].bot_id}.jpg?random_number=${random_number}`;
           result.push({
             myKey: json.data[i].bot_id,
             name: json.data[i].name,

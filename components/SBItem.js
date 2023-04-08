@@ -43,7 +43,7 @@ export const SBItemChatSelect = (props) => {
   return (
     <TouchableOpacity
       style={{ width: "100%", height: "100%" }}
-      activeOpacity={0.94}
+      activeOpacity={0.7}
       onPress={handleItemClick}
     >
       <LongPressGestureHandler

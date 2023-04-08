@@ -160,8 +160,7 @@ function WelcomeCarouselScreen({ navigation }) {
             </Text>
           ) : currentIndex === 2 ? (
             <Text>
-              Find your <Text style={{ color: "purple" }}>solace</Text> on bad
-              days
+              Find <Text style={{ color: "purple" }}>solace</Text> during difficult days
             </Text>
           ) : (
             <Text>
