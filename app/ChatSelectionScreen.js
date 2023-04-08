@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StatusBar, StyleSheet } from "react-nativ
 import Carousel from "react-native-reanimated-carousel";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useEffect } from "react";
-import { SBItem, SBItemChatSelect } from "../components/SBItem";
+import { SBItemChatSelect } from "../components/SBItem";
 import SButton from "../components/SButton";
 import { useRouter } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";

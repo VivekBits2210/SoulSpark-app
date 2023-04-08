@@ -3,8 +3,9 @@ import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
 import { random_number } from "../constants";
 // ...and so on for all the images
 
-export const SBImageItem = ({ id, style, text, showIndex = true, src }) => {
+export const SBImageItem = ({ id, style, text, showIndex = true, src, borderRadius }) => {
   // console.log(text);
+  const borderStyle = borderRadius?{"borderRadius":borderRadius}:{}
   if (typeof src !== "number") {
     src += `?random_number=${random_number}`;
   }
@@ -21,7 +22,7 @@ export const SBImageItem = ({ id, style, text, showIndex = true, src }) => {
       ]}
     >
       {typeof src === "number" ? (
-        <Image key={id} style={styles.image} source={src} />
+        <Image key={id} style={[styles.image,borderStyle]} source={src} />
       ) : (
         <Image key={id} style={styles.image} src={src} />
       )}
