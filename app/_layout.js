@@ -73,9 +73,10 @@ const Layout = () => {
                   flexDirection: "row",
                   justifyContent: "space-between",
                   paddingHorizontal: 20,
+                  paddingTop: 10,
+                  paddingBottom: 30,
                   alignItems: "center",
                   backgroundColor: "white",
-                  height: 200,
                   marginTop: 50,
                   borderBottomColor: "lightgrey",
                 }}
@@ -94,44 +95,6 @@ const Layout = () => {
               </View>
             );
           },
-          // headerLeft: () => {
-          //   return (
-          //     <View
-          //       style={{
-          //         flex: 1,
-          //         paddingLeft: 0,
-          //         flexDirection: "row",
-          //         alignItems: "center",
-          //       }}
-          //     >
-          //       <ScreenHeaderBtn
-          //         iconUrl={require("../assets/logo_better.png")}
-          //         dimension="150%"
-          //         handlePress={() => router.push("/Coffee")}
-          //       />
-          //       {/* <Text
-          //         style={{
-          //           color: "white",
-          //           fontSize: 18,
-          //           paddingLeft: 5,
-          //           fontFamily: "Roboto",
-          //         }}
-          //         onPress={() => router.push("/Coffee")}
-          //       >
-          //         SoulSpark
-          //       </Text> */}
-          //     </View>
-          //   );
-          // },
-          // headerRight: () => {
-          //   return (
-          //     <ScreenHeaderBtn
-          //       iconUrl={require("../assets/profile.jpg")}
-          //       dimension="100%"
-          //       handlePress={() => router.push("/Settings")}
-          //     />
-          //   );
-          // },
           headerTitle: "",
         }}
         name="MyTabs"

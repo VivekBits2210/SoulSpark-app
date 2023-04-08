@@ -42,12 +42,12 @@ export default function ExpandedProfile() {
             <TouchableOpacity
               style={[
                 styles.singleButton,
-                { backgroundColor: "rgba(255, 255, 255, 0.85)" },
+                { backgroundColor: "black" },
               ]}
               onPress={handleBackPress}
               activeOpacity={0.65}
             >
-              <Icon name={"up"} size={10} color={"black"} />
+              <Icon name={"caretup"} size={20} color={"white"} />
             </TouchableOpacity>
           </View>
         </View>
@@ -129,15 +129,17 @@ const styles = StyleSheet.create({
   singleButton: {
     backgroundColor: "transparent",
     borderRadius: 50,
+    borderWidth: 1.5,
+    borderColor: "white",
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: "black",
+    shadowColor: "white",
     shadowOffset: {
-      width: 0,
-      height: 2,
+      width: 1,
+      height: 4,
     },
-    shadowRadius: 6,
-    shadowOpacity: 0.3,
+    shadowRadius: 9,
+    shadowOpacity: 0.4,
     elevation: 2,
     padding: 15,
   },

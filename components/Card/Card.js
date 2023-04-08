@@ -29,11 +29,11 @@ const Card = ({ card }) => {
         </View>
         <View style={styles.buttonContainer}>
           <IconButton
-            name="down"
+            name="caretdown"
             onPress={handlePress}
-            color="black"
-            backgroundColor="rgba(255, 255, 255, 0.85)"
-            size={10}
+            color="white"
+            backgroundColor="black"
+            size={17}
           />
         </View>
       </View>
