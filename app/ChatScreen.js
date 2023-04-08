@@ -155,7 +155,7 @@ function ChatScreen() {
                     style={{
                       fontFamily: "Roboto",
                       fontStyle: "italic",
-                      fontSize: 16,
+                      fontSize: 11,
                     }}
                   >
                     {name} is typing...
