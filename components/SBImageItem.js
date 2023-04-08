@@ -1,11 +1,12 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
+import { random_number } from "../constants";
 // ...and so on for all the images
 
 export const SBImageItem = ({ id, style, text, showIndex = true, src }) => {
   // console.log(text);
   if (typeof src !== "number") {
-    src += "?random_number=10";
+    src += `?random_number=${random_number}`;
   }
   return (
     <View
