@@ -24,35 +24,28 @@ const Layout = () => {
     <Stack>
       <Stack.Screen
         options={{
-          headerShown: false,
-          headerStyle: { backgroundColor: "black" },
+          headerShown: true,
+          headerStyle: { backgroundColor: "white" },
           headerShadowVisible: false,
           headerLeft: () => {
             return (
               <View
                 style={{
                   flex: 1,
-                  paddingLeft: 0,
                   flexDirection: "row",
                   alignItems: "center",
+                  backgroundColor: "white",
+                  borderBottomColor: "lightgrey",
                 }}
               >
                 <ScreenHeaderBtn
                   iconUrl={require("../assets/logo_better.png")}
-                  dimension="100%"
+                  dimension="150%"
                   handlePress={() => router.push("/Coffee")}
                 />
-                {/* <Text
-                  style={{
-                    color: "white",
-                    fontSize: 18,
-                    paddingLeft: 5,
-                    fontFamily: "Roboto",
-                  }}
-                  onPress={() => router.push("/Coffee")}
-                >
-                  SoulSpark
-                </Text> */}
+                <View style={{paddingLeft:"18%"}}>
+                <ScreenHeaderTitle src={require("../assets/logo_text.jpg")} />
+                </View>
               </View>
             );
           },

@@ -68,7 +68,7 @@ function WelcomeCarouselScreen({ navigation }) {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        paddingTop: 180,
+        paddingTop: 140,
         backgroundColor: "white",
       }}
     >
@@ -160,7 +160,7 @@ function WelcomeCarouselScreen({ navigation }) {
             </Text>
           ) : currentIndex === 2 ? (
             <Text>
-              Find <Text style={{ color: "purple" }}>solace</Text> during difficult days
+              Find <Text style={{ color: "purple" }}>solace</Text> on difficult days
             </Text>
           ) : (
             <Text>
