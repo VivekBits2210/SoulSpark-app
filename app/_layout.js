@@ -4,8 +4,6 @@ import { Stack, useRouter } from "expo-router";
 import { HeaderBackButton } from "react-navigation-stack";
 import UnmatchMenu from "./UnmatchMenu";
 import { useSearchParams } from "expo-router";
-import { Logo } from "./Logo";
-import { LogoText } from "./LogoText";
 import * as SplashScreen from "expo-splash-screen";
 import { encrypEmail, random_number } from "../constants";
 import ScreenHeaderTitle from "../components/Header/ScreenHeaderTitle";
