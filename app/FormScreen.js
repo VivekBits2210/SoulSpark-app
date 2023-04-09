@@ -42,7 +42,7 @@ const listData = [
   { label: "Female", value: "F" },
 ];
 
-const ages = [""];
+const ages = [];
 for (let i = 18; i <= 150; i++) {
   ages[i] = "" + i;
 }

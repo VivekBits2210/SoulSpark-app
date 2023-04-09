@@ -41,8 +41,8 @@ const Layout = () => {
                   dimension="150%"
                   handlePress={() => router.push("/Coffee")}
                 />
-                <View style={{paddingLeft:"18%"}}>
-                <ScreenHeaderTitle src={require("../assets/logo_text.jpg")} />
+                <View style={{ paddingLeft: "18%" }}>
+                  <ScreenHeaderTitle src={require("../assets/logo_text.jpg")} />
                 </View>
               </View>
             );
@@ -178,6 +178,65 @@ const Layout = () => {
           headerTitle: "",
         }}
         name="Settings"
+      />
+      <Stack.Screen
+        options={{
+          headerStyle: { backgroundColor: "black" },
+          headerShadowVisible: false,
+          headerBackTitle: "",
+          headerLeft: () => {
+            return (
+              <View
+                style={{
+                  flex: 1,
+                  paddingLeft: 0,
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <HeaderBackButton
+                  tintColor="white"
+                  onPress={() => router.back()}
+                  style={{ paddingLeft: 0 }}
+                ></HeaderBackButton>
+                <Text
+                  style={{
+                    color: "white",
+                    alignSelf: "center",
+                    fontSize: 22,
+                    paddingLeft: 10,
+                  }}
+                >
+                  Profile
+                </Text>
+              </View>
+            );
+          },
+          headerRight: () => {
+            return (
+              <TouchableOpacity
+                activeOpacity={0.94}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: 10,
+                  borderRadius: 20,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                  }}
+                >
+                  SAVE
+                </Text>
+              </TouchableOpacity>
+            );
+          },
+          headerTitle: "",
+        }}
+        name="Profile"
       />
       <Stack.Screen
         options={{
