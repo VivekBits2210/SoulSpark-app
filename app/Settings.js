@@ -20,21 +20,12 @@ import {
 import { useState } from "react";
 import Modal from "react-native-modal";
 import { Pressable } from "react-native";
+import { useRouter } from "expo-router";
 
 const fontFamily = Platform.OS === "ios" ? "Avenir" : "sans-serif";
 
-const renderHero = () => (
-  <View style={styles.heroContainer}>
-    <Image source={require("../assets/profile.jpg")} style={styles.heroImage} />
-    <View style={{ flex: 1 }}>
-      <Text style={styles.heroTitle}>Vivek Nayak</Text>
-      <Text style={styles.heroSubtitle}>viveknayak2210@gmail.com</Text>
-    </View>
-    <Chevron />
-  </View>
-);
-
 export default function Settings() {
+  const router = useRouter();
   const [showContactModal, setShowContactModal] = useState(false);
   const [showCrisisModal, setShowCrisisModal] = useState(false);
   const [showLearnModal, setShowLearnModal] = useState(false);
@@ -45,7 +36,29 @@ export default function Settings() {
   };
 
   settingsData = [
-    { type: "CUSTOM_VIEW", key: "hero", render: renderHero },
+    {
+      type: "CUSTOM_VIEW",
+      key: "hero",
+      render: () => (
+        <Pressable
+          style={styles.heroContainer}
+          onPress={() => {
+            console.log("pressed");
+            router.push("Profile");
+          }}
+        >
+          <Image
+            source={require("../assets/profile.jpg")}
+            style={styles.heroImage}
+          />
+          <View style={{ flex: 1 }}>
+            <Text style={styles.heroTitle}>Vivek Nayak</Text>
+            <Text style={styles.heroSubtitle}>viveknayak2210@gmail.com</Text>
+          </View>
+          <Chevron />
+        </Pressable>
+      ),
+    },
     {
       type: "SECTION",
       rows: [
