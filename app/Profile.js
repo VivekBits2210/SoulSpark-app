@@ -1,15 +1,14 @@
 import { View, Text } from "react-native-animatable";
-import { ScrollView, TextInput } from "react-native-gesture-handler";
+import {  TextInput } from "react-native-gesture-handler";
 import { useForm, Controller } from "react-hook-form";
 import { Picker } from "@react-native-picker/picker";
 import { Pressable, StyleSheet } from "react-native";
 import { Chip } from "react-native-paper";
 import { useState } from "react";
 import React from "react";
-import SearchableDropdown from "react-native-searchable-dropdown";
 
 const ages = [];
-for (let i = 18; i <= 150; i++) {
+for (let i = 18; i <= 60; i++) {
   ages[i] = "" + i;
 }
 
@@ -133,7 +132,7 @@ const Profile = () => {
         count={3}
         customName="Select your preference"
       />
-      <View style={styles.chipContainer}>
+      {/* <View style={styles.chipContainer}>
         {interests.map((interest, index) => (
           <Chip
             key={index}
@@ -158,7 +157,7 @@ const Profile = () => {
             {interest}
           </Chip>
         ))}
-      </View>
+      </View> */}
       {/* <SearchableDropdown
         onItemSelect={(item) => {
           console.log(item);

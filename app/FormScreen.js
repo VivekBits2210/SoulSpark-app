@@ -43,7 +43,7 @@ const listData = [
 ];
 
 const ages = [];
-for (let i = 18; i <= 150; i++) {
+for (let i = 18; i <60; i++) {
   ages[i] = "" + i;
 }
 
