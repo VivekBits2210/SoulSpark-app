@@ -9,6 +9,7 @@ import {
   RefreshControl,
   Switch,
   Touchable,
+  Linking,
 } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
 import {
@@ -35,7 +36,7 @@ const renderHero = () => (
 
 export default function Settings() {
   const [showContactModal, setShowContactModal] = useState(false);
-  const [showFAQModal, setShowFAQModal] = useState(false);
+  const [showCrisisModal, setShowCrisisModal] = useState(false);
   const [showLearnModal, setShowLearnModal] = useState(false);
   const [showDeleteChatModal, setShowDeleteChatModal] = useState(false);
   const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
@@ -47,29 +48,56 @@ export default function Settings() {
     { type: "CUSTOM_VIEW", key: "hero", render: renderHero },
     {
       type: "SECTION",
-      header: "My Section".toUpperCase(),
       rows: [
+        {
+          title: "Background Music",
+          renderAccessory: () => <Switch value={true} />,
+        },
+        {
+          title: "Sounds",
+          renderAccessory: () => <Switch value={true} />,
+        },
+      ],
+    },
+    {
+      type: "SECTION",
+      header: "Help".toUpperCase(),
+      rows: [
+        {
+          title: "I'm in Crisis!",
+          showDisclosureIndicator: true,
+          titleStyle: {
+            color: "red",
+          },
+          onPress: () => {
+            setShowCrisisModal(true);
+          },
+        },
         {
           title: "Contact Support",
           showDisclosureIndicator: true,
           onPress: () => {
-            console.log("Contact Support");
             setShowContactModal(true);
           },
+        },
+        {
+          title: "Rate Us",
+          onPress: () => {
+            Linking.openURL("https://www.google.com");
+          },
+          showDisclosureIndicator: true,
         },
         {
           title: "FAQ",
           showDisclosureIndicator: true,
           onPress: () => {
-            console.log("FAQ");
-            setShowFAQModal(true);
+            Linking.openURL("https://www.google.com");
           },
         },
         {
-          title: "Learn mode about AI",
+          title: "Learn More about AI",
           showDisclosureIndicator: true,
           onPress: () => {
-            console.log("Learn mode about AI");
             setShowLearnModal(true);
           },
         },
@@ -81,9 +109,15 @@ export default function Settings() {
       rows: [
         {
           title: "Terms of Service",
+          onPress: () => {
+            Linking.openURL("https://www.google.com");
+          },
         },
         {
           title: "Privacy Policy",
+          onPress: () => {
+            Linking.openURL("https://www.google.com");
+          },
         },
       ],
     },
@@ -98,14 +132,12 @@ export default function Settings() {
         {
           title: "Delete chat history",
           onPress: () => {
-            console.log("Delete chat history");
             setShowDeleteChatModal(true);
           },
         },
         {
           title: "Delete account",
           onPress: () => {
-            console.log("Delete account");
             setShowDeleteAccountModal(true);
           },
         },
@@ -197,20 +229,20 @@ export default function Settings() {
         animationOut="fadeOutUp"
         backgroundOpacity="0.7"
         transparent={true}
-        isVisible={showFAQModal}
+        isVisible={showCrisisModal}
         onRequestClose={() => {
-          setShowFAQModal(!showFAQModal);
+          setShowCrisisModal(!showCrisisModal);
         }}
       >
         <View style={styles.modalView}>
-          <Text>FAQ</Text>
+          <Text>Crisis</Text>
           <Pressable
             style={{
               backgroundColor: "black",
               padding: 10,
               borderRadius: 50,
             }}
-            onPress={() => setShowFAQModal(!showFAQModal)}
+            onPress={() => setShowCrisisModal(!showCrisisModal)}
           >
             <Text
               style={{
