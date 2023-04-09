@@ -8,6 +8,7 @@ import {
   Platform,
   RefreshControl,
   Switch,
+  Touchable,
 } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
 import {
@@ -15,6 +16,9 @@ import {
   SettingsData,
   Chevron,
 } from "react-native-settings-screen";
+import { useState } from "react";
+import Modal from "react-native-modal";
+import { Pressable } from "react-native";
 
 const fontFamily = Platform.OS === "ios" ? "Avenir" : "sans-serif";
 
@@ -30,6 +34,11 @@ const renderHero = () => (
 );
 
 export default function Settings() {
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [showFAQModal, setShowFAQModal] = useState(false);
+  const [showLearnModal, setShowLearnModal] = useState(false);
+  const [showDeleteChatModal, setShowDeleteChatModal] = useState(false);
+  const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
   state = {
     refreshing: false,
   };
@@ -39,98 +48,69 @@ export default function Settings() {
     {
       type: "SECTION",
       header: "My Section".toUpperCase(),
-      footer:
-        "Donec sed odio dui. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.",
       rows: [
         {
-          title: "A row",
+          title: "Contact Support",
           showDisclosureIndicator: true,
+          onPress: () => {
+            console.log("Contact Support");
+            setShowContactModal(true);
+          },
         },
-        { title: "A non-tappable row" },
         {
-          title: "This row has a",
-          subtitle: "Subtitle",
+          title: "FAQ",
           showDisclosureIndicator: true,
+          onPress: () => {
+            console.log("FAQ");
+            setShowFAQModal(true);
+          },
         },
         {
-          title: "Long title. So long long long long long long long",
-          subtitle:
-            "And so is the subtitle. Even longer longer longer longer longer",
-        },
-        {
-          title: "Switch",
-          renderAccessory: () => <Switch value onValueChange={() => {}} />,
-        },
-        {
-          title: "Text",
-          renderAccessory: () => (
-            <Text style={{ color: "#999", marginRight: 6, fontSize: 18 }}>
-              Maybe
-            </Text>
-          ),
-        },
-        {
-          title: "Custom view",
-          renderAccessory: () => (
-            <View
-              style={{
-                width: 30,
-                height: 30,
-                backgroundColor: "blue",
-              }}
-            />
-          ),
+          title: "Learn mode about AI",
           showDisclosureIndicator: true,
+          onPress: () => {
+            console.log("Learn mode about AI");
+            setShowLearnModal(true);
+          },
         },
       ],
     },
     {
       type: "SECTION",
-      header: "My Other Section".toUpperCase(),
+      header: "Legal".toUpperCase(),
       rows: [
         {
-          title: "Dolor Nullam",
-          showDisclosureIndicator: true,
+          title: "Terms of Service",
         },
         {
-          title: "Nulla vitae elit libero",
-          renderAccessory: () => (
-            <Text style={{ color: "#999", marginRight: 6, fontSize: 18 }}>
-              Dapibus
-            </Text>
-          ),
-        },
-        {
-          title: "Ipsum Lorem Venenatis",
-          subtitle: "Vestibulum Inceptos Fusce Justo",
-          renderAccessory: () => (
-            <Text style={{ color: "#999", marginRight: 6, fontSize: 18 }}>
-              Yes
-            </Text>
-          ),
-          showDisclosureIndicator: true,
-        },
-        {
-          title: "Cras Euismod",
-          renderAccessory: () => (
-            <Icon
-              style={{ marginTop: 3, marginRight: 6 }}
-              name="colours"
-              size={32}
-              color="black"
-            />
-          ),
-          showDisclosureIndicator: true,
+          title: "Privacy Policy",
         },
       ],
     },
     {
       type: "SECTION",
-      header: "My Third Section".toUpperCase(),
+      header: "Other".toUpperCase(),
       rows: [
         {
-          title: "Different title style",
+          title: "Desktop Version",
           showDisclosureIndicator: true,
+        },
+        {
+          title: "Delete chat history",
+          onPress: () => {
+            console.log("Delete chat history");
+            setShowDeleteChatModal(true);
+          },
+        },
+        {
+          title: "Delete account",
+          onPress: () => {
+            console.log("Delete account");
+            setShowDeleteAccountModal(true);
+          },
+        },
+        {
+          title: "Log out",
           titleStyle: {
             color: "red",
           },
@@ -162,6 +142,195 @@ export default function Settings() {
       {/* <View style={styles.navBar}> */}
       {/* <Text style={styles.navBarTitle}>Settings</Text> */}
       {/* </View> */}
+      <Modal
+        animationOut="fadeOutUp"
+        backgroundOpacity="0.7"
+        transparent={true}
+        isVisible={showDeleteAccountModal}
+        onRequestClose={() => {
+          setShowDeleteAccountModal(!showDeleteAccountModal);
+        }}
+      >
+        <View style={styles.modalView}>
+          <Text>Are you sure you want to delete your account ?</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 30,
+            }}
+          >
+            <Pressable
+              style={{
+                backgroundColor: "red",
+                padding: 10,
+                borderRadius: 50,
+              }}
+            >
+              <Text
+                style={{
+                  color: "white",
+                }}
+              >
+                Delete
+              </Text>
+            </Pressable>
+            <Pressable
+              style={{
+                backgroundColor: "black",
+                padding: 10,
+                borderRadius: 20,
+              }}
+              onPress={() => setShowDeleteAccountModal(!showDeleteAccountModal)}
+            >
+              <Text
+                style={{
+                  color: "white",
+                }}
+              >
+                Cancel
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        animationOut="fadeOutUp"
+        backgroundOpacity="0.7"
+        transparent={true}
+        isVisible={showFAQModal}
+        onRequestClose={() => {
+          setShowFAQModal(!showFAQModal);
+        }}
+      >
+        <View style={styles.modalView}>
+          <Text>FAQ</Text>
+          <Pressable
+            style={{
+              backgroundColor: "black",
+              padding: 10,
+              borderRadius: 50,
+            }}
+            onPress={() => setShowFAQModal(!showFAQModal)}
+          >
+            <Text
+              style={{
+                color: "white",
+              }}
+            >
+              OK
+            </Text>
+          </Pressable>
+        </View>
+      </Modal>
+      <Modal
+        animationOut="fadeOutUp"
+        backgroundOpacity="0.7"
+        transparent={true}
+        isVisible={showLearnModal}
+        onRequestClose={() => {
+          setShowLearnModal(!showLearnModal);
+        }}
+      >
+        <View style={styles.modalView}>
+          <Text>Learn more</Text>
+          <Pressable
+            style={{
+              backgroundColor: "black",
+              padding: 10,
+              borderRadius: 50,
+            }}
+            onPress={() => setShowLearnModal(!showLearnModal)}
+          >
+            <Text
+              style={{
+                color: "white",
+              }}
+            >
+              OK
+            </Text>
+          </Pressable>
+        </View>
+      </Modal>
+      <Modal
+        animationOut="fadeOutUp"
+        backgroundOpacity="0.7"
+        transparent={true}
+        isVisible={showDeleteChatModal}
+        onRequestClose={() => {
+          setShowDeleteChatModal(!showDeleteChatModal);
+        }}
+      >
+        <View style={styles.modalView}>
+          <Text>Are you sure you want to delete your Chats ?</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 30,
+            }}
+          >
+            <Pressable
+              style={{
+                backgroundColor: "red",
+                padding: 10,
+                borderRadius: 50,
+              }}
+            >
+              <Text
+                style={{
+                  color: "white",
+                }}
+              >
+                Delete
+              </Text>
+            </Pressable>
+            <Pressable
+              style={{
+                backgroundColor: "black",
+                padding: 10,
+                borderRadius: 20,
+              }}
+              onPress={() => setShowDeleteChatModal(!showDeleteChatModal)}
+            >
+              <Text
+                style={{
+                  color: "white",
+                }}
+              >
+                Cancel
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        animationOut="fadeOutUp"
+        backgroundOpacity="0.7"
+        transparent={true}
+        isVisible={showContactModal}
+        onRequestClose={() => {
+          setShowContactModal(!showContactModal);
+        }}
+      >
+        <View style={styles.modalView}>
+          <Text>Contact us at</Text>
+          <Pressable
+            style={{
+              backgroundColor: "black",
+              padding: 10,
+              borderRadius: 50,
+            }}
+            onPress={() => setShowContactModal(!showContactModal)}
+          >
+            <Text
+              style={{
+                color: "white",
+              }}
+            >
+              OK
+            </Text>
+          </Pressable>
+        </View>
+      </Modal>
       <SettingsScreen
         data={this.settingsData}
         globalTextStyle={{ fontFamily }}
@@ -231,5 +400,14 @@ const styles = StyleSheet.create({
     fontFamily,
     color: "#999",
     fontSize: 14,
+  },
+  modalView: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+    padding: 30,
+    borderRadius: 25,
+    gap: 20,
   },
 });
