@@ -26,7 +26,7 @@ const MyTabs = (props) => {
       });
   };
 
-  useFocusEffect(React.useCallback(getSelectedProfiles, []));
+  // useFocusEffect(React.useCallback(getSelectedProfiles, []));
 
   return (
     <View
@@ -61,11 +61,14 @@ const MyTabs = (props) => {
           tabBarActiveTintColor: "black",
         })} 
       >
-        <Tab.Screen name="Swipe" component={SwipeScreen} />
-        <Tab.Screen name="Chat" component={ChatSelectionScreen} 
-        // options={tabBarOptions} listeners={{
-        //     tabPress: handleChatTabPress,
-        //   }}
+        <Tab.Screen name="Swipe" component={SwipeScreen} initialParams={{"getSelectedProfiles":getSelectedProfiles}}
+        listeners={{
+          tabPress: getSelectedProfiles,
+        }} />
+        <Tab.Screen name="Chat" component={ChatSelectionScreen}
+        options={tabBarOptions} listeners={{
+            tabPress: handleChatTabPress,
+          }}
           />
       </Tab.Navigator>
     </View>

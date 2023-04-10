@@ -4,6 +4,8 @@ import Swiper from "react-native-deck-swiper";
 import { useRouter } from "expo-router";
 import { getProfilesForSwipe } from "./APIFunctions";
 import { encrypEmail, random_number } from "../constants";
+import Toast from 'react-native-toast-message';
+
 
 import {
   View,
@@ -16,7 +18,8 @@ import { Card, IconButton, OverlayLabel } from "../components";
 import styles from "./App.styles";
 import { ActivityIndicator } from "react-native-paper";
 
-const SwipeScreen = () => {
+const SwipeScreen = ({ route }) => {
+  const { getSelectedProfiles } = route.params;
   const router = useRouter();
   const swiperRef = useRef(null);
   const [photoCards, setPhotoCards] = useState([]);
@@ -64,18 +67,30 @@ const SwipeScreen = () => {
       .then((res) => res.json())
       .then((json) => {
         console.log("IMPORTANT ANSWER", json);
-        if (json.bot_id)
-          setMatchedModalVisible({ visible: true, name: json.name });
+        if (json.bot_id){
+          getSelectedProfiles();
+          Toast.show({
+            type: 'success',
+            text1: 'Matched',
+            text2: `👋 ${json.name} wants to talk to you!`
+          });
+          // setMatchedModalVisible({ visible: true, name: json.name });
+        }
         if (json.error && json.error === "Already matched with 3") {
-          setLimitedModalVisible(true);
           handleSwipeBack();
+          Toast.show({
+            type: 'error',
+            text1: 'Out of Swipes',
+            text2: `You cannot match with more than three profiles!`
+          });
+          // setLimitedModalVisible(true);
         }
       });
   };
 
   const handleOnSwipedLeft = () => {
     if (swiperRef.current) {
-      swiperRef.current.swipeLeft();
+        swiperRef.current.swipeLeft();
     }
   };
   const handleOnSwipedRight = () => {
@@ -92,9 +107,10 @@ const SwipeScreen = () => {
 
   const [modalVisible, setModalVisible] = useState(true);
   return (
+    <>
     <View style={styles.container}>
       {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
-      <Modal
+      {/*<Modal
         animationOut="fadeOutUp"
         backgroundOpacity="0.7"
         transparent={true}
@@ -116,8 +132,8 @@ const SwipeScreen = () => {
             </Pressable>
           </View>
         </View>
-      </Modal>
-      <Modal
+      </Modal>*/}
+      {/* <Modal
         animationOut="fadeOutUp"
         backgroundOpacity="0.7"
         transparent={true}
@@ -144,8 +160,8 @@ const SwipeScreen = () => {
             </Pressable>
           </View>
         </View>
-      </Modal>
-      <Modal
+      </Modal> */}
+      {/*<Modal
         animationOut="fadeOutUp"
         backgroundOpacity="0.7"
         transparent={true}
@@ -167,7 +183,7 @@ const SwipeScreen = () => {
             </Pressable>
           </View>
         </View>
-      </Modal>
+      </Modal>*/}
       <View style={styles.swiperContainer}>
         {photoCards.length > 0 ? (
           <Swiper
@@ -249,6 +265,8 @@ const SwipeScreen = () => {
         </TouchableOpacity>
       </View>
     </View>
+    <Toast />
+    </>
   );
 };
 
