@@ -19,7 +19,7 @@ import styles from "./App.styles";
 import { ActivityIndicator } from "react-native-paper";
 
 const SwipeScreen = ({ route }) => {
-  const { getSelectedProfiles } = route.params;
+  const { setTabBarOptions } = route.params;
   const router = useRouter();
   const swiperRef = useRef(null);
   const [photoCards, setPhotoCards] = useState([]);
@@ -68,7 +68,7 @@ const SwipeScreen = ({ route }) => {
       .then((json) => {
         console.log("IMPORTANT ANSWER", json);
         if (json.bot_id){
-          getSelectedProfiles();
+          setTabBarOptions({tabBarBadge:1});
           Toast.show({
             type: 'success',
             text1: 'Matched',
