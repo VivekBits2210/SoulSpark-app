@@ -139,10 +139,6 @@ export default function Settings() {
       header: "Other".toUpperCase(),
       rows: [
         {
-          title: "Desktop Version",
-          showDisclosureIndicator: true,
-        },
-        {
           title: "Delete chat history",
           onPress: () => {
             setShowDeleteChatModal(true);
@@ -197,7 +193,7 @@ export default function Settings() {
         }}
       >
         <View style={styles.modalView}>
-          <Text>Are you sure you want to delete your account ?</Text>
+          <Text>Are you sure you want to delete your account?</Text>
           <View
             style={{
               flexDirection: "row",
@@ -306,7 +302,7 @@ export default function Settings() {
         }}
       >
         <View style={styles.modalView}>
-          <Text>Are you sure you want to delete your Chats ?</Text>
+          <Text>Are you sure you want to delete all your chat history?</Text>
           <View
             style={{
               flexDirection: "row",

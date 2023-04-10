@@ -1,15 +1,16 @@
+import React from "react";
 import { View, Text } from "react-native-animatable";
-import { ScrollView, TextInput } from "react-native-gesture-handler";
+import {  TextInput } from "react-native-gesture-handler";
 import { useForm, Controller } from "react-hook-form";
 import { Picker } from "@react-native-picker/picker";
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, ScrollView } from "react-native";
 import { Chip } from "react-native-paper";
 import { useState } from "react";
-import React from "react";
-import SearchableDropdown from "react-native-searchable-dropdown";
+import SearchableDropdown from 'react-native-searchable-dropdown';
+
 
 const ages = [];
-for (let i = 18; i <= 150; i++) {
+for (let i = 18; i <= 60; i++) {
   ages[i] = "" + i;
 }
 
@@ -65,9 +66,9 @@ const Profile = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [selectedInterests, setSelectedInterests] = useState({});
+  const [selectedInterests, setSelectedInterests] = useState([]);
 
-  // const [selectedCountry, setSelectedCountry] = useState(countries[5]);
+  const [selectedCountry, setSelectedCountry] = useState(countries[5]);
 
   const toggleInterest = (interest) => {
     if (selectedInterests.includes(interest)) {
@@ -81,7 +82,7 @@ const Profile = () => {
   const [genderFocus, setGenderFocus] = useState("Female");
 
   return (
-    <View
+    <ScrollView
       style={{
         backgroundColor: "#fff",
         height: "100%",
@@ -141,7 +142,6 @@ const Profile = () => {
             selected={selectedInterests.includes(interest)}
             onPress={() => {
               toggleInterest(interest);
-              // console.log("length: " + selectedInterests.length);
             }}
             style={[
               styles.chip,
@@ -159,7 +159,7 @@ const Profile = () => {
           </Chip>
         ))}
       </View>
-      {/* <SearchableDropdown
+      <SearchableDropdown
         onItemSelect={(item) => {
           console.log(item);
           setSelectedCountry(item);
@@ -192,8 +192,8 @@ const Profile = () => {
         listProps={{
           nestedScrollEnabled: true,
         }}
-      /> */}
-    </View>
+      />
+    </ScrollView>
   );
 };
 
