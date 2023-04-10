@@ -1,4 +1,5 @@
 import * as React from "react";
+// import TimeZone from 'react-native-timezone';
 import {
   Text,
   View,
@@ -47,6 +48,11 @@ function WelcomeCarouselScreen({ navigation }) {
         width: PAGE_WIDTH,
         height: window.height * 0.6,
       };
+
+  // const getTimeZone = async() => {
+  //       const timeZone = await TimeZone.getTimeZone().then(zone => zone);
+  //       console.log({ timeZone });
+  //   }
 
   const checkProfileAndRedirect = () => {
     fetch(

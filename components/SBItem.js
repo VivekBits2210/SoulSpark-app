@@ -14,7 +14,7 @@ export const SBItem = (props) => {
   return (
     <LongPressGestureHandler
       onActivated={() => {
-        setIsPretty(!isPretty);
+//        setIsPretty(!isPretty);
       }}
     >
       <Animated.View testID={testID} style={{ flex: 1 }} {...animatedViewProps}>
@@ -49,7 +49,7 @@ export const SBItemChatSelect = (props) => {
     >
       <LongPressGestureHandler
         onActivated={() => {
-          setIsPretty(!isPretty);
+//          setIsPretty(!isPretty);
         }}
       >
         <Animated.View

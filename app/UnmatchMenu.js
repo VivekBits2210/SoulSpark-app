@@ -49,7 +49,6 @@ const UnmatchMenu = (props) => {
     <View>
       <TouchableOpacity onPress={showConfirmation} style={styles.kebabButton}>
         <Ionicons name={"close-circle-outline"} color={"red"} size={25} />
-        {/* <Text style={styles.menuItem}>X</Text> */}
       </TouchableOpacity>
       <Modal
         animationType="fade"
@@ -148,14 +147,17 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "black",
+    height: 40,
     borderRadius: 4,
     paddingHorizontal: 16,
     paddingVertical: 8,
     marginHorizontal: 8,
+    justifyContent: 'center'
   },
   buttonText: {
     fontSize: 14,
     color: "white",
+    textAlign: "center",
   },
   buttonTextClose: {
     fontSize: 14,

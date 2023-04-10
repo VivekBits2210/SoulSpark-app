@@ -21,11 +21,16 @@ import { useState } from "react";
 import Modal from "react-native-modal";
 import { Pressable } from "react-native";
 import { useRouter } from "expo-router";
+import { encrypEmail } from "../constants";
+import Toast from 'react-native-toast-message';
+
 
 const fontFamily = Platform.OS === "ios" ? "Avenir" : "sans-serif";
 
 export default function Settings() {
   const router = useRouter();
+  const [isMusicEnabled, setIsMusicEnabled] = useState(true);
+  const [isSoundsEnabled, setIsSoundsEnabled] = useState(true);
   const [showContactModal, setShowContactModal] = useState(false);
   const [showCrisisModal, setShowCrisisModal] = useState(false);
   const [showLearnModal, setShowLearnModal] = useState(false);
@@ -34,6 +39,9 @@ export default function Settings() {
   state = {
     refreshing: false,
   };
+
+  const toggleMusicSwitch = () => setIsMusicEnabled(previousState => !previousState);
+  const toggleSoundsSwitch = () => setIsSoundsEnabled(previousState => !previousState);
 
   settingsData = [
     {
@@ -64,11 +72,11 @@ export default function Settings() {
       rows: [
         {
           title: "Background Music",
-          renderAccessory: () => <Switch value={true} />,
+          renderAccessory: () => <Switch onValueChange={toggleMusicSwitch} value={isMusicEnabled} />,
         },
         {
           title: "Sounds",
-          renderAccessory: () => <Switch value={true} />,
+          renderAccessory: () => <Switch onValueChange={toggleSoundsSwitch} value={isSoundsEnabled} />,
         },
       ],
     },
@@ -178,6 +186,7 @@ export default function Settings() {
   ];
 
   return (
+    <>
     <View style={styles.container}>
       {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
       {/* <View style={styles.navBar}> */}
@@ -206,6 +215,7 @@ export default function Settings() {
                 padding: 10,
                 borderRadius: 50,
               }}
+              onPress={() => setShowDeleteAccountModal(!showDeleteAccountModal)}
             >
               <Text
                 style={{
@@ -315,6 +325,25 @@ export default function Settings() {
                 padding: 10,
                 borderRadius: 50,
               }}
+              onPress={() => {
+                setShowDeleteChatModal(!showDeleteChatModal);
+                fetch(`https://api-soulspark.com/chat-module/delete-all-chat-history`, {
+                method: "POST",
+                body: JSON.stringify({"email": encrypEmail}),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              })
+                .then((res) => res.json())
+                .then((json) =>{
+                  Toast.show({
+                    type: 'success',
+                    text1: 'Chat History Deleted',
+                    text2: 'All chat history has been wiped!'
+                  });
+                  console.log(json);
+              });
+              }}
             >
               <Text
                 style={{
@@ -388,6 +417,8 @@ export default function Settings() {
         // }}
       />
     </View>
+    <Toast />
+    </>
   );
 }
 
