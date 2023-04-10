@@ -13,19 +13,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "flex-start",
-    padding: 20,
     // alignItems: "center",
     backgroundColor: "#F5FCFF",
   },
   touchableOpacity: {
     width: "100%",
-    height: "50%",
+    height: "100%",
+    alignContent: "center",
     alignItems: "center",
-    marginBottom: 30,
   },
   image: {
-    width: "65%",
-    height: "100%",
+    width: "60%",
+    height: "80%",
     borderRadius: 75,
   },
   aboutText: {
@@ -44,11 +43,11 @@ const styles = StyleSheet.create({
 
 export default function Coffee() {
   return (
-    <View style={[styles.container, {backgroundColor:"purple"}]}>
+    <View style={[styles.container, {backgroundColor:"#330044"}]}>
       <Text style={[styles.aboutText, {color:'white'}]}>SoulSpark aims to be the world's <Text style={{fontStyle:"italic"}}>first and best</Text> long-term AI companion.</Text>
       <Text style={[styles.aboutText, {color:'white'}]}>We hope to build a persona which remains consistent months into the future and adapts the conversation to your mood and needs.</Text>
-      <Text style={[styles.aboutText, {color:'white'}]}>Help make this vision a reality!</Text>
-      <View style={{alignItems: "center", padding: 20 }}>
+      <Text style={[styles.aboutText, {textAlign:"center",color:'white', fontStyle:"bold"}]}>Help make this vision a reality.{"\n\n"}Donate below:</Text>
+      <View style={{flex: 1, width: "100%"}}>
       <TouchableOpacity
         style={styles.touchableOpacity}
         onPress={() =>
@@ -56,13 +55,12 @@ export default function Coffee() {
         }
       >
         <Image
-          key={"dfsdfsd"}
+          key={"key"}
           style={styles.image}
           source={image0}
           resizeMode="cover"
         />
       </TouchableOpacity>
-      <Text style={styles.text}>Thank you.</Text>
       </View>
     </View>
   );
