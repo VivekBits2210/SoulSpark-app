@@ -4,20 +4,25 @@ import { window } from "../constants";
 export default StyleSheet.create({
   container: {
     flex: 1,
+    display: "flex",
     flexDirection: "column",
+    justifyContent: "flex-start",
     backgroundColor: "white"
   },
   swiperContainer: {
-    flex: 7,
+    flex: 9,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
     backgroundColor: "white",
   },
   buttonsContainer: {
     flex: 1,
-    backgroundColor: "transparent",
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
     paddingHorizontal: "15%",
+    paddingBottom: "3%",
   },
   overlayWrapper: {
     flexDirection: "column",

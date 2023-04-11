@@ -5,7 +5,7 @@ import { HeaderBackButton } from "react-navigation-stack";
 import UnmatchMenu from "./UnmatchMenu";
 import { useSearchParams } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { url_refresh_hack, aws_url, window } from "../constants";
+import { url_refresh_hack, aws_url, window, normalize_font } from "../constants";
 import ScreenHeaderTitle from "../components/Header/ScreenHeaderTitle";
 
 SplashScreen.preventAutoHideAsync();
@@ -123,7 +123,7 @@ const Layout = () => {
                   style={{
                     color: "white",
                     alignSelf: "center",
-                    fontSize: 22,
+                    fontSize: normalize_font(24),
                     paddingLeft: 10,
                   }}
                   onPress={() =>
@@ -243,6 +243,7 @@ const Layout = () => {
           headerStyle: { backgroundColor: "black" },
           headerShadowVisible: false,
           headerBackTitle: "",
+          headerBackTitleVisible: false,
           headerLeft: () => {
             return (
               <View
@@ -257,6 +258,8 @@ const Layout = () => {
                   tintColor="white"
                   onPress={() => router.back()}
                   style={{ paddingLeft: 0 }}
+                  headerBackTitle=""
+                  headerBackTitleVisible={false}
                 ></HeaderBackButton>
                 <Text
                   style={{

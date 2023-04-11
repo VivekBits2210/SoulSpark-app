@@ -18,7 +18,7 @@ const Card = ({ card }) => {
   return (
     <View style={styles.card}>
       <Image
-        style={styles.image}
+        style={ styles.image}
         source={{ uri: card.photo }}
         resizeMode="cover"
       />
@@ -34,7 +34,7 @@ const Card = ({ card }) => {
             onPress={handlePress}
             color="white"
             backgroundColor="black"
-            size={window.height / 50}
+            size={window.height / 75}
           />
         </View>
       </View>
