@@ -161,7 +161,6 @@ const Profile = () => {
       </View>
       <SearchableDropdown
         onItemSelect={(item) => {
-          console.log(item);
           setSelectedCountry(item);
         }}
         containerStyle={{ padding: 5 }}

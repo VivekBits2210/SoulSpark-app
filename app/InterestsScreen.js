@@ -4,8 +4,7 @@ import { Chip, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import SButton from "../components/SButton";
-import { useEffect } from "react";
-import { encrypEmail } from "../constants";
+import { user } from "../constants";
 
 const interests = [
   "photography",
@@ -45,7 +44,6 @@ const InterestsScreen = ({ navigation }) => {
               selected={selectedInterests.includes(interest)}
               onPress={() => {
                 toggleInterest(interest);
-                // console.log("length: " + selectedInterests.length);
               }}
               style={[
                 styles.chip,
@@ -61,13 +59,12 @@ const InterestsScreen = ({ navigation }) => {
           <SButton
             onPress={() => {
               if (selectedInterests.length === 0) {
-                // console.log("no interests selected");
                 return;
               }
-              fetch(`https://api-soulspark.com/user-profiles/post-attribute`, {
+              fetch(`${api_url}/user-profiles/post-attribute`, {
                 method: "POST",
                 body: JSON.stringify({
-                  email: encrypEmail,
+                  email: user.encryption,
                   interests: selectedInterests.join(","),
                 }),
                 headers: {
@@ -77,7 +74,6 @@ const InterestsScreen = ({ navigation }) => {
                 .then((res) => res.json())
                 .then((json) => console.log(json));
               router.replace("MyTabs");
-              // console.log(selectedInterests);
             }}
             disabled={!selectedInterests.length}
           >

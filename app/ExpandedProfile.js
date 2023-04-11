@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useRouter, useSearchParams } from "expo-router";
 import Icon from "react-native-vector-icons/AntDesign";
-import { random_number } from "../constants";
+import { url_refresh_hack } from "../constants";
 
 const { height } = Dimensions.get("window");
 
@@ -28,7 +28,7 @@ export default function ExpandedProfile() {
         <Image
           style={styles.image}
           source={{
-            uri: `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${bot_id}.jpg?random_number=${random_number}`,
+            uri: `${aws_url}/${bot_id}.jpg?url_refresh_hack=${url_refresh_hack}`,
           }}
           resizeMode="cover"
         />

@@ -1,43 +1,27 @@
 import React, { useEffect, useRef, useState } from "react";
-import Modal from "react-native-modal";
+import {View, TouchableOpacity} from "react-native";
 import Swiper from "react-native-deck-swiper";
-import { useRouter } from "expo-router";
-import { getProfilesForSwipe } from "./APIFunctions";
-import { encrypEmail, random_number } from "../constants";
 import Toast from 'react-native-toast-message';
-
-
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Pressable,
-  StatusBar,
-} from "react-native";
-import { Card, IconButton, OverlayLabel } from "../components";
-import styles from "./App.styles";
 import { ActivityIndicator } from "react-native-paper";
+import { Card, IconButton, OverlayLabel } from "../components";
+import { api_url, user, url_refresh_hack, aws_url } from "../constants";
+import styles from "./App.styles";
+
 
 const SwipeScreen = ({ route }) => {
   const { setTabBarOptions } = route.params;
-  const router = useRouter();
   const swiperRef = useRef(null);
   const [photoCards, setPhotoCards] = useState([]);
-  const [matchedModalVisible, setMatchedModalVisible] = useState({
-    visible: false,
-    name: null,
-  });
-  const [limitedModalVisible, setLimitedModalVisible] = useState(false);
 
   const getProfilesForSwipe = (n) => {
     fetch(
-      `https://api-soulspark.com/ai-profiles/fetch-profile?n=${n}&email=${encrypEmail}`
+      `${api_url}/ai-profiles/fetch-profile?n=${n}&email=${user.encryption}`
     )
       .then((res) => res.json())
       .then((data) => {
         let result = [];
         for (let i = 0; i < data.length; i++) {
-          let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${data[i].bot_id}.jpg?random_number=${random_number}`;
+          let src = `${aws_url}/${data[i].bot_id}.jpg?url_refresh_hack=${url_refresh_hack}`;
           result.push({
             name: data[i].name,
             age: data[i].age,
@@ -54,19 +38,13 @@ const SwipeScreen = ({ route }) => {
     getProfilesForSwipe(20);
   }, []);
 
-  // console.log("HAHA: " + JSON.stringify(photoCards[0]));
-  // const photoCards = (async () => {
-  //   return await getProfilesForSwipe(20);
-  // })().then((res) => console.log(res[0].name));
-
   const getBotId = (cardIndex) => {
     const bot_id = photoCards[cardIndex].key;
     fetch(
-      `https://api-soulspark.com/chat-module/fetch-chat-history?lines=0&bot_id=${bot_id}&email=${encrypEmail}`
+      `${api_url}/chat-module/fetch-chat-history?lines=0&bot_id=${bot_id}&email=${user.encryption}`
     )
       .then((res) => res.json())
       .then((json) => {
-        console.log("IMPORTANT ANSWER", json);
         if (json.bot_id){
           setTabBarOptions({tabBarBadge:1});
           Toast.show({
@@ -110,80 +88,6 @@ const SwipeScreen = ({ route }) => {
     <>
     <View style={styles.container}>
       {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
-      {/*<Modal
-        animationOut="fadeOutUp"
-        backgroundOpacity="0.7"
-        transparent={true}
-        isVisible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>
-              Swipe carefully, you cannot match with more than three partners!
-            </Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}>OK</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>*/}
-      {/* <Modal
-        animationOut="fadeOutUp"
-        backgroundOpacity="0.7"
-        transparent={true}
-        isVisible={matchedModalVisible.visible}
-        onRequestClose={() => {
-          setMatchedModalVisible({ visible: false, name: null });
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>
-              {`${matchedModalVisible.name} wants to talk to you!`}
-            </Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() =>
-                setMatchedModalVisible({
-                  visible: false,
-                  name: null,
-                })
-              }
-            >
-              <Text style={styles.textStyle}>OK</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal> */}
-      {/*<Modal
-        animationOut="fadeOutUp"
-        backgroundOpacity="0.7"
-        transparent={true}
-        isVisible={limitedModalVisible}
-        onRequestClose={() => {
-          setLimitedModalVisible(!limitedModalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>
-              You have already matched with 3 profiles!
-            </Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setLimitedModalVisible(!limitedModalVisible)}
-            >
-              <Text style={styles.textStyle}>OK</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>*/}
       <View style={styles.swiperContainer}>
         {photoCards.length > 0 ? (
           <Swiper

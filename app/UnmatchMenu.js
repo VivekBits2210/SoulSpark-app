@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { encrypEmail } from "../constants";
+import { user, api_url } from "../constants";
 
 const UnmatchMenu = (props) => {
   const router = useRouter();
@@ -24,11 +24,10 @@ const UnmatchMenu = (props) => {
   };
 
   const handleUnmatch = () => {
-    // unmatch button
     let data = new FormData();
-    data.append("email", encrypEmail);
+    data.append("email", user.encryption);
     data.append("bot_id", id);
-    fetch(`https://api-soulspark.com/chat-module/unmatch`, {
+    fetch(`${api_url}/chat-module/unmatch`, {
       method: "POST",
       body: data,
       redirect: "follow",

@@ -16,7 +16,7 @@ import {
   Chevron,
 } from "react-native-settings-screen";
 import { useSearchParams } from "expo-router";
-import { random_number } from "../constants";
+import { url_refresh_hack, aws_url } from "../constants";
 
 const fontFamily = Platform.OS === "ios" ? "Avenir" : "sans-serif";
 
@@ -33,7 +33,7 @@ function renderHero(name, src) {
 
 export default function Customization() {
   const { name, id } = useSearchParams();
-  const src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${id}.jpg?random_number=${random_number}`;
+  const src = `${aws_url}/${id}.jpg?url_refresh_hack=${url_refresh_hack}`;
   state = {
     refreshing: false,
   };

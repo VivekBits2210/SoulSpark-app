@@ -1,6 +1,6 @@
 import { Image } from "react-native-web";
 
-const profileApi = "https://api-soulspark.com/ai-profiles/fetch-profile";
+const profileApi = "${api_url}/ai-profiles/fetch-profile";
 
 export async function fetchProfiles(n) {
   let result = await fetch(`${profileApi}?n=${n}&no_image=True`)
@@ -28,11 +28,3 @@ var profilesRequestOptions = {
   method: "GET",
   redirect: "follow",
 };
-
-// fetch(
-//   "https://cses-extensiona-code-daily.1955-1616.repl.co/api/v1/problem/all",
-//   requestOptions
-// )
-//   .then((response) => response.text())
-//   .then((result) => console.log(result))
-//   .catch((error) => console.log("error", error));

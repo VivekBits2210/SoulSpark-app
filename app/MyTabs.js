@@ -4,9 +4,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import SwipeScreen from "./SwipeScreen";
 import ChatSelectionScreen from "./ChatSelectionScreen";
-import { useEffect } from "react";
-import { encrypEmail } from "../constants";
-import { useFocusEffect } from "expo-router";
 const Tab = createBottomTabNavigator();
 
 
@@ -15,18 +12,6 @@ const MyTabs = (props) => {
   const handleChatTabPress = () => {
     setTabBarOptions({});
   };
-
-  // const getSelectedProfiles = () => {
-  //   fetch(
-  //     `https://api-soulspark.com/chat-module/fetch-selected-profiles?email=${encrypEmail}`
-  //   )
-  //     .then((res) => res.json())
-  //     .then((json) => {
-  //       json.data.length==0?setTabBarOptions({}):setTabBarOptions({tabBarBadge:json.data.length});
-  //     });
-  // };
-
-  // useFocusEffect(React.useCallback(getSelectedProfiles, []));
 
   return (
     <View

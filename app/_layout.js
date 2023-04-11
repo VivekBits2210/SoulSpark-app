@@ -5,19 +5,18 @@ import { HeaderBackButton } from "react-navigation-stack";
 import UnmatchMenu from "./UnmatchMenu";
 import { useSearchParams } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { encrypEmail, random_number } from "../constants";
+import { url_refresh_hack, aws_url } from "../constants";
 import ScreenHeaderTitle from "../components/Header/ScreenHeaderTitle";
 
 SplashScreen.preventAutoHideAsync();
 export const unstable_settings = {
-  // Ensure any route can link back to `/`
   initialRouteName: "index",
 };
 const Layout = () => {
   const router = useRouter();
 
   const { name, id } = useSearchParams();
-  let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${id}.jpg?random_number=${random_number}`;
+  let src = `${aws_url}/${id}.jpg?url_refresh_hack=${url_refresh_hack}`;
   return (
     <Stack>
       <Stack.Screen
@@ -240,7 +239,6 @@ const Layout = () => {
       />
       <Stack.Screen
         options={{
-          // headerShown: false,
           headerStyle: { backgroundColor: "black" },
           headerShadowVisible: false,
           headerBackTitle: "",
@@ -391,12 +389,7 @@ const Layout = () => {
       <Stack.Screen
         options={{
           headerShown: false,
-          // headerStyle: { backgroundColor: "black"},
           headerShadowVisible: false,
-          // headerLeft: () => {
-          // },
-          // headerRight: () => {
-          // },
           headerTitle: "",
         }}
         name="ExpandedProfile"

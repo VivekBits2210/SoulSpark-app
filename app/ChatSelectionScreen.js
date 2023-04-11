@@ -1,13 +1,10 @@
 import * as React from "react";
-import { View, Text, TouchableOpacity, StatusBar, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
-import Icon from "react-native-vector-icons/AntDesign";
-import { useEffect } from "react";
 import { SBItemChatSelect } from "../components/SBItem";
-import SButton from "../components/SButton";
 import { useRouter } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
-import { encrypEmail, window, random_number } from "../constants";
+import { user, window, url_refresh_hack, api_url, aws_url } from "../constants";
 import { useState } from "react";
 import { ActivityIndicator } from "react-native-paper";
 import IconButton from "../components/IconButton/IconButton";
@@ -15,23 +12,18 @@ import IconButton from "../components/IconButton/IconButton";
 const PAGE_WIDTH = window.width;
 
 export default function ChatSelectionScreen() {
-  const [data, setData] = React.useState([...new Array(4).keys()]);
-  // const [isFast, setIsFast] = React.useState(false);
-  // const [isAutoPlay, setIsAutoPlay] = React.useState(false);
-  const [isPagingEnabled, setIsPagingEnabled] = React.useState(true);
   const ref = React.useRef(null);
   const [chats, setChats] = useState(null);
 
   const getSelectedProfiles = () => {
     fetch(
-      `https://api-soulspark.com/chat-module/fetch-selected-profiles?email=${encrypEmail}`
+      `${api_url}/chat-module/fetch-selected-profiles?email=${user.encryption}`
     )
       .then((res) => res.json())
       .then((json) => {
-        // console.log("JSON",json);
         let result = [];
         for (let i = json.data.length - 1; i >=0; i--) {
-          let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${json.data[i].bot_id}.jpg?random_number=${random_number}`;
+          let src = `${aws_url}/${json.data[i].bot_id}.jpg?url_refresh_hack=${url_refresh_hack}`;
           result.push({
             myKey: json.data[i].bot_id,
             name: json.data[i].name,
@@ -56,9 +48,7 @@ export default function ChatSelectionScreen() {
 
   const router = useRouter();
 
-  // let bot = { index: 1, name: "sus", photo: "srrc", key: "skey" };
   function fn({ item }) {
-    // console.log("CURRENT", ref.current?.getCurrentIndex());
     ref.current?.scrollTo({ index: 0 });
     return (
       <View style={{ flex: 1, marginLeft: "2.5%" }}>
@@ -99,7 +89,7 @@ export default function ChatSelectionScreen() {
               style={{ width: "100%" }}
               scrollAnimationDuration={750}
               data={chats}
-              pagingEnabled={isPagingEnabled}
+              pagingEnabled={true}
               onSnapToItem={(index) => (chatIndex = index)}
               renderItem={fn}
             />

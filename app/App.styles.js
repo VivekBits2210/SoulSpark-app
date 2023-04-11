@@ -1,6 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
-
-const { height } = Dimensions.get("window");
+import { window } from "../constants";
 
 export default StyleSheet.create({
   globalContainer: {
@@ -15,7 +14,7 @@ export default StyleSheet.create({
   },
   swiperContainer: {
     marginTop: -12.5,
-    height: height * 0.75,
+    height: window.height * 0.75,
   },
   buttonsContainer: {
     flex: 1,

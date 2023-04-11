@@ -1,12 +1,11 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
-import { random_number } from "../constants";
-// ...and so on for all the images
+import { StyleSheet, View, Image, Text } from "react-native";
+import { url_refresh_hack } from "../constants";
 
 export const SBImageItem = ({ id, style, text, showIndex = true, src, borderRadius }) => {
   const borderStyle = borderRadius?{"borderRadius":borderRadius}:{}
   if (typeof src !== "number") {
-    src += `?random_number=${random_number}`;
+    src += `?url_refresh_hack=${url_refresh_hack}`;
   }
   return (
     <View

@@ -8,20 +8,17 @@ import {
   Platform,
   RefreshControl,
   Switch,
-  Touchable,
   Linking,
 } from "react-native";
-import Icon from "react-native-vector-icons/Entypo";
 import {
   SettingsScreen,
-  SettingsData,
   Chevron,
 } from "react-native-settings-screen";
 import { useState } from "react";
 import Modal from "react-native-modal";
 import { Pressable } from "react-native";
 import { useRouter } from "expo-router";
-import { encrypEmail } from "../constants";
+import { user, api_url } from "../constants";
 import Toast from 'react-native-toast-message';
 
 
@@ -51,7 +48,6 @@ export default function Settings() {
         <Pressable
           style={styles.heroContainer}
           onPress={() => {
-            console.log("pressed");
             router.push("Profile");
           }}
         >
@@ -60,8 +56,8 @@ export default function Settings() {
             style={styles.heroImage}
           />
           <View style={{ flex: 1 }}>
-            <Text style={styles.heroTitle}>Vivek Nayak</Text>
-            <Text style={styles.heroSubtitle}>viveknayak2210@gmail.com</Text>
+            <Text style={styles.heroTitle}>{user.name}</Text>
+            <Text style={styles.heroSubtitle}>{user.email}</Text>
           </View>
           <Chevron />
         </Pressable>
@@ -327,9 +323,9 @@ export default function Settings() {
               }}
               onPress={() => {
                 setShowDeleteChatModal(!showDeleteChatModal);
-                fetch(`https://api-soulspark.com/chat-module/delete-all-chat-history`, {
+                fetch(`${api_url}/chat-module/delete-all-chat-history`, {
                 method: "POST",
-                body: JSON.stringify({"email": encrypEmail}),
+                body: JSON.stringify({"email": user.encryption}),
                 headers: {
                   "Content-Type": "application/json",
                 },
@@ -341,7 +337,6 @@ export default function Settings() {
                     text1: 'Chat History Deleted',
                     text2: 'All chat history has been wiped!'
                   });
-                  console.log(json);
               });
               }}
             >

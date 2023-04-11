@@ -7,8 +7,6 @@ import {
   Dimensions,
   Image,
   Pressable,
-  Platform,
-  PixelRatio
 } from "react-native";
 import Animated, {
   Extrapolate,
@@ -18,31 +16,16 @@ import Animated, {
 } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 import { useRouter } from "expo-router";
-import { encrypEmail } from "../constants";
 import { SBItem } from "../components/SBItem";
-import { window } from "../constants";
+import { user, window, api_url, normalize_font} from "../constants";
+
+// Images
 import googleLogo from "../assets/g-logo-black.jpg";
 import m0 from "../assets/cropped_smiling_woman.jpg";
 import m1 from "../assets/cropped_journey.jpg";
 import m2 from "../assets/cropped_sad_day.jpg";
 import m3 from "../assets/cropped_zen.jpg";
 
-const {
-  width: SCREEN_WIDTH,
-  height: SCREEN_HEIGHT,
-} = Dimensions.get('window');
-
-// based on iphone 5s's scale
-const scale = SCREEN_WIDTH / 320;
-
-const normalize = ((size)=>{
-  const newSize = size * scale 
-  if (Platform.OS === 'ios') {
-    return Math.round(PixelRatio.roundToNearestPixel(newSize))
-  } else {
-    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 4
-  }
-});
 
 const PAGE_WIDTH = window.width;
 const colors = ["#26292E", "#899F9C", "#B3C680", "#5C6265"];
@@ -51,15 +34,11 @@ const marketing_images = [m0, m1, m2, m3];
 function WelcomeCarouselScreen({ navigation }) {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = React.useState(0);
-  const [isVertical, setIsVertical] = React.useState(false);
-  const [autoPlay, setAutoPlay] = React.useState(true);
-  const [pagingEnabled, setPagingEnabled] = React.useState(true);
-  const [snapEnabled, setSnapEnabled] = React.useState(true);
   const progressValue = useSharedValue(0);
 
   const checkProfileAndRedirect = () => {
     fetch(
-      `https://api-soulspark.com/user-profiles/fetch-user-info?email=${encrypEmail}`
+      `${api_url}/user-profiles/fetch-user-info?email=${user.encryption}`
     )
       .then((res) => res.json())
       .then((json) => {
@@ -94,13 +73,12 @@ function WelcomeCarouselScreen({ navigation }) {
             backgroundColor: "white",
           }}
           loop
-          pagingEnabled={pagingEnabled}
-          snapEnabled={snapEnabled}
-          autoPlay={autoPlay}
+          pagingEnabled={true}
+          snapEnabled={true}
+          autoPlay={true}
           autoPlayInterval={1800}
           onProgressChange={(_, absoluteProgress) => {
             progressValue.value = absoluteProgress;
-            // setCurrentIndex(Math.round(absoluteProgress * (colors.length - 1)));
           }}
           onSnapToItem={(index) => setCurrentIndex(index)}
           mode="parallax"
@@ -138,7 +116,7 @@ function WelcomeCarouselScreen({ navigation }) {
                 animValue={progressValue}
                 index={index}
                 key={index}
-                isRotate={isVertical}
+                isRotate={false}
                 length={colors.length}
               />
             );
@@ -148,10 +126,10 @@ function WelcomeCarouselScreen({ navigation }) {
       <View style={{ flex: 0.5, backgroundColor: "white",}}>
         <Text
           style={{
-            fontFamily: "Roboto", // change the font family to your desired system font
-            fontSize: normalize(20), // increase the font size to make the text larger
-            color: "black", // change the color of the text
-            textAlign: "center", // center the text
+            fontFamily: "Roboto", 
+            fontSize: normalize_font(20), 
+            color: "black", 
+            textAlign: "center", 
           }}
         >
           {currentIndex === 0 ? (
@@ -275,7 +253,7 @@ const styles = StyleSheet.create({
   },
   customButtonText: {
     color: "white",
-    fontSize: normalize(17),
+    fontSize: normalize_font(17),
     fontFamily: "sans-serif"
   },
 });
