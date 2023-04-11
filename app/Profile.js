@@ -3,7 +3,7 @@ import { View, Text } from "react-native-animatable";
 import { TextInput } from "react-native-gesture-handler";
 import { useForm, Controller } from "react-hook-form";
 import { Picker } from "@react-native-picker/picker";
-import { Pressable, StyleSheet, ScrollView } from "react-native";
+import { Pressable, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { Chip } from "react-native-paper";
 import { useState, useEffect } from "react";
 import SearchableDropdown from "react-native-searchable-dropdown";
@@ -46,7 +46,7 @@ const Profile = () => {
         const { name, age, gender, gender_focus, interests } = json;
         setUserProfile(json);
         setName(name);
-        setAge(age);
+        setAge(String(age));
         setGender(gender === "M" ? "Male" : "Female");
         setGenderFocus(gender_focus === "M" ? "Male" : gender_focus === "F" ? "Female" : "Any");
         setSelectedInterests(interests.split(","));
@@ -102,7 +102,7 @@ const Profile = () => {
             render={({ field: { onChange, value } }) => (
               <View style={styles.textBox}>
                 <Text style={styles.label}>Select an age</Text>
-                <Picker selectedValue={value || age } onValueChange={onChange}>
+                <Picker selectedValue={age} onValueChange={setAge}>
                   {ages.map((item, key) => (
                     <Picker.Item key={key} label={item} value={item} />
                   ))}
@@ -136,34 +136,53 @@ const Profile = () => {
           count={3}
           customName="Select your preference"
         />
-        <View style={styles.chipContainer}>
-          {interests.map((interest, index) => (
-            <Chip
-              key={index}
-              mode="outlined"
-              selected={selectedInterests.includes(interest)}
-              onPress={() => {
-                toggleInterest(interest);
-              }}
-              style={[
-                styles.chip,
-                selectedInterests.includes(interest)
-                  ? styles.chipSelected
-                  : styles.chipUnselected,
-              ]}
-              textStyle={
-                selectedInterests.includes(interest)
-                  ? styles.chipTextSelected
-                  : styles.chipTextUnselected
-              }
-              selectedColor="white"
-            >
-              {interest}
-            </Chip>
-          ))}
+        <View style={styles.textBox}>
+          <Text style={styles.label}>Select your interests</Text>
+          <View style={styles.chipContainer}>
+            {interests.map((interest, index) => (
+              <Chip
+                key={index}
+                mode="outlined"
+                selected={selectedInterests.includes(interest)}
+                onPress={() => {
+                  toggleInterest(interest);
+                }}
+                style={[
+                  styles.chip,
+                  selectedInterests.includes(interest)
+                    ? styles.chipSelected
+                    : styles.chipUnselected,
+                ]}
+                textStyle={
+                  selectedInterests.includes(interest)
+                    ? styles.chipTextSelected
+                    : styles.chipTextUnselected
+                }
+                selectedColor="white"
+              >
+                {interest}
+              </Chip>
+            ))}
+          </View>
         </View>
       </ScrollView>
       )}
+      <TouchableOpacity
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          width: 60,
+          height: 40,
+          position: "absolute",
+          bottom: 20,
+          right: 20,
+          borderRadius: 4,
+          backgroundColor: "black",
+        }}
+        onPress={handleSubmit()}
+      >
+        <Text style={{ color: "white", fontSize: 20 }}>Save</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -219,6 +238,7 @@ const CustomRadioInput = (props) => {
           >
             {props.values[i]}
           </Text>
+          
         ),
       })
     );
@@ -253,7 +273,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 10,
     paddingHorizontal: 20,
-    borderRadius: 20,
+    borderRadius: 10,
     backgroundColor: "black",
   },
   selectedText: {
@@ -265,7 +285,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 10,
     paddingHorizontal: 20,
-    borderRadius: 20,
+    borderRadius: 10,
     backgroundColor: "white",
   },
   chipContainer: {

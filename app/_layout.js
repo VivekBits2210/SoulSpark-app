@@ -208,29 +208,6 @@ const Layout = () => {
               </View>
             );
           },
-          headerRight: () => {
-            return (
-              <TouchableOpacity
-                activeOpacity={0.7}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: 10,
-                  borderRadius: 20,
-                }}
-                handlePress={()=>{console.log("Pressed")}}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                  }}
-                >
-                  SAVE
-                </Text>
-              </TouchableOpacity>
-            );
-          },
           headerTitle: "",
         }}
         name="Profile"

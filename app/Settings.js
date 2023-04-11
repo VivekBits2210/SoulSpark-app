@@ -51,13 +51,9 @@ export default function Settings() {
   };
 
   const toggleMusicSwitch = () =>  {
-    fetch(`${api_url}/user-profiles/post-attribute`, {
-      method: "POST",
-      body: JSON.stringify({ music_enabled : !isMusicEnabled, email: user.encryption }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch(
+      `${api_url}/user-profiles/fetch-user-info?email=${user.encryption}`
+    )
       .then((res) => res.json())
       .then((json) => {
         console.log(json.music_enabled)
@@ -66,13 +62,9 @@ export default function Settings() {
   }
   
   const toggleSoundsSwitch = () => {
-    fetch(`${api_url}/user-profiles/post-attribute`, {
-      method: "POST",
-      body: JSON.stringify({ sounds_enabled : !isSoundsEnabled, email: user.encryption }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch(
+      `${api_url}/user-profiles/fetch-user-info?email=${user.encryption}`
+    )
       .then((res) => res.json())
       .then((json) => {
         console.log(json.sounds_enabled)
