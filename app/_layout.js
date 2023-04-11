@@ -24,7 +24,7 @@ const Layout = () => {
         options={{
           headerShown: true,
           headerStyle: { backgroundColor: "white" },
-          headerShadowVisible: false,
+          headerShadowVisible: true,
           headerLeft: () => {
             return (
               <View

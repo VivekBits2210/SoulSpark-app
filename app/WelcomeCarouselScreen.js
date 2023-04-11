@@ -7,6 +7,8 @@ import {
   Dimensions,
   Image,
   Pressable,
+  Platform,
+  PixelRatio
 } from "react-native";
 import Animated, {
   Extrapolate,
@@ -25,6 +27,23 @@ import m1 from "../assets/cropped_journey.jpg";
 import m2 from "../assets/cropped_sad_day.jpg";
 import m3 from "../assets/cropped_zen.jpg";
 
+const {
+  width: SCREEN_WIDTH,
+  height: SCREEN_HEIGHT,
+} = Dimensions.get('window');
+
+// based on iphone 5s's scale
+const scale = SCREEN_WIDTH / 320;
+
+const normalize = ((size)=>{
+  const newSize = size * scale 
+  if (Platform.OS === 'ios') {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize))
+  } else {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 4
+  }
+});
+
 const PAGE_WIDTH = window.width;
 const colors = ["#26292E", "#899F9C", "#B3C680", "#5C6265"];
 const marketing_images = [m0, m1, m2, m3];
@@ -37,22 +56,6 @@ function WelcomeCarouselScreen({ navigation }) {
   const [pagingEnabled, setPagingEnabled] = React.useState(true);
   const [snapEnabled, setSnapEnabled] = React.useState(true);
   const progressValue = useSharedValue(0);
-  const baseOptions = isVertical
-    ? {
-        vertical: true,
-        width: PAGE_WIDTH * 0.86,
-        height: Dimensions.get("window").height,
-      }
-    : {
-        vertical: false,
-        width: PAGE_WIDTH,
-        height: window.height * 0.6,
-      };
-
-  // const getTimeZone = async() => {
-  //       const timeZone = await TimeZone.getTimeZone().then(zone => zone);
-  //       console.log({ timeZone });
-  //   }
 
   const checkProfileAndRedirect = () => {
     fetch(
@@ -72,27 +75,23 @@ function WelcomeCarouselScreen({ navigation }) {
     <View
       style={{
         flex: 1,
-        justifyContent: "center",
         alignItems: "center",
-        paddingTop: 140,
         backgroundColor: "white",
       }}
     >
       <View
         style={{
-          backgroundColor: "white",
-          justifyContent: "center",
+          flex: 5,
           alignItems: "center",
-          height: Dimensions.get("window").height * 0.42, // adjust this value for the desired carousel height
+          width: "100%",
         }}
       >
         <Carousel
-          {...baseOptions}
+          vertical={false}
+          width={PAGE_WIDTH}
+          height={"100%"}
           style={{
             backgroundColor: "white",
-            width: PAGE_WIDTH,
-            height: Dimensions.get("window").height,
-            marginTop: window.height * 0.2,
           }}
           loop
           pagingEnabled={pagingEnabled}
@@ -114,9 +113,7 @@ function WelcomeCarouselScreen({ navigation }) {
             <SBItem
               index={index}
               src={marketing_images[index]}
-              pretty={true}
-              text=""
-              style={{ height: "100%", width: "100%", padding: 10 }}
+              style={{ backgroundColor: "white" }}
             />
           )}
         />
@@ -124,10 +121,14 @@ function WelcomeCarouselScreen({ navigation }) {
       {!!progressValue && (
         <View
           style={{
+            flex: 0.2,
             flexDirection: "row",
-            justifyContent: "space-between",
-            width: 100,
-            marginBottom: 20, // adjust this value to add spacing between the dots and the login button
+            backgroundColor: "white",
+            justifyContent: "center",
+            alignItems: "center",
+            alignContent: "center",
+            width: "30%",
+            marginBottom: "3%",
           }}
         >
           {colors.map((backgroundColor, index) => {
@@ -144,12 +145,11 @@ function WelcomeCarouselScreen({ navigation }) {
           })}
         </View>
       )}
-      <View style={{ height: "10%" }}>
+      <View style={{ flex: 0.5, backgroundColor: "white",}}>
         <Text
           style={{
             fontFamily: "Roboto", // change the font family to your desired system font
-            fontSize: 24, // increase the font size to make the text larger
-            fontWeight: "bold", // add font weight to make the text bold
+            fontSize: normalize(20), // increase the font size to make the text larger
             color: "black", // change the color of the text
             textAlign: "center", // center the text
           }}
@@ -175,6 +175,7 @@ function WelcomeCarouselScreen({ navigation }) {
           )}
         </Text>
       </View>
+      <View  style={{ flex: 1, alignItems: "center", backgroundColor: "white", width: "100%"}}>
       <Pressable
         style={({ pressed }) => [
           styles.customButton,
@@ -184,9 +185,14 @@ function WelcomeCarouselScreen({ navigation }) {
           checkProfileAndRedirect();
         }}
       >
+        <View style={{ flex: 0.2}}>
         <Image source={googleLogo} style={styles.logo} />
+        </View>
+        <View style={{flex: 1, flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
         <Text style={styles.customButtonText}>Continue with Google</Text>
+        </View>
       </Pressable>
+      </View>
     </View>
   );
 }
@@ -248,29 +254,29 @@ const PaginationItem = (props) => {
 
 const styles = StyleSheet.create({
   logo: {
-    width: 36,
-    height: 36,
+    resizeMode: "contain",
+    marginLeft: "30%",
+    height: "100%",
+    width: "100%"
   },
   customButtonPressed: {
-    opacity: 0.8,
+    opacity: 0.6,
   },
   customButton: {
+    flex: 0.4,
     flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    alignContent: "center",
+    justifyContent: "center",
+    width: "60%",
     borderRadius: 50,
     borderWidth: 5,
     backgroundColor: "black",
-    marginTop: 36,
-    marginBottom: 36,
-    marginLeft: 36,
-    marginRight: 36,
+
   },
   customButtonText: {
     color: "white",
-    marginLeft: 8,
-    fontSize: 16,
+    fontSize: normalize(17),
+    fontFamily: "sans-serif"
   },
 });
 

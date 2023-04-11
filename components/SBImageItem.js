@@ -4,7 +4,6 @@ import { random_number } from "../constants";
 // ...and so on for all the images
 
 export const SBImageItem = ({ id, style, text, showIndex = true, src, borderRadius }) => {
-  // console.log(text);
   const borderStyle = borderRadius?{"borderRadius":borderRadius}:{}
   if (typeof src !== "number") {
     src += `?random_number=${random_number}`;
@@ -16,8 +15,8 @@ export const SBImageItem = ({ id, style, text, showIndex = true, src, borderRadi
         style,
         {
           flexDirection: "column",
-          justifyContent: "flex-end", // Add justifyContent: 'space-between'
-          flex: 1, // Add flex: 1
+          justifyContent: "flex-end",
+          flex: 1,
         },
       ]}
     >
@@ -63,11 +62,6 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
-    // height: undefined,
-    // position: "absolute",
-    top: 0,
-    // left: 0,
-    // bottom: 0,
-    // right: 0,
+    resizeMode:"cover",
   },
 });

@@ -8,29 +8,17 @@ import { SBImageItem } from "./SBImageItem";
 import { SBTextItem } from "./SBTextItem";
 
 export const SBItem = (props) => {
-  const { src, name, key, style, pretty, testID, ...animatedViewProps } = props;
-  // console.log(name);
-  const [isPretty, setIsPretty] = React.useState(pretty);
+  const { src, text, key, style, testID } = props;
   return (
-    <LongPressGestureHandler
-      onActivated={() => {
-//        setIsPretty(!isPretty);
-      }}
-    >
-      <Animated.View testID={testID} style={{ flex: 1 }} {...animatedViewProps}>
-        {isPretty ? (
+      <Animated.View testID={testID} style={{ flex: 1 }}>
           <SBImageItem
-            text={name}
+            text={text}
             id={key}
             src={src}
             style={style}
             borderRadius={10}
           />
-        ) : (
-          <SBTextItem text={name} style={style} />
-        )}
       </Animated.View>
-    </LongPressGestureHandler>
   );
 };
 
