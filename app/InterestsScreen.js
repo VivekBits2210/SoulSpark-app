@@ -55,6 +55,7 @@ const InterestsScreen = ({ navigation }) => {
                   ? styles.chipTextSelected
                   : styles.chipTextUnselected
               }
+              selectedColor="white"
             >
               {interest}
             </Chip>
