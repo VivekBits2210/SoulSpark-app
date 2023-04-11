@@ -1,8 +1,9 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
-import { useRouter, useSearchParams } from "expo-router";
+import { useRouter } from "expo-router";
 import styles from "./Card.styles";
 import IconButton from "../IconButton/IconButton";
+import { window } from "../../constants";
 
 const Card = ({ card }) => {
   const router = useRouter();
@@ -33,7 +34,7 @@ const Card = ({ card }) => {
             onPress={handlePress}
             color="white"
             backgroundColor="black"
-            size={17}
+            size={window.height/50}
           />
         </View>
       </View>

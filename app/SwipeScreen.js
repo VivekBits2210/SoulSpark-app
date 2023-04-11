@@ -4,7 +4,7 @@ import Swiper from "react-native-deck-swiper";
 import Toast from "react-native-toast-message";
 import { ActivityIndicator } from "react-native-paper";
 import { Card, IconButton, OverlayLabel } from "../components";
-import { api_url, user, url_refresh_hack, aws_url } from "../constants";
+import { api_url, user, url_refresh_hack, aws_url, window } from "../constants";
 import styles from "./App.styles";
 
 const SwipeScreen = ({ route }) => {
@@ -70,6 +70,7 @@ const SwipeScreen = ({ route }) => {
       swiperRef.current.swipeLeft();
     }
   };
+
   const handleOnSwipedRight = () => {
     if (swiperRef.current) {
       swiperRef.current.swipeRight();
@@ -82,7 +83,6 @@ const SwipeScreen = ({ route }) => {
     }
   };
 
-  const [modalVisible, setModalVisible] = useState(true);
   return (
     <>
       <View style={styles.container}>
@@ -145,7 +145,7 @@ const SwipeScreen = ({ route }) => {
               onPress={handleOnSwipedLeft}
               color="white"
               backgroundColor="#E5566D"
-              size={20}
+              size={window.height/50}
             />
           </TouchableOpacity>
           <TouchableOpacity>
@@ -154,7 +154,7 @@ const SwipeScreen = ({ route }) => {
               onPress={handleSwipeBack}
               color="white"
               backgroundColor="#FFB804"
-              size={20}
+              size={window.height/50}
             />
           </TouchableOpacity>
           <TouchableOpacity>
@@ -163,7 +163,7 @@ const SwipeScreen = ({ route }) => {
               onPress={handleOnSwipedRight}
               color="white"
               backgroundColor="#0071C5"
-              size={20}
+              size={window.height/50}
             />
           </TouchableOpacity>
         </View>

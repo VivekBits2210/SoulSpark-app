@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import SwipeScreen from "./SwipeScreen";
 import ChatSelectionScreen from "./ChatSelectionScreen";
+import { window } from "../constants";
 const Tab = createBottomTabNavigator();
 
 const MyTabs = (props) => {
@@ -21,13 +22,14 @@ const MyTabs = (props) => {
     >
       <Tab.Navigator
         screenOptions={({ route }) => ({
+          tabBarStyle: { height:window.height/15, },
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
             if (route.name === "Swipe") {
               return (
                 <MaterialCommunityIcons
                   name={focused ? "cards" : "cards-outline"}
-                  size={size}
+                  size={window.height/27}
                   color={color}
                 />
               );
@@ -35,7 +37,7 @@ const MyTabs = (props) => {
               return (
                 <Ionicons
                   name={focused ? "chatbubble" : "chatbubble-outline"}
-                  size={size}
+                  size={window.height/27}
                   color={color}
                 />
               );

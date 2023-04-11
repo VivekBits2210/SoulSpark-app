@@ -1,25 +1,23 @@
-import { StyleSheet, Dimensions } from "react-native";
-
-const { height } = Dimensions.get("window");
+import { StyleSheet } from "react-native";
+import { window } from "../../constants";
 
 export default StyleSheet.create({
   card: {
-    height: 0.62 * height,
-    justifyContent: "center",
-    alignItems: "center",
+    flex: 0.75,
     backgroundColor: "white",
     borderRadius: 5,
     shadowColor: "black",
     shadowOffset: {
-      width: 62,
+      width: 60,
       height: 2,
     },
+    marginTop: - window.height/15,
     shadowRadius: 6,
     shadowOpacity: 0.3,
     elevation: 2,
   },
   image: {
-    borderRadius: 5,
+    borderRadius: 10,
     flex: 1,
     width: "100%",
   },
@@ -48,8 +46,4 @@ export default StyleSheet.create({
     flex: 1,
     paddingRight: 10,
   },
-  // expandButton: {
-  //   width: 50, // Adjust the width as desired
-  //   height: 0, // Adjust the height as desired
-  // },
 });

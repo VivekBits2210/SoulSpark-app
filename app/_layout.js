@@ -5,7 +5,7 @@ import { HeaderBackButton } from "react-navigation-stack";
 import UnmatchMenu from "./UnmatchMenu";
 import { useSearchParams } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { url_refresh_hack, aws_url } from "../constants";
+import { url_refresh_hack, aws_url, window } from "../constants";
 import ScreenHeaderTitle from "../components/Header/ScreenHeaderTitle";
 
 SplashScreen.preventAutoHideAsync();
@@ -54,6 +54,7 @@ const Layout = () => {
         options={{
           headerShadowVisible: true,
           headerTitleAlign: "center",
+          // headerStyle: {height:200},
           header: () => {
             return (
               <View

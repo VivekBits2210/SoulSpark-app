@@ -26,7 +26,6 @@ import m1 from "../assets/cropped_journey.jpg";
 import m2 from "../assets/cropped_sad_day.jpg";
 import m3 from "../assets/cropped_zen.jpg";
 
-const PAGE_WIDTH = window.width;
 const colors = ["#26292E", "#899F9C", "#B3C680", "#5C6265"];
 const marketing_images = [m0, m1, m2, m3];
 
@@ -59,13 +58,12 @@ function WelcomeCarouselScreen({ navigation }) {
         style={{
           flex: 5,
           alignItems: "center",
-          width: "100%",
         }}
       >
         <Carousel
           vertical={false}
-          width={PAGE_WIDTH}
-          height={"100%"}
+          width={window.width}
+          height={window.height*0.65}
           style={{
             backgroundColor: "white",
           }}
@@ -81,7 +79,7 @@ function WelcomeCarouselScreen({ navigation }) {
           mode="parallax"
           modeConfig={{
             parallaxScrollingScale: 0.9,
-            parallaxScrollingOffset: 50,
+            parallaxScrollingOffset: 40,
           }}
           data={colors}
           renderItem={({ index }) => (
@@ -98,12 +96,11 @@ function WelcomeCarouselScreen({ navigation }) {
           style={{
             flex: 0.2,
             flexDirection: "row",
-            backgroundColor: "white",
-            justifyContent: "center",
+            backgroundColor: "transparent",
+            justifyContent: "space-between",
             alignItems: "center",
             alignContent: "center",
-            width: "30%",
-            marginBottom: "3%",
+            width: window.width/3,
           }}
         >
           {colors.map((backgroundColor, index) => {
@@ -120,7 +117,7 @@ function WelcomeCarouselScreen({ navigation }) {
           })}
         </View>
       )}
-      <View style={{ flex: 0.5, backgroundColor: "white" }}>
+      <View style={{ flex: 0.5, backgroundColor: "white"}}>
         <Text
           style={{
             fontFamily: "Roboto",
@@ -245,7 +242,7 @@ const PaginationItem = (props) => {
 const styles = StyleSheet.create({
   logo: {
     resizeMode: "contain",
-    marginLeft: "30%",
+    marginLeft: "13%",
     height: "100%",
     width: "100%",
   },
@@ -257,14 +254,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignContent: "center",
     justifyContent: "center",
-    width: "60%",
+    width: window.width*0.6,
     borderRadius: 50,
     borderWidth: 5,
     backgroundColor: "black",
   },
   customButtonText: {
     color: "white",
-    fontSize: normalize_font(17),
+    fontSize: normalize_font(16),
     fontFamily: "sans-serif",
   },
 });

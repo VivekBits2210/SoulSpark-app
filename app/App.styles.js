@@ -5,17 +5,16 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "white",
   },
   swiperContainer: {
-    marginTop: -12.5,
-    height: window.height * 0.75,
+    flex: 7,
+    backgroundColor: "white"
   },
   buttonsContainer: {
     flex: 1,
+    backgroundColor: "white",
     justifyContent: "space-between",
-    marginTop: "2%",
-    alignItems: "flex-start",
+    alignItems: "center",
     flexDirection: "row",
     paddingHorizontal: "15%",
   },

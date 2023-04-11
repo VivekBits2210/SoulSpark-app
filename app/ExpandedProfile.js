@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useRouter, useSearchParams } from "expo-router";
 import Icon from "react-native-vector-icons/AntDesign";
-import { url_refresh_hack } from "../constants";
+import { url_refresh_hack, aws_url } from "../constants";
 
 const { height } = Dimensions.get("window");
 
