@@ -114,9 +114,7 @@ const Layout = () => {
                     iconUrl={{ uri: src }}
                     backgroundColor={"black"}
                     dimension="100%"
-                    handlePress={() =>
-                      router.push(`/Customization?name=${name}&id=${id}`)
-                    }
+                    handlePress={()=>{}}
                   ></ScreenHeaderBtn>
                 </TouchableOpacity>
                 <Text
@@ -126,9 +124,7 @@ const Layout = () => {
                     fontSize: normalize_font(24),
                     paddingLeft: 10,
                   }}
-                  onPress={() =>
-                    router.push(`/Customization?name=${name}&id=${id}`)
-                  }
+                  onPress={()=>{}}
                 >
                   {name}
                 </Text>
