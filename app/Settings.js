@@ -266,6 +266,7 @@ export default function Settings() {
                 backgroundColor: "black",
                 padding: 10,
                 marginBottom: 10,
+                borderRadius: 20,
               }}
               onPress={() => makePhoneCall('1-800-273-TALK')}
             >
@@ -283,8 +284,9 @@ export default function Settings() {
                 backgroundColor: "black",
                 padding: 10,
                 marginBottom: 40,
+                borderRadius: 20,
               }}
-              onPress={() => setShowCrisisModal(!showCrisisModal)}
+              onPress={() => Linking.openURL("https://www.google.com")}
             >
               <Text
                 style={{
@@ -307,6 +309,7 @@ export default function Settings() {
                 style={{
                   backgroundColor: "black",
                   padding: 10,
+                  borderRadius: 20,
                 }}
                 onPress={() => setShowCrisisModal(!showCrisisModal)}
               >
