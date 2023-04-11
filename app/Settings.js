@@ -50,10 +50,35 @@ export default function Settings() {
     refreshing: false,
   };
 
-  const toggleMusicSwitch = () =>
-    setIsMusicEnabled((previousState) => !previousState);
-  const toggleSoundsSwitch = () =>
-    setIsSoundsEnabled((previousState) => !previousState);
+  const toggleMusicSwitch = () =>  {
+    fetch(`${api_url}/user-profiles/post-attribute`, {
+      method: "POST",
+      body: JSON.stringify({ music_enabled : !isMusicEnabled, email: user.encryption }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json.music_enabled)
+        setIsMusicEnabled((previousState) => !previousState);
+      });
+  }
+  
+  const toggleSoundsSwitch = () => {
+    fetch(`${api_url}/user-profiles/post-attribute`, {
+      method: "POST",
+      body: JSON.stringify({ sounds_enabled : !isSoundsEnabled, email: user.encryption }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json.sounds_enabled)
+        setIsSoundsEnabled((previousState) => !previousState);
+      });
+  }
 
   settingsData = [
     {
@@ -279,6 +304,7 @@ export default function Settings() {
                 backgroundColor: "black",
                 padding: 10,
                 marginBottom: 10,
+                // borderRadius: 20,
               }}
               onPress={() => makePhoneCall('1-800-273-TALK')}
             >
@@ -296,8 +322,9 @@ export default function Settings() {
                 backgroundColor: "black",
                 padding: 10,
                 marginBottom: 40,
+                // borderRadius: 20,
               }}
-              onPress={() => setShowCrisisModal(!showCrisisModal)}
+              onPress={() => Linking.openURL("https://www.google.com")}
             >
               <Text
                 style={{
@@ -320,6 +347,7 @@ export default function Settings() {
                 style={{
                   backgroundColor: "black",
                   padding: 10,
+                  // borderRadius: 20,
                 }}
                 onPress={() => setShowCrisisModal(!showCrisisModal)}
               >

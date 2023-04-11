@@ -33,7 +33,7 @@ function ChatScreen() {
 
   function getLevel() {
     fetch(
-      `${api_url}/chat-module/fetch-chat-history?bot_id=${id}&email=${user.encryption}&lines=50`
+      `${api_url}/user-profiles/fetch-chat-history?bot_id=${id}&email=${user.encryption}&lines=50`
     )
       .then((res) => res.json())
       .then((json) => {

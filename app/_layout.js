@@ -211,7 +211,7 @@ const Layout = () => {
           headerRight: () => {
             return (
               <TouchableOpacity
-                activeOpacity={0.94}
+                activeOpacity={0.7}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -219,6 +219,7 @@ const Layout = () => {
                   padding: 10,
                   borderRadius: 20,
                 }}
+                handlePress={()=>{console.log("Pressed")}}
               >
                 <Text
                   style={{
