@@ -121,7 +121,7 @@ const Layout = () => {
                   style={{
                     color: "white",
                     alignSelf: "center",
-                    fontSize: normalize_font(24),
+                    fontSize: normalize_font(22),
                     paddingLeft: 10,
                   }}
                   onPress={()=>{}}
