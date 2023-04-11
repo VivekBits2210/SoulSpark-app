@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignContent: "center",
     justifyContent: "center",
-    width: window.width * 0.6,
+    width: window.width * 0.65,
     borderRadius: 50,
     borderWidth: 5,
     backgroundColor: "black",

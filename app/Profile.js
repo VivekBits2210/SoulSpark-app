@@ -8,6 +8,7 @@ import { Chip } from "react-native-paper";
 import { useState, useEffect } from "react";
 import SearchableDropdown from "react-native-searchable-dropdown";
 import { api_url, user } from "../constants";
+import { ActivityIndicator } from "react-native-paper";
 
 const ages = [];
 for (let i = 18; i <= 60; i++) {
@@ -31,15 +32,26 @@ const Profile = () => {
   const [gender, setGender] = useState("Male");
   const [genderFocus, setGenderFocus] = useState("Female");
   const [selectedInterests, setSelectedInterests] = useState([]);
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
   const [userProfile, setUserProfile] = useState({});
+  const [isLoading, setIsLoading] = useState(true); 
+
   function loadUserInfo() {
     fetch(
       `${api_url}/user-profiles/fetch-user-info?email=${user.encryption}`
     )
       .then((res) => res.json())
       .then((json) => {
+        const { name, age, gender, gender_focus, interests } = json;
         setUserProfile(json);
+        setName(name);
+        setAge(age);
+        setGender(gender === "M" ? "Male" : "Female");
+        setGenderFocus(gender_focus === "M" ? "Male" : gender_focus === "F" ? "Female" : "Any");
+        setSelectedInterests(interests.split(","));
         console.log(json);
+        setIsLoading(false);
       });
   }
   useEffect(loadUserInfo, []);
@@ -59,117 +71,100 @@ const Profile = () => {
   };
 
   return (
-    <ScrollView
-      style={{
-        backgroundColor: "#fff",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        paddingHorizontal: 20,
-        paddingVertical: 40,
-        gap: 20,
-      }}
-    >
-      <CustomInput customName="Name" />
-      <Controller
-        control={control}
-        name="age"
-        render={({ field: { onChange, value } }) => (
-          <View style={styles.textBox}>
-            <Text style={styles.label}>Select an age</Text>
-            <Picker selectedValue={value} onValueChange={onChange}>
-              {ages.map((item, key) => (
-                <Picker.Item key={key} label={item} value={item} />
-              ))}
-            </Picker>
-          </View>
-        )}
-        rules={{
-          required: {
-            value: true,
-            message: "Please fill your Age",
-          },
-        }}
-      />
-      <CustomRadioInput
-        values={["Male", "Female"]}
-        element={<Pressable style={styles.radioSelect} />}
-        onPress={(value) => {
-          setGender(value);
-        }}
-        currValue={gender}
-        count={2}
-        customName="Select your gender"
-      />
-      <CustomRadioInput
-        values={["Male", "Female", "Any"]}
-        element={<Pressable style={styles.radioSelect} />}
-        onPress={(value) => {
-          setGenderFocus(value);
-        }}
-        currValue={genderFocus}
-        count={3}
-        customName="Select your preference"
-      />
-      <View style={styles.chipContainer}>
-        {interests.map((interest, index) => (
-          <Chip
-            key={index}
-            mode="outlined"
-            selected={selectedInterests.includes(interest)}
-            onPress={() => {
-              toggleInterest(interest);
-            }}
-            style={[
-              styles.chip,
-              selectedInterests.includes(interest)
-                ? styles.chipSelected
-                : styles.chipUnselected,
-            ]}
-            textStyle={
-              selectedInterests.includes(interest)
-                ? styles.chipTextSelected
-                : styles.chipTextUnselected
-            }
-          >
-            {interest}
-          </Chip>
-        ))}
+    <View>
+      {isLoading ? ( 
+        <View
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100%",
+          }}
+        >
+        <ActivityIndicator size="large" color="#000" />
       </View>
-      {/* <SearchableDropdown
-        onItemSelect={(item) => {
-          setSelectedCountry(item);
-        }}
-        containerStyle={{ padding: 5 }}
-        itemStyle={{
-          padding: 10,
-          marginTop: 2,
-          backgroundColor: "#f5f5f5",
-          borderColor: "#bbb",
-          borderWidth: 1,
-          borderRadius: 5,
-        }}
-        itemTextStyle={{ color: "#222" }}
-        itemsContainerStyle={{ maxHeight: 140 }}
-        items={countries}
-        defaultIndex={selectedCountry.id - 1}
-        resetValue={false}
-        textInputProps={{
-          placeholder: "placeholder",
-          underlineColorAndroid: "transparent",
-          style: {
-            padding: 12,
-            borderWidth: 1,
-            borderColor: "#ccc",
-            borderRadius: 5,
-          },
-          onTextChange: (text) => console.log(text),
-        }}
-        listProps={{
-          nestedScrollEnabled: true,
-        }}
-      /> */}
-    </ScrollView>
+      ) : (
+            <ScrollView
+              style={{
+                backgroundColor: "#fff",
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                paddingHorizontal: 20,
+                paddingVertical: 40,
+                gap: 20,
+              }}
+            >
+          <CustomInput customName="Name" value={name} onChangeText={setName} />
+          <Controller
+            control={control}
+            name="age"
+            render={({ field: { onChange, value } }) => (
+              <View style={styles.textBox}>
+                <Text style={styles.label}>Select an age</Text>
+                <Picker selectedValue={value || age } onValueChange={onChange}>
+                  {ages.map((item, key) => (
+                    <Picker.Item key={key} label={item} value={item} />
+                  ))}
+                </Picker>
+              </View>
+            )}
+            rules={{
+              required: {
+                value: true,
+                message: "Please fill your Age",
+              },
+            }}
+          />
+        <CustomRadioInput
+          values={["Male", "Female"]}
+          element={<Pressable style={styles.radioSelect} />}
+          onPress={(value) => {
+            setGender(value);
+          }}
+          currValue={gender}
+          count={2}
+          customName="Select your gender"
+        />
+        <CustomRadioInput
+          values={["Male", "Female", "Any"]}
+          element={<Pressable style={styles.radioSelect} />}
+          onPress={(value) => {
+            setGenderFocus(value);
+          }}
+          currValue={genderFocus}
+          count={3}
+          customName="Select your preference"
+        />
+        <View style={styles.chipContainer}>
+          {interests.map((interest, index) => (
+            <Chip
+              key={index}
+              mode="outlined"
+              selected={selectedInterests.includes(interest)}
+              onPress={() => {
+                toggleInterest(interest);
+              }}
+              style={[
+                styles.chip,
+                selectedInterests.includes(interest)
+                  ? styles.chipSelected
+                  : styles.chipUnselected,
+              ]}
+              textStyle={
+                selectedInterests.includes(interest)
+                  ? styles.chipTextSelected
+                  : styles.chipTextUnselected
+              }
+              selectedColor="white"
+            >
+              {interest}
+            </Chip>
+          ))}
+        </View>
+      </ScrollView>
+      )}
+    </View>
   );
 };
 
@@ -197,6 +192,8 @@ const CustomInput = (props) => {
         style={{
           fontSize: 20,
         }}
+        value={props.value}
+        onChangeText={props.onChangeText}
       ></TextInput>
     </View>
   );
@@ -275,6 +272,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
+    backgroundColor: "#f5f5f5",
+    borderRadius: 10,
+    padding: 10,
+    borderColor: "#e4e4e4",
+    borderWidth: 1,
+    alignSelf: "stretch",
+    marginVertical: 7,
   },
   chip: {
     margin: 4,
