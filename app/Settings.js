@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, Text, View, Image, Switch, Linking } from "react-native";
+import { StyleSheet, Text, TextInput, View, Image, Switch, Linking, Dimensions, ScrollView } from "react-native";
 import { SettingsScreen, Chevron } from "react-native-settings-screen";
 import { useState } from "react";
 import Modal from "react-native-modal";
@@ -17,6 +17,18 @@ export default function Settings() {
   const [showLearnModal, setShowLearnModal] = useState(false);
   const [showDeleteChatModal, setShowDeleteChatModal] = useState(false);
   const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
+  const [inputText, setInputText] = useState('');
+  const [hasError, setHasError] = useState(true);
+
+  const handleTextChange = (text) => {
+    setInputText(text);
+    if (text.length >= 250 || text.length < 10) {
+      setHasError(true);
+    } else {
+      setHasError(false);
+    }
+  };
+
   state = {
     refreshing: false,
   };
@@ -369,24 +381,53 @@ export default function Settings() {
             setShowContactModal(!showContactModal);
           }}
         >
-          <View style={styles.modalView}>
-            <Text>Contact us at</Text>
-            <Pressable
-              style={{
-                backgroundColor: "black",
-                padding: 10,
-                borderRadius: 50,
-              }}
-              onPress={() => setShowContactModal(!showContactModal)}
-            >
-              <Text
-                style={{
-                  color: "white",
-                }}
+          <View style={styles.container}>
+            <View style={styles.modalView}>
+              <Text style={{ fontWeight: 'bold' }}>Please send us your query here!</Text>
+              <ScrollView
+                showsVerticalScrollIndicator={true}
+                style={styles.textInputContainer}
               >
-                OK
-              </Text>
-            </Pressable>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={handleTextChange}
+                  value={inputText}
+                  maxLength={250}
+                  multiline
+                  numberOfLines={4}
+                />
+              </ScrollView>
+              {hasError && (
+                <Text style={styles.errorMessage}>
+                  {inputText.length >= 250
+                    ? "Please limit your input to 250 characters."
+                    : "Please enter at least 10 characters."}
+                </Text>
+              )}
+              <View style={styles.buttonContainer}>
+                <Pressable
+                  style={styles.cancelButton}
+                  onPress={() => {
+                    setShowContactModal(!showContactModal); 
+                    setInputText('');
+                  }
+                }
+                >
+                  <Text style={styles.cancelButtonText}>Cancel</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.submitButton, hasError ? styles.disabledSubmitButton : {}]}
+                  onPress={() => {
+                    setShowContactModal(!showContactModal);
+                    setInputText('');
+                    }
+                  }
+                  disabled={hasError}
+                >
+                  <Text style={styles.submitButtonText}>Submit</Text>
+                </Pressable>
+              </View>
+            </View>
           </View>
         </Modal>
         <SettingsScreen
@@ -410,11 +451,15 @@ export default function Settings() {
   );
 }
 
+const { width } = Dimensions.get('window');
+const paddingHorizontalMargin = 20;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: paddingHorizontalMargin,
   },
   heroContainer: {
     marginTop: 40,
@@ -447,12 +492,54 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   modalView: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-    padding: 30,
-    borderRadius: 25,
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    width: width - 2 * paddingHorizontalMargin,
+  },
+  textInputContainer: {
+    width: '100%',
+    maxHeight: 80,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    marginVertical: 10,
+  },
+  textInput: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  errorMessage: {
+    color: 'red',
+    marginBottom: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
     gap: 20,
+    justifyContent: 'space-between',
+    width: '100%',
+    marginTop: 20,
+  },
+  cancelButton: {
+    backgroundColor: 'black',
+    padding: 10,
+    flex: 1,
+    alignItems: 'center',
+  },
+  submitButton: {
+    backgroundColor: 'black',
+    padding: 10,
+    flex: 1,
+    alignItems: 'center',
+  },
+  disabledSubmitButton: {
+    opacity: 0.5,
+  },
+  submitButtonText: {
+    color: 'white',
+  },
+  cancelButtonText: {
+    color: 'red',
   },
 });
