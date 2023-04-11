@@ -22,7 +22,7 @@ export default function ChatSelectionScreen() {
       .then((res) => res.json())
       .then((json) => {
         let result = [];
-        for (let i = json.data.length - 1; i >=0; i--) {
+        for (let i = json.data.length - 1; i >= 0; i--) {
           let src = `${aws_url}/${json.data[i].bot_id}.jpg?url_refresh_hack=${url_refresh_hack}`;
           result.push({
             myKey: json.data[i].bot_id,
@@ -105,24 +105,24 @@ export default function ChatSelectionScreen() {
               }}
             >
               <IconButton
-            name="caretleft"
-            onPress={() => {
-              ref.current?.scrollTo({ count: -1, animated: true });
-            }}
-            color="white"
-            backgroundColor="black"
-            size={20}
-             />
-             <IconButton
-            name="caretright"
-            onPress={() => {
-              ref.current?.scrollTo({ count: 1, animated: true });
-            }}
-            color="white"
-            backgroundColor="black"
-            size={20}
-             />
-             
+                name="caretleft"
+                onPress={() => {
+                  ref.current?.scrollTo({ count: -1, animated: true });
+                }}
+                color="white"
+                backgroundColor="black"
+                size={20}
+              />
+              <IconButton
+                name="caretright"
+                onPress={() => {
+                  ref.current?.scrollTo({ count: 1, animated: true });
+                }}
+                color="white"
+                backgroundColor="black"
+                size={20}
+              />
+
               {/* <SButton
                 disabled={false}
                 onPress={() => {
@@ -158,7 +158,6 @@ export default function ChatSelectionScreen() {
   );
 }
 
-
 const styles = StyleSheet.create({
   singleButton: {
     backgroundColor: "transparent",
@@ -176,4 +175,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     elevation: 2,
     padding: 15,
-  }});
+  },
+});

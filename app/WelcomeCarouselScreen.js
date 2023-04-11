@@ -17,7 +17,7 @@ import Animated, {
 import Carousel from "react-native-reanimated-carousel";
 import { useRouter } from "expo-router";
 import { SBItem } from "../components/SBItem";
-import { user, window, api_url, normalize_font} from "../constants";
+import { user, window, api_url, normalize_font } from "../constants";
 
 // Images
 import googleLogo from "../assets/g-logo-black.jpg";
@@ -25,7 +25,6 @@ import m0 from "../assets/cropped_smiling_woman.jpg";
 import m1 from "../assets/cropped_journey.jpg";
 import m2 from "../assets/cropped_sad_day.jpg";
 import m3 from "../assets/cropped_zen.jpg";
-
 
 const PAGE_WIDTH = window.width;
 const colors = ["#26292E", "#899F9C", "#B3C680", "#5C6265"];
@@ -37,9 +36,7 @@ function WelcomeCarouselScreen({ navigation }) {
   const progressValue = useSharedValue(0);
 
   const checkProfileAndRedirect = () => {
-    fetch(
-      `${api_url}/user-profiles/fetch-user-info?email=${user.encryption}`
-    )
+    fetch(`${api_url}/user-profiles/fetch-user-info?email=${user.encryption}`)
       .then((res) => res.json())
       .then((json) => {
         if (json.age && json.gender) {
@@ -123,13 +120,13 @@ function WelcomeCarouselScreen({ navigation }) {
           })}
         </View>
       )}
-      <View style={{ flex: 0.5, backgroundColor: "white",}}>
+      <View style={{ flex: 0.5, backgroundColor: "white" }}>
         <Text
           style={{
-            fontFamily: "Roboto", 
-            fontSize: normalize_font(20), 
-            color: "black", 
-            textAlign: "center", 
+            fontFamily: "Roboto",
+            fontSize: normalize_font(20),
+            color: "black",
+            textAlign: "center",
           }}
         >
           {currentIndex === 0 ? (
@@ -144,7 +141,8 @@ function WelcomeCarouselScreen({ navigation }) {
             </Text>
           ) : currentIndex === 2 ? (
             <Text>
-              Find <Text style={{ color: "purple" }}>solace</Text> on difficult days
+              Find <Text style={{ color: "purple" }}>solace</Text> on difficult
+              days
             </Text>
           ) : (
             <Text>
@@ -153,23 +151,37 @@ function WelcomeCarouselScreen({ navigation }) {
           )}
         </Text>
       </View>
-      <View  style={{ flex: 1, alignItems: "center", backgroundColor: "white", width: "100%"}}>
-      <Pressable
-        style={({ pressed }) => [
-          styles.customButton,
-          pressed ? styles.customButtonPressed : {},
-        ]}
-        onPress={() => {
-          checkProfileAndRedirect();
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          backgroundColor: "white",
+          width: "100%",
         }}
       >
-        <View style={{ flex: 0.2}}>
-        <Image source={googleLogo} style={styles.logo} />
-        </View>
-        <View style={{flex: 1, flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
-        <Text style={styles.customButtonText}>Continue with Google</Text>
-        </View>
-      </Pressable>
+        <Pressable
+          style={({ pressed }) => [
+            styles.customButton,
+            pressed ? styles.customButtonPressed : {},
+          ]}
+          onPress={() => {
+            checkProfileAndRedirect();
+          }}
+        >
+          <View style={{ flex: 0.2 }}>
+            <Image source={googleLogo} style={styles.logo} />
+          </View>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text style={styles.customButtonText}>Continue with Google</Text>
+          </View>
+        </Pressable>
       </View>
     </View>
   );
@@ -235,7 +247,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     marginLeft: "30%",
     height: "100%",
-    width: "100%"
+    width: "100%",
   },
   customButtonPressed: {
     opacity: 0.6,
@@ -249,12 +261,11 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 5,
     backgroundColor: "black",
-
   },
   customButtonText: {
     color: "white",
     fontSize: normalize_font(17),
-    fontFamily: "sans-serif"
+    fontFamily: "sans-serif",
   },
 });
 

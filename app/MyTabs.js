@@ -6,7 +6,6 @@ import SwipeScreen from "./SwipeScreen";
 import ChatSelectionScreen from "./ChatSelectionScreen";
 const Tab = createBottomTabNavigator();
 
-
 const MyTabs = (props) => {
   const [tabBarOptions, setTabBarOptions] = React.useState({});
   const handleChatTabPress = () => {
@@ -44,18 +43,24 @@ const MyTabs = (props) => {
           },
           tabBarInactiveTintColor: "gray",
           tabBarActiveTintColor: "black",
-        })} 
+        })}
       >
-        <Tab.Screen name="Swipe" component={SwipeScreen} initialParams={{"setTabBarOptions":setTabBarOptions}}
-         />
-        <Tab.Screen name="Chat" component={ChatSelectionScreen}
-        options={tabBarOptions} listeners={{
+        <Tab.Screen
+          name="Swipe"
+          component={SwipeScreen}
+          initialParams={{ setTabBarOptions: setTabBarOptions }}
+        />
+        <Tab.Screen
+          name="Chat"
+          component={ChatSelectionScreen}
+          options={tabBarOptions}
+          listeners={{
             tabPress: handleChatTabPress,
           }}
-          />
+        />
       </Tab.Navigator>
     </View>
   );
-}
+};
 
 export default MyTabs;

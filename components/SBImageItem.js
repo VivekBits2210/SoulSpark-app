@@ -2,8 +2,15 @@ import React from "react";
 import { StyleSheet, View, Image, Text } from "react-native";
 import { url_refresh_hack } from "../constants";
 
-export const SBImageItem = ({ id, style, text, showIndex = true, src, borderRadius }) => {
-  const borderStyle = borderRadius?{"borderRadius":borderRadius}:{}
+export const SBImageItem = ({
+  id,
+  style,
+  text,
+  showIndex = true,
+  src,
+  borderRadius,
+}) => {
+  const borderStyle = borderRadius ? { borderRadius: borderRadius } : {};
   if (typeof src !== "number") {
     src += `?url_refresh_hack=${url_refresh_hack}`;
   }
@@ -20,7 +27,7 @@ export const SBImageItem = ({ id, style, text, showIndex = true, src, borderRadi
       ]}
     >
       {typeof src === "number" ? (
-        <Image key={id} style={[styles.image,borderStyle]} source={src} />
+        <Image key={id} style={[styles.image, borderStyle]} source={src} />
       ) : (
         <Image key={id} style={styles.image} src={src} />
       )}
@@ -61,6 +68,6 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
-    resizeMode:"cover",
+    resizeMode: "cover",
   },
 });

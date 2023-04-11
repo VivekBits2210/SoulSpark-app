@@ -40,10 +40,7 @@ export default function ExpandedProfile() {
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              style={[
-                styles.singleButton,
-                { backgroundColor: "black" },
-              ]}
+              style={[styles.singleButton, { backgroundColor: "black" }]}
               onPress={handleBackPress}
               activeOpacity={0.65}
             >
@@ -52,7 +49,18 @@ export default function ExpandedProfile() {
           </View>
         </View>
       </View>
-      <Text style={{ textAlign: "justify", fontFamily: "Roboto", fontSize: 16, padding: 30, textShadowColor: "grey", textShadowRadius: 2 }}>{bio}</Text>
+      <Text
+        style={{
+          textAlign: "justify",
+          fontFamily: "Roboto",
+          fontSize: 16,
+          padding: 30,
+          textShadowColor: "grey",
+          textShadowRadius: 2,
+        }}
+      >
+        {bio}
+      </Text>
     </View>
   );
 }

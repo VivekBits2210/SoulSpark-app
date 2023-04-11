@@ -6,16 +6,13 @@ import { user, api_url } from "../constants";
 
 const UnmatchMenu = (props) => {
   const router = useRouter();
-  const [menuVisible, setMenuVisible] = useState(false);
+  // const [menuVisible, setMenuVisible] = useState(false);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const [unmatchedVisible, setUnmatchedVisible] = useState(false);
   const { id } = props;
-  const toggleMenu = () => {
-    setMenuVisible(!menuVisible);
-  };
 
   const showConfirmation = () => {
-    setMenuVisible(false);
+    // setMenuVisible(false);
     setConfirmationVisible(true);
   };
 
@@ -31,13 +28,11 @@ const UnmatchMenu = (props) => {
       method: "POST",
       body: data,
       redirect: "follow",
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        setConfirmationVisible(false);
-        setUnmatchedVisible(true);
-        router.back();
-      });
+    }).then((res) => {
+      setConfirmationVisible(false);
+      setUnmatchedVisible(true);
+      router.back();
+    });
   };
 
   const hideUnmatched = () => {
@@ -97,15 +92,6 @@ const UnmatchMenu = (props) => {
 };
 
 const styles = StyleSheet.create({
-  //   container: {
-  //     flex: 1,
-  //     justifyContent: 'center',
-  //     alignItems: 'center',
-  //   },
-  kebabMenu: {
-    fontSize: 24,
-    color: "white",
-  },
   kebabButton: {
     justifyContent: "center",
     alignItems: "flex-end",
@@ -117,17 +103,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.4)",
-  },
-  menuContainer: {
-    backgroundColor: "white",
-    borderRadius: 4,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-  },
-  menuItem: {
-    fontSize: 18,
-    color: "red",
-    paddingVertical: 8,
   },
   confirmationContainer: {
     backgroundColor: "white",
@@ -151,7 +126,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     marginHorizontal: 8,
-    justifyContent: 'center'
+    justifyContent: "center",
   },
   buttonText: {
     fontSize: 14,

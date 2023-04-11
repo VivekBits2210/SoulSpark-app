@@ -47,9 +47,15 @@ const InterestsScreen = ({ navigation }) => {
               }}
               style={[
                 styles.chip,
-                selectedInterests.includes(interest) ? styles.chipSelected : styles.chipUnselected,
+                selectedInterests.includes(interest)
+                  ? styles.chipSelected
+                  : styles.chipUnselected,
               ]}
-              textStyle={selectedInterests.includes(interest) ? styles.chipTextSelected : styles.chipTextUnselected}
+              textStyle={
+                selectedInterests.includes(interest)
+                  ? styles.chipTextSelected
+                  : styles.chipTextUnselected
+              }
             >
               {interest}
             </Chip>
@@ -112,19 +118,19 @@ const styles = StyleSheet.create({
     margin: 4,
   },
   chipSelected: {
-    backgroundColor: 'black',
-    borderColor: 'white',
+    backgroundColor: "black",
+    borderColor: "white",
   },
   chipUnselected: {
-    backgroundColor: 'white',
-    borderColor: 'black',
+    backgroundColor: "white",
+    borderColor: "black",
   },
   chipTextSelected: {
-    color: 'white',
+    color: "white",
   },
   chipTextUnselected: {
-    color: 'black',
-  },  
+    color: "black",
+  },
   continueButton: {
     marginTop: 32,
   },

@@ -10,15 +10,15 @@ import { SBTextItem } from "./SBTextItem";
 export const SBItem = (props) => {
   const { src, text, key, style, testID } = props;
   return (
-      <Animated.View testID={testID} style={{ flex: 1 }}>
-          <SBImageItem
-            text={text}
-            id={key}
-            src={src}
-            style={style}
-            borderRadius={10}
-          />
-      </Animated.View>
+    <Animated.View testID={testID} style={{ flex: 1 }}>
+      <SBImageItem
+        text={text}
+        id={key}
+        src={src}
+        style={style}
+        borderRadius={10}
+      />
+    </Animated.View>
   );
 };
 
@@ -37,7 +37,7 @@ export const SBItemChatSelect = (props) => {
     >
       <LongPressGestureHandler
         onActivated={() => {
-//          setIsPretty(!isPretty);
+          //          setIsPretty(!isPretty);
         }}
       >
         <Animated.View

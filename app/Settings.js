@@ -1,28 +1,12 @@
 import * as React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  Image,
-  Platform,
-  RefreshControl,
-  Switch,
-  Linking,
-} from "react-native";
-import {
-  SettingsScreen,
-  Chevron,
-} from "react-native-settings-screen";
+import { StyleSheet, Text, View, Image, Switch, Linking } from "react-native";
+import { SettingsScreen, Chevron } from "react-native-settings-screen";
 import { useState } from "react";
 import Modal from "react-native-modal";
 import { Pressable } from "react-native";
 import { useRouter } from "expo-router";
-import { user, api_url } from "../constants";
-import Toast from 'react-native-toast-message';
-
-
-const fontFamily = Platform.OS === "ios" ? "Avenir" : "sans-serif";
+import { user, api_url, version } from "../constants";
+import Toast from "react-native-toast-message";
 
 export default function Settings() {
   const router = useRouter();
@@ -37,8 +21,10 @@ export default function Settings() {
     refreshing: false,
   };
 
-  const toggleMusicSwitch = () => setIsMusicEnabled(previousState => !previousState);
-  const toggleSoundsSwitch = () => setIsSoundsEnabled(previousState => !previousState);
+  const toggleMusicSwitch = () =>
+    setIsMusicEnabled((previousState) => !previousState);
+  const toggleSoundsSwitch = () =>
+    setIsSoundsEnabled((previousState) => !previousState);
 
   settingsData = [
     {
@@ -68,11 +54,18 @@ export default function Settings() {
       rows: [
         {
           title: "Background Music",
-          renderAccessory: () => <Switch onValueChange={toggleMusicSwitch} value={isMusicEnabled} />,
+          renderAccessory: () => (
+            <Switch onValueChange={toggleMusicSwitch} value={isMusicEnabled} />
+          ),
         },
         {
           title: "Sounds",
-          renderAccessory: () => <Switch onValueChange={toggleSoundsSwitch} value={isSoundsEnabled} />,
+          renderAccessory: () => (
+            <Switch
+              onValueChange={toggleSoundsSwitch}
+              value={isSoundsEnabled}
+            />
+          ),
         },
       ],
     },
@@ -172,10 +165,10 @@ export default function Settings() {
             color: "#999",
             marginBottom: 40,
             marginTop: -30,
-            fontFamily,
+            fontFamily: "Roboto",
           }}
         >
-          v1.2.3
+          {version}
         </Text>
       ),
     },
@@ -183,260 +176,245 @@ export default function Settings() {
 
   return (
     <>
-    <View style={styles.container}>
-      {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
-      {/* <View style={styles.navBar}> */}
-      {/* <Text style={styles.navBarTitle}>Settings</Text> */}
-      {/* </View> */}
-      <Modal
-        animationOut="fadeOutUp"
-        backgroundOpacity="0.7"
-        transparent={true}
-        isVisible={showDeleteAccountModal}
-        onRequestClose={() => {
-          setShowDeleteAccountModal(!showDeleteAccountModal);
-        }}
-      >
-        <View style={styles.modalView}>
-          <Text>Are you sure you want to delete your account?</Text>
-          <View
-            style={{
-              flexDirection: "row",
-              gap: 30,
-            }}
-          >
-            <Pressable
+      <View style={styles.container}>
+        <Modal
+          animationOut="fadeOutUp"
+          backgroundOpacity="0.7"
+          transparent={true}
+          isVisible={showDeleteAccountModal}
+          onRequestClose={() => {
+            setShowDeleteAccountModal(!showDeleteAccountModal);
+          }}
+        >
+          <View style={styles.modalView}>
+            <Text>Are you sure you want to delete your account?</Text>
+            <View
               style={{
-                backgroundColor: "red",
-                padding: 10,
-                borderRadius: 50,
+                flexDirection: "row",
+                gap: 30,
               }}
-              onPress={() => setShowDeleteAccountModal(!showDeleteAccountModal)}
             >
-              <Text
+              <Pressable
                 style={{
-                  color: "white",
+                  backgroundColor: "red",
+                  padding: 10,
+                  borderRadius: 50,
                 }}
+                onPress={() =>
+                  setShowDeleteAccountModal(!showDeleteAccountModal)
+                }
               >
-                Delete
-              </Text>
-            </Pressable>
+                <Text
+                  style={{
+                    color: "white",
+                  }}
+                >
+                  Delete
+                </Text>
+              </Pressable>
+              <Pressable
+                style={{
+                  backgroundColor: "black",
+                  padding: 10,
+                  borderRadius: 20,
+                }}
+                onPress={() =>
+                  setShowDeleteAccountModal(!showDeleteAccountModal)
+                }
+              >
+                <Text
+                  style={{
+                    color: "white",
+                  }}
+                >
+                  Cancel
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          animationOut="fadeOutUp"
+          backgroundOpacity="0.7"
+          transparent={true}
+          isVisible={showCrisisModal}
+          onRequestClose={() => {
+            setShowCrisisModal(!showCrisisModal);
+          }}
+        >
+          <View style={styles.modalView}>
+            <Text>Crisis</Text>
             <Pressable
               style={{
                 backgroundColor: "black",
                 padding: 10,
-                borderRadius: 20,
+                borderRadius: 50,
               }}
-              onPress={() => setShowDeleteAccountModal(!showDeleteAccountModal)}
+              onPress={() => setShowCrisisModal(!showCrisisModal)}
             >
               <Text
                 style={{
                   color: "white",
                 }}
               >
-                Cancel
+                OK
               </Text>
             </Pressable>
           </View>
-        </View>
-      </Modal>
-      <Modal
-        animationOut="fadeOutUp"
-        backgroundOpacity="0.7"
-        transparent={true}
-        isVisible={showCrisisModal}
-        onRequestClose={() => {
-          setShowCrisisModal(!showCrisisModal);
-        }}
-      >
-        <View style={styles.modalView}>
-          <Text>Crisis</Text>
-          <Pressable
-            style={{
-              backgroundColor: "black",
-              padding: 10,
-              borderRadius: 50,
-            }}
-            onPress={() => setShowCrisisModal(!showCrisisModal)}
-          >
-            <Text
-              style={{
-                color: "white",
-              }}
-            >
-              OK
-            </Text>
-          </Pressable>
-        </View>
-      </Modal>
-      <Modal
-        animationOut="fadeOutUp"
-        backgroundOpacity="0.7"
-        transparent={true}
-        isVisible={showLearnModal}
-        onRequestClose={() => {
-          setShowLearnModal(!showLearnModal);
-        }}
-      >
-        <View style={styles.modalView}>
-          <Text>Learn more</Text>
-          <Pressable
-            style={{
-              backgroundColor: "black",
-              padding: 10,
-              borderRadius: 50,
-            }}
-            onPress={() => setShowLearnModal(!showLearnModal)}
-          >
-            <Text
-              style={{
-                color: "white",
-              }}
-            >
-              OK
-            </Text>
-          </Pressable>
-        </View>
-      </Modal>
-      <Modal
-        animationOut="fadeOutUp"
-        backgroundOpacity="0.7"
-        transparent={true}
-        isVisible={showDeleteChatModal}
-        onRequestClose={() => {
-          setShowDeleteChatModal(!showDeleteChatModal);
-        }}
-      >
-        <View style={styles.modalView}>
-          <Text>Are you sure you want to delete all your chat history?</Text>
-          <View
-            style={{
-              flexDirection: "row",
-              gap: 30,
-            }}
-          >
-            <Pressable
-              style={{
-                backgroundColor: "red",
-                padding: 10,
-                borderRadius: 50,
-              }}
-              onPress={() => {
-                setShowDeleteChatModal(!showDeleteChatModal);
-                fetch(`${api_url}/chat-module/delete-all-chat-history`, {
-                method: "POST",
-                body: JSON.stringify({"email": user.encryption}),
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              })
-                .then((res) => res.json())
-                .then((json) =>{
-                  Toast.show({
-                    type: 'success',
-                    text1: 'Chat History Deleted',
-                    text2: 'All chat history has been wiped!'
-                  });
-              });
-              }}
-            >
-              <Text
-                style={{
-                  color: "white",
-                }}
-              >
-                Delete
-              </Text>
-            </Pressable>
+        </Modal>
+        <Modal
+          animationOut="fadeOutUp"
+          backgroundOpacity="0.7"
+          transparent={true}
+          isVisible={showLearnModal}
+          onRequestClose={() => {
+            setShowLearnModal(!showLearnModal);
+          }}
+        >
+          <View style={styles.modalView}>
+            <Text>Learn more</Text>
             <Pressable
               style={{
                 backgroundColor: "black",
                 padding: 10,
-                borderRadius: 20,
+                borderRadius: 50,
               }}
-              onPress={() => setShowDeleteChatModal(!showDeleteChatModal)}
+              onPress={() => setShowLearnModal(!showLearnModal)}
             >
               <Text
                 style={{
                   color: "white",
                 }}
               >
-                Cancel
+                OK
               </Text>
             </Pressable>
           </View>
-        </View>
-      </Modal>
-      <Modal
-        animationOut="fadeOutUp"
-        backgroundOpacity="0.7"
-        transparent={true}
-        isVisible={showContactModal}
-        onRequestClose={() => {
-          setShowContactModal(!showContactModal);
-        }}
-      >
-        <View style={styles.modalView}>
-          <Text>Contact us at</Text>
-          <Pressable
-            style={{
-              backgroundColor: "black",
-              padding: 10,
-              borderRadius: 50,
-            }}
-            onPress={() => setShowContactModal(!showContactModal)}
-          >
-            <Text
+        </Modal>
+        <Modal
+          animationOut="fadeOutUp"
+          backgroundOpacity="0.7"
+          transparent={true}
+          isVisible={showDeleteChatModal}
+          onRequestClose={() => {
+            setShowDeleteChatModal(!showDeleteChatModal);
+          }}
+        >
+          <View style={styles.modalView}>
+            <Text>Are you sure you want to delete all your chat history?</Text>
+            <View
               style={{
-                color: "white",
+                flexDirection: "row",
+                gap: 30,
               }}
             >
-              OK
-            </Text>
-          </Pressable>
-        </View>
-      </Modal>
-      <SettingsScreen
-        data={this.settingsData}
-        globalTextStyle={{ fontFamily }}
-        // scrollViewProps={{
-        //   refreshControl: (
-        //     <RefreshControl
-        //       refreshing={this.state.refreshing}
-        //       onRefresh={() => {
-        //         this.setState({ refreshing: true })
-        //         setTimeout(() => this.setState({ refreshing: false }), 3000)
-        //       }}
-        //     />
-        //   ),
-        // }}
-      />
-    </View>
-    <Toast />
+              <Pressable
+                style={{
+                  backgroundColor: "red",
+                  padding: 10,
+                  borderRadius: 50,
+                }}
+                onPress={() => {
+                  setShowDeleteChatModal(!showDeleteChatModal);
+                  fetch(`${api_url}/chat-module/delete-all-chat-history`, {
+                    method: "POST",
+                    body: JSON.stringify({ email: user.encryption }),
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  })
+                    .then((res) => res.json())
+                    .then((json) => {
+                      Toast.show({
+                        type: "success",
+                        text1: "Chat History Deleted",
+                        text2: "All chat history has been wiped!",
+                      });
+                    });
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                  }}
+                >
+                  Delete
+                </Text>
+              </Pressable>
+              <Pressable
+                style={{
+                  backgroundColor: "black",
+                  padding: 10,
+                  borderRadius: 20,
+                }}
+                onPress={() => setShowDeleteChatModal(!showDeleteChatModal)}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                  }}
+                >
+                  Cancel
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          animationOut="fadeOutUp"
+          backgroundOpacity="0.7"
+          transparent={true}
+          isVisible={showContactModal}
+          onRequestClose={() => {
+            setShowContactModal(!showContactModal);
+          }}
+        >
+          <View style={styles.modalView}>
+            <Text>Contact us at</Text>
+            <Pressable
+              style={{
+                backgroundColor: "black",
+                padding: 10,
+                borderRadius: 50,
+              }}
+              onPress={() => setShowContactModal(!showContactModal)}
+            >
+              <Text
+                style={{
+                  color: "white",
+                }}
+              >
+                OK
+              </Text>
+            </Pressable>
+          </View>
+        </Modal>
+        <SettingsScreen
+          data={this.settingsData}
+          globalTextStyle={{ fontFamily: "Roboto" }}
+          // scrollViewProps={{
+          //   refreshControl: (
+          //     <RefreshControl
+          //       refreshing={this.state.refreshing}
+          //       onRefresh={() => {
+          //         this.setState({ refreshing: true })
+          //         setTimeout(() => this.setState({ refreshing: false }), 3000)
+          //       }}
+          //     />
+          //   ),
+          // }}
+        />
+      </View>
+      <Toast />
     </>
   );
 }
-
-const statusBarHeight = Platform.OS === "ios" ? 35 : 0;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  navBar: {
-    backgroundColor: "black",
-    height: 44 + statusBarHeight,
-    alignSelf: "stretch",
-    paddingTop: statusBarHeight,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  navBarTitle: {
-    color: "white",
-    fontFamily,
-    fontSize: 17,
   },
   heroContainer: {
     marginTop: 40,
@@ -459,12 +437,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   heroTitle: {
-    fontFamily,
+    fontFamily: "Roboto",
     color: "black",
     fontSize: 24,
   },
   heroSubtitle: {
-    fontFamily,
+    fontFamily: "Roboto",
     color: "#999",
     fontSize: 14,
   },
