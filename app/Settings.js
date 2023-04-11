@@ -29,6 +29,10 @@ export default function Settings() {
     }
   };
 
+  const makePhoneCall = (phoneNumber) => {
+    Linking.openURL(`tel:${phoneNumber}`);
+  };
+
   state = {
     refreshing: false,
   };
@@ -255,12 +259,30 @@ export default function Settings() {
           }}
         >
           <View style={styles.modalView}>
-            <Text>Crisis</Text>
+            <Text style={styles.heading}>If you're in crisis</Text>
+            <Text style={styles.description}>If you're in the US, please call the National Suicide Prevention Lifeline (toll-free)</Text>
             <Pressable
               style={{
                 backgroundColor: "black",
                 padding: 10,
-                borderRadius: 50,
+                marginBottom: 10,
+              }}
+              onPress={() => makePhoneCall('1-800-273-TALK')}
+            >
+              <Text
+                style={{
+                  color: "white",
+                }}
+              >
+                1-800-273-TALK
+              </Text>
+            </Pressable>
+            <Text style={styles.description}>If you're elsewhere, please call a local hotline</Text>
+            <Pressable
+              style={{
+                backgroundColor: "black",
+                padding: 10,
+                marginBottom: 40,
               }}
               onPress={() => setShowCrisisModal(!showCrisisModal)}
             >
@@ -269,9 +291,28 @@ export default function Settings() {
                   color: "white",
                 }}
               >
-                OK
+                Find a hotline in your country
               </Text>
             </Pressable>
+            <View 
+              style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  width: "100%",
+              }}
+              >
+              <View></View>
+              <Pressable
+                style={{
+                  backgroundColor: "black",
+                  padding: 10,
+                }}
+                onPress={() => setShowCrisisModal(!showCrisisModal)}
+              >
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </Pressable>
+              </View>
           </View>
         </Modal>
         <Modal
@@ -417,25 +458,9 @@ export default function Settings() {
                 </Pressable>
                 <Pressable
                   style={[styles.submitButton, hasError ? styles.disabledSubmitButton : {}]}
-                  onPress={(input_text) => {
+                  onPress={() => {
                     setShowContactModal(!showContactModal);
-                    fetch(`${api_url}/user-profiles/post-feedback`, {
-                      method: "POST",
-                      body: JSON.stringify({ email: user.encryption, feedback: inputText }),
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                    })
-                      .then((res) => res.json())
-                      .then((json) => {
-                        console.log(json)
-                        setInputText('');
-                        Toast.show({
-                          type: "success",
-                          text1: "Feedback Sent",
-                          text2: "We will get back to you shortly!",
-                        });
-                      });
+                    setInputText('');
                     }
                   }
                   disabled={hasError}
@@ -557,5 +582,14 @@ const styles = StyleSheet.create({
   },
   cancelButtonText: {
     color: 'red',
+  },
+  heading: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 15,
+  },
+  description: {
+    textAlign: "center",
+    marginBottom: 15,
   },
 });
