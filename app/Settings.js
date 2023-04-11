@@ -383,7 +383,7 @@ export default function Settings() {
         >
           <View style={styles.container}>
             <View style={styles.modalView}>
-              <Text style={{ fontWeight: 'bold' }}>Please send us your inquiry here!</Text>
+              <Text style={{ fontWeight: 'bold' }}>Please send us your query here!</Text>
               <ScrollView
                 showsVerticalScrollIndicator={true}
                 style={styles.textInputContainer}
