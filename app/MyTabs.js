@@ -22,8 +22,9 @@ const MyTabs = (props) => {
     >
       <Tab.Navigator
         screenOptions={({ route }) => ({
-          tabBarStyle: { height: window.height / 15 },
+          tabBarStyle: { height: window.height * 0.1 },
           headerShown: false,
+          headerShadowVisible: false,
           tabBarIcon: ({ focused, color, size }) => {
             if (route.name === "Swipe") {
               return (

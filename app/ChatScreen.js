@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import { View, Text } from "react-native";
 import { Chat } from "@flyerhq/react-native-chat-ui";
 import * as Progress from "react-native-progress";
-import { email, user, api_url } from "../constants";
+import { email, user, api_url, normalize_font, window } from "../constants";
 import { useEffect } from "react";
 import { useSearchParams } from "expo-router";
-import { Dimensions } from "react-native";
 import { Input } from "@flyerhq/react-native-chat-ui";
 import { KeyboardAccessoryView } from "@flyerhq/react-native-keyboard-accessory-view";
-const windowWidth = Dimensions.get("window").width;
 
 function ChatScreen() {
   const { name, id } = useSearchParams();
@@ -82,7 +80,7 @@ function ChatScreen() {
           backgroundColor: "rgba(60, 52, 151, 1)",
           display: "flex",
           flexDirection: "row",
-          maxWidth: windowWidth,
+          maxWidth: window.width,
         }}
       >
         <Progress.Bar
@@ -92,7 +90,7 @@ function ChatScreen() {
           borderColor={"rgba(60, 52, 151, 1)"}
           style={{ borderBottomRightRadius: 10, borderTopRightRadius: 10 }}
           height={17}
-          width={windowWidth * 0.8}
+          width={window.width * 0.8}
         />
         <View
           style={{
@@ -100,7 +98,7 @@ function ChatScreen() {
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: "rgba(60, 52, 151, 1)",
-            width: 0.2 * windowWidth,
+            width: 0.2 * window.width,
           }}
         >
           <Text style={{ color: "#fff" }}>LEVEL {Math.floor(level + 1)}</Text>
@@ -117,11 +115,11 @@ function ChatScreen() {
                   style={{
                     display: "flex",
                     flexDirection: "row",
-                    width: 200,
-                    height: 40,
+                    // width: 200,
+                    // height: 40,
                     backgroundColor: "white",
-                    marginLeft: 20,
-                    marginBottom: 16,
+                    // marginLeft: 20,
+                    // marginBottom: 16,
                     alignItems: "center",
                   }}
                 >
@@ -129,7 +127,8 @@ function ChatScreen() {
                     style={{
                       fontFamily: "Roboto",
                       fontStyle: "italic",
-                      fontSize: 11,
+                      fontSize: normalize_font(15),
+                      marginBottom: "10%",
                     }}
                   >
                     {name} is typing...

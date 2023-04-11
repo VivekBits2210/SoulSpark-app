@@ -1,18 +1,20 @@
 import { StyleSheet } from "react-native";
-import { window } from "../../constants";
+import { normalize_font, window } from "../../constants";
 
 export default StyleSheet.create({
   card: {
-    flex: 1,
-    backgroundColor: "white",
+    flex: 0.72,
+    marginTop: -30,
+    // height: "100%",
+    backgroundColor: "transparent",
     borderRadius: 5,
     shadowColor: "black",
     shadowOffset: {
-      width: 60,
+      width: window.width/100,
       height: 2,
     },
-    marginTop: -window.height / 15,
-    marginBottom: window.height / 4.5,
+    // marginTop: -window.height / 15,
+    // marginBottom: window.height / 4.5,
     shadowRadius: 6,
     shadowOpacity: 0.3,
     elevation: 2,
@@ -29,14 +31,14 @@ export default StyleSheet.create({
     bottom: 10,
   },
   textContainer: {
-    flex: 5,
+    // flex: 5,
     justifyContent: "flex-end",
     alignItems: "flex-start",
     paddingLeft: 10,
   },
   text: {
     textAlign: "left",
-    fontSize: 20,
+    fontSize: normalize_font(21),
     color: "white",
     textShadowColor: "black",
     textShadowRadius: 10,

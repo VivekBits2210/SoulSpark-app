@@ -3,16 +3,13 @@ import {
   StyleSheet,
   Text,
   View,
-  StatusBar,
   Image,
   TouchableOpacity,
-  Dimensions,
 } from "react-native";
 import { useRouter, useSearchParams } from "expo-router";
 import Icon from "react-native-vector-icons/AntDesign";
-import { url_refresh_hack, aws_url, window } from "../constants";
+import { url_refresh_hack, aws_url, window, normalize_font } from "../constants";
 
-const { height } = Dimensions.get("window");
 
 export default function ExpandedProfile() {
   const router = useRouter();
@@ -57,8 +54,8 @@ export default function ExpandedProfile() {
         style={{
           textAlign: "justify",
           fontFamily: "Roboto",
-          fontSize: 16,
-          padding: 30,
+          fontSize: normalize_font(17),
+          padding: window.height/25,
           textShadowColor: "grey",
           textShadowRadius: 2,
         }}
@@ -74,7 +71,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   card: {
-    height: 0.85 * height,
+    height: 0.8 * window.height,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
@@ -107,7 +104,7 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: "left",
-    fontSize: 25,
+    fontSize: normalize_font(24),
     color: "white",
     textShadowColor: "black",
     textShadowRadius: 10,

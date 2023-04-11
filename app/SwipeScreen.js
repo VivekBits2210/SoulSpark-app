@@ -87,58 +87,46 @@ const SwipeScreen = ({ route }) => {
     <>
       <View style={styles.container}>
         {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
-        <View style={styles.swiperContainer}>
           {photoCards.length > 0 ? (
-            <Swiper
-              ref={swiperRef}
-              animateCardOpacity
-              containerStyle={styles.container}
-              cards={photoCards}
-              renderCard={(card) => <Card card={card} />}
-              cardIndex={0}
-              backgroundColor="white"
-              infinite={true}
-              stackSize={2}
-              showSecondCard
-              animateOverlayLabelsOpacity
-              disableBottomSwipe={true}
-              disableTopSwipe={true}
-              onSwipedRight={getBotId}
-              overlayLabels={{
-                left: {
-                  title: "NOPE",
-                  element: <OverlayLabel label="NOPE" color="#E5566D" />,
-                  style: {
-                    wrapper: styles.overlayWrapper,
+            <>
+          <View style={styles.swiperContainer}>
+          <Swiper
+            ref={swiperRef}
+            animateCardOpacity
+            cards={photoCards}
+            renderCard={(card) => <Card card={card} />}
+            cardIndex={0}
+            backgroundColor="white"
+            infinite={true}
+            stackSize={2}
+            showSecondCard
+            animateOverlayLabelsOpacity
+            disableBottomSwipe={true}
+            disableTopSwipe={true}
+            onSwipedRight={getBotId}
+            overlayLabels={{
+              left: {
+                title: "NOPE",
+                element: <OverlayLabel label="NOPE" color="#E5566D" />,
+                style: {
+                  wrapper: styles.overlayWrapper,
+                },
+              },
+              right: {
+                title: "LIKE",
+                element: <OverlayLabel label="LIKE" color="#4CCC93" />,
+                style: {
+                  wrapper: {
+                    ...styles.overlayWrapper,
+                    alignItems: "flex-start",
+                    marginLeft: 30,
                   },
                 },
-                right: {
-                  title: "LIKE",
-                  element: <OverlayLabel label="LIKE" color="#4CCC93" />,
-                  style: {
-                    wrapper: {
-                      ...styles.overlayWrapper,
-                      alignItems: "flex-start",
-                      marginLeft: 30,
-                    },
-                  },
-                },
-              }}
-            />
-          ) : (
-            <View
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100%",
-              }}
-            >
-              <ActivityIndicator size="large" color="#000" />
-            </View>
-          )}
-        </View>
-        <View style={styles.buttonsContainer}>
+              },
+            }}
+          />
+          </View>
+          <View style={styles.buttonsContainer}>
           <TouchableOpacity>
             <IconButton
               name="close"
@@ -167,6 +155,20 @@ const SwipeScreen = ({ route }) => {
             />
           </TouchableOpacity>
         </View>
+        </>
+          ) : (
+            <View
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+              }}
+            >
+              <ActivityIndicator size="large" color="#000" />
+            </View>
+          )}
+        
       </View>
       <Toast />
     </>
