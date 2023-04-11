@@ -26,39 +26,6 @@ const interests = [
   "sports",
 ];
 
-const countries = [
-  { id: 1, name: "Afghanistan" },
-  { id: 2, name: "Albania" },
-  { id: 3, name: "Algeria" },
-  { id: 4, name: "American Samoa" },
-  { id: 5, name: "Andorra" },
-  { id: 6, name: "Angola" },
-  { id: 7, name: "Anguilla" },
-  { id: 8, name: "Antarctica" },
-  { id: 9, name: "Antigua and Barbuda" },
-  { id: 10, name: "Argentina" },
-  { id: 11, name: "Armenia" },
-  { id: 12, name: "Aruba" },
-  { id: 13, name: "Australia" },
-  { id: 14, name: "Austria" },
-  { id: 15, name: "Azerbaijan" },
-  { id: 16, name: "Bahamas" },
-  { id: 17, name: "Bahrain" },
-  { id: 18, name: "Bangladesh" },
-  { id: 19, name: "Barbados" },
-  { id: 20, name: "Belarus" },
-  { id: 21, name: "Belgium" },
-  { id: 22, name: "Belize" },
-  { id: 23, name: "Benin" },
-  { id: 24, name: "Bermuda" },
-  { id: 25, name: "Bhutan" },
-  { id: 26, name: "Bolivia" },
-  { id: 27, name: "Bosnia and Herzegovina" },
-  { id: 28, name: "Botswana" },
-  { id: 29, name: "Bouvet Island" },
-  { id: 30, name: "Brazil" },
-];
-
 const Profile = () => {
   const {
     control,
@@ -158,7 +125,7 @@ const Profile = () => {
           </Chip>
         ))}
       </View>
-      <SearchableDropdown
+      {/* <SearchableDropdown
         onItemSelect={(item) => {
           setSelectedCountry(item);
         }}
@@ -190,7 +157,7 @@ const Profile = () => {
         listProps={{
           nestedScrollEnabled: true,
         }}
-      />
+      /> */}
     </ScrollView>
   );
 };
