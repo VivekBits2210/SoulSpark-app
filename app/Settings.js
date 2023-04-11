@@ -2,12 +2,13 @@ import * as React from 'react';
 import { StyleSheet, Text, TextInput, View, Image, Switch, Linking, Dimensions, ScrollView, FlatList,
   Keyboard,} from "react-native";
 import { SettingsScreen, Chevron } from "react-native-settings-screen";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Modal from "react-native-modal";
 import { Pressable } from "react-native";
 import { useRouter } from "expo-router";
 import { user, api_url, version } from "../constants";
 import Toast from "react-native-toast-message";
+import { ActivityIndicator } from "react-native-paper";
 
 export default function Settings() {
   const router = useRouter();
@@ -20,6 +21,7 @@ export default function Settings() {
   const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
   const [inputText, setInputText] = useState('');
   const [hasError, setHasError] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);  
 
   const handleTextChange = (text) => {
     setInputText(text);
@@ -50,26 +52,26 @@ export default function Settings() {
     refreshing: false,
   };
 
-  const toggleMusicSwitch = () =>  {
+  function loadUserInfo() {
     fetch(
       `${api_url}/user-profiles/fetch-user-info?email=${user.encryption}`
     )
       .then((res) => res.json())
       .then((json) => {
-        console.log(json.music_enabled)
-        setIsMusicEnabled((previousState) => !previousState);
+        setIsMusicEnabled(json.music_enabled)
+        setIsSoundsEnabled(json.sounds_enabled)
+        console.log(json);
+        setIsLoading(false);
       });
+  }
+  useEffect(loadUserInfo, []);
+
+  const toggleMusicSwitch = () =>  {
+    setIsMusicEnabled((previousState) => !previousState);
   }
   
   const toggleSoundsSwitch = () => {
-    fetch(
-      `${api_url}/user-profiles/fetch-user-info?email=${user.encryption}`
-    )
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json.sounds_enabled)
         setIsSoundsEnabled((previousState) => !previousState);
-      });
   }
 
   settingsData = [
@@ -222,6 +224,18 @@ export default function Settings() {
 
   return (
     <>
+    {isLoading ? ( 
+        <View
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100%",
+          }}
+        >
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+      ) : (
       <View style={styles.container}>
         <Modal
           animationOut="fadeOutUp"
@@ -517,6 +531,7 @@ export default function Settings() {
           // }}
         />
       </View>
+      )}
       <Toast />
     </>
   );
