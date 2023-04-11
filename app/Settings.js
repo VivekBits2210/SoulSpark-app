@@ -1,7 +1,8 @@
-import * as React from "react";
-import { StyleSheet, Text, TextInput, View, Image, Switch, Linking, Dimensions, ScrollView } from "react-native";
+import * as React from 'react';
+import { StyleSheet, Text, TextInput, View, Image, Switch, Linking, Dimensions, ScrollView, FlatList,
+  Keyboard,} from "react-native";
 import { SettingsScreen, Chevron } from "react-native-settings-screen";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Modal from "react-native-modal";
 import { Pressable } from "react-native";
 import { useRouter } from "expo-router";
@@ -32,6 +33,18 @@ export default function Settings() {
   const makePhoneCall = (phoneNumber) => {
     Linking.openURL(`tel:${phoneNumber}`);
   };
+
+  const flatListRef = useRef(null);
+
+  const renderItem = () => (
+    <TextInput
+      style={[styles.textInput, { minHeight: 80 }]}
+      onChangeText={handleTextChange}
+      value={inputText}
+      maxLength={250}
+      multiline
+    />
+  );
 
   state = {
     refreshing: false,
@@ -425,19 +438,16 @@ export default function Settings() {
           <View style={styles.container}>
             <View style={styles.modalView}>
               <Text style={{ fontWeight: 'bold' }}>Please send us your query here!</Text>
-              <ScrollView
-                showsVerticalScrollIndicator={true}
-                style={styles.textInputContainer}
-              >
-                <TextInput
-                  style={styles.textInput}
-                  onChangeText={handleTextChange}
-                  value={inputText}
-                  maxLength={250}
-                  multiline
-                  numberOfLines={4}
+              <View style={styles.textInputContainer}>
+                <FlatList
+                  ref={flatListRef}
+                  data={[{ key: 'textInput' }]}
+                  renderItem={renderItem}
+                  onContentSizeChange={() => flatListRef.current.scrollToEnd({ animated: true })}
+                  onScrollBeginDrag={Keyboard.dismiss}
+                  keyboardShouldPersistTaps="handled"
                 />
-              </ScrollView>
+              </View>
               {hasError && (
                 <Text style={styles.errorMessage}>
                   {inputText.length >= 250
