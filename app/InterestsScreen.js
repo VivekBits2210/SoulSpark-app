@@ -22,7 +22,6 @@ const interests = [
 const InterestsScreen = ({ navigation }) => {
   const router = useRouter();
   const [selectedInterests, setSelectedInterests] = useState([]);
-  // const [validInterests, setValidInterests] = useState(false);
 
   const toggleInterest = (interest) => {
     if (selectedInterests.includes(interest)) {
