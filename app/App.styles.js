@@ -5,6 +5,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
+    backgroundColor: "white"
   },
   swiperContainer: {
     flex: 7,
@@ -12,7 +13,7 @@ export default StyleSheet.create({
   },
   buttonsContainer: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "transparent",
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
