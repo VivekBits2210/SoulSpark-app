@@ -5,8 +5,9 @@ import { useForm, Controller } from "react-hook-form";
 import { Picker } from "@react-native-picker/picker";
 import { Pressable, StyleSheet, ScrollView } from "react-native";
 import { Chip } from "react-native-paper";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchableDropdown from "react-native-searchable-dropdown";
+import { api_url, user } from "../constants";
 
 const ages = [];
 for (let i = 18; i <= 60; i++) {
@@ -27,14 +28,27 @@ const interests = [
 ];
 
 const Profile = () => {
+  const [gender, setGender] = useState("Male");
+  const [genderFocus, setGenderFocus] = useState("Female");
+  const [selectedInterests, setSelectedInterests] = useState([]);
+  const [userProfile, setUserProfile] = useState({});
+  function loadUserInfo() {
+    fetch(
+      `${api_url}/user-profiles/fetch-user-info?email=${user.encryption}`
+    )
+      .then((res) => res.json())
+      .then((json) => {
+        setUserProfile(json);
+        console.log(json);
+      });
+  }
+  useEffect(loadUserInfo, []);
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [selectedInterests, setSelectedInterests] = useState([]);
-
-  const [selectedCountry, setSelectedCountry] = useState(countries[5]);
 
   const toggleInterest = (interest) => {
     if (selectedInterests.includes(interest)) {
@@ -43,9 +57,6 @@ const Profile = () => {
       setSelectedInterests([...selectedInterests, interest]);
     }
   };
-
-  const [gender, setGender] = useState("Male");
-  const [genderFocus, setGenderFocus] = useState("Female");
 
   return (
     <ScrollView
