@@ -60,18 +60,39 @@ export default function Settings() {
       .then((json) => {
         setIsMusicEnabled(json.music_enabled)
         setIsSoundsEnabled(json.sounds_enabled)
-        console.log(json);
+        console.log("MUSIC AND SOUNDS", json.music_enabled, json.sounds_enabled);
         setIsLoading(false);
       });
   }
   useEffect(loadUserInfo, []);
 
+
   const toggleMusicSwitch = () =>  {
-    setIsMusicEnabled((previousState) => !previousState);
+    fetch(`${api_url}/user-profiles/post-attribute`, {
+      method: "POST",
+      body: JSON.stringify({"music_enabled": !isMusicEnabled, "email": user.encryption}),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.json())
+    .then((json) => {
+      console.log(json.music_enabled);
+      setIsMusicEnabled((previousState) => !previousState);
+    });
   }
   
   const toggleSoundsSwitch = () => {
-        setIsSoundsEnabled((previousState) => !previousState);
+    fetch(`${api_url}/user-profiles/post-attribute`, {
+      method: "POST",
+      body: JSON.stringify({"sounds_enabled": !isSoundsEnabled, "email": user.encryption}),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.json())
+    .then((json) => {
+      console.log(json.sounds_enabled);
+      setIsSoundsEnabled((previousState) => !previousState);
+    });
   }
 
   settingsData = [

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, ScrollView, TouchableOpacity, RefreshControl } from "react-native";
 import Swiper from "react-native-deck-swiper";
 import Toast from "react-native-toast-message";
 import { ActivityIndicator } from "react-native-paper";
@@ -11,6 +11,7 @@ const SwipeScreen = ({ route }) => {
   const { setTabBarOptions } = route.params;
   const swiperRef = useRef(null);
   const [photoCards, setPhotoCards] = useState([]);
+  const [refreshing, setRefreshing] = React.useState(false);
 
   const getProfilesForSwipe = (n) => {
     fetch(
@@ -30,8 +31,14 @@ const SwipeScreen = ({ route }) => {
           });
         }
         setPhotoCards(result);
+        setRefreshing(false);
       });
   };
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getProfilesForSwipe(20);
+  }, []);
 
   useEffect(() => {
     getProfilesForSwipe(20);
@@ -85,7 +92,10 @@ const SwipeScreen = ({ route }) => {
 
   return (
     <>
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
           {photoCards.length > 0 ? (
             <>
@@ -169,7 +179,7 @@ const SwipeScreen = ({ route }) => {
             </View>
           )}
         
-      </View>
+      </ScrollView>
       <Toast />
     </>
   );

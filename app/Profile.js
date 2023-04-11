@@ -6,9 +6,10 @@ import { Picker } from "@react-native-picker/picker";
 import { Pressable, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { Chip } from "react-native-paper";
 import { useState, useEffect } from "react";
-import SearchableDropdown from "react-native-searchable-dropdown";
-import { api_url, user } from "../constants";
+import { useRouter } from "expo-router";
+import { api_url, user, normalize_font } from "../constants";
 import { ActivityIndicator } from "react-native-paper";
+import Toast from "react-native-toast-message";
 
 const ages = [];
 for (let i = 18; i <= 60; i++) {
@@ -29,6 +30,7 @@ const interests = [
 ];
 
 const Profile = () => {
+  const router = useRouter();
   const [gender, setGender] = useState("Male");
   const [genderFocus, setGenderFocus] = useState("Female");
   const [selectedInterests, setSelectedInterests] = useState([]);
@@ -47,10 +49,10 @@ const Profile = () => {
         setUserProfile(json);
         setName(name);
         setAge(String(age));
-        setGender(gender === "M" ? "Male" : "Female");
-        setGenderFocus(gender_focus === "M" ? "Male" : gender_focus === "F" ? "Female" : "Any");
+        setGender(gender);
+        setGenderFocus(gender_focus);
         setSelectedInterests(interests.split(","));
-        console.log(json);
+        // console.log(json);
         setIsLoading(false);
       });
   }
@@ -71,6 +73,7 @@ const Profile = () => {
   };
 
   return (
+    <>
     <View>
       {isLoading ? ( 
         <View
@@ -117,7 +120,8 @@ const Profile = () => {
             }}
           />
         <CustomRadioInput
-          values={["Male", "Female"]}
+          values={["M","F"]}
+          labels={["Male", "Female"]}
           element={<Pressable style={styles.radioSelect} />}
           onPress={(value) => {
             setGender(value);
@@ -127,7 +131,8 @@ const Profile = () => {
           customName="Select your gender"
         />
         <CustomRadioInput
-          values={["Male", "Female", "Any"]}
+          values={["M","F","E"]}
+          labels={["Male", "Female", "Any"]}
           element={<Pressable style={styles.radioSelect} />}
           onPress={(value) => {
             setGenderFocus(value);
@@ -165,25 +170,47 @@ const Profile = () => {
             ))}
           </View>
         </View>
-      </ScrollView>
-      )}
+
+      <View style={{display:"flex", paddingVertical:"5%", alignContent: "center", alignItems: "center"}}>
       <TouchableOpacity
         style={{
+          flex: 1,
+          alignContent: "center",
           alignItems: "center",
-          justifyContent: "center",
-          width: 60,
-          height: 40,
-          position: "absolute",
-          bottom: 20,
-          right: 20,
           borderRadius: 4,
           backgroundColor: "black",
+          width: "17%",
+          paddingVertical: 5, 
         }}
-        onPress={handleSubmit()}
+        onPress={() => {
+          formValue = {
+            "name": name,
+            "age": age,
+            "gender": gender,
+            "gender_focus": genderFocus,
+            "interests": selectedInterests.join(","),
+          }
+          formValue.email = user.encryption;
+          fetch(`${api_url}/user-profiles/post-attribute`, {
+            method: "POST",
+            body: JSON.stringify(formValue),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((res) => res.json())
+            .then((json) => console.log(json));
+          router.back();
+        }}
       >
-        <Text style={{ color: "white", fontSize: 20 }}>Save</Text>
+        <Text style={{ color: "white", fontSize: normalize_font(14), fontFamily: "Roboto" }}>SAVE</Text>
       </TouchableOpacity>
+      </View>
+      </ScrollView>
+      )}
     </View>
+    <Toast />
+    </>
   );
 };
 
@@ -236,7 +263,7 @@ const CustomRadioInput = (props) => {
               props.currValue === props.values[i] ? styles.selectedText : {}
             }
           >
-            {props.values[i]}
+            {props.labels[i]}
           </Text>
           
         ),
