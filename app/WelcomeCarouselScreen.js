@@ -63,7 +63,7 @@ function WelcomeCarouselScreen({ navigation }) {
         <Carousel
           vertical={false}
           width={window.width}
-          height={window.height*0.65}
+          height={window.height * 0.65}
           style={{
             backgroundColor: "white",
           }}
@@ -100,7 +100,7 @@ function WelcomeCarouselScreen({ navigation }) {
             justifyContent: "space-between",
             alignItems: "center",
             alignContent: "center",
-            width: window.width/3,
+            width: window.width / 3,
           }}
         >
           {colors.map((backgroundColor, index) => {
@@ -117,7 +117,7 @@ function WelcomeCarouselScreen({ navigation }) {
           })}
         </View>
       )}
-      <View style={{ flex: 0.5, backgroundColor: "white"}}>
+      <View style={{ flex: 0.5, backgroundColor: "white" }}>
         <Text
           style={{
             fontFamily: "Roboto",
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignContent: "center",
     justifyContent: "center",
-    width: window.width*0.6,
+    width: window.width * 0.6,
     borderRadius: 50,
     borderWidth: 5,
     backgroundColor: "black",

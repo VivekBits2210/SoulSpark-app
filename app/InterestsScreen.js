@@ -4,7 +4,7 @@ import { Chip, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import SButton from "../components/SButton";
-import { user } from "../constants";
+import { user, api_url } from "../constants";
 
 const interests = [
   "photography",

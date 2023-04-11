@@ -8,13 +8,13 @@ export default StyleSheet.create({
   },
   swiperContainer: {
     flex: 7,
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   buttonsContainer: {
     flex: 1,
     backgroundColor: "white",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "flex-start",
     flexDirection: "row",
     paddingHorizontal: "15%",
   },

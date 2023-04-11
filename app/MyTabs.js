@@ -22,14 +22,14 @@ const MyTabs = (props) => {
     >
       <Tab.Navigator
         screenOptions={({ route }) => ({
-          tabBarStyle: { height:window.height/15, },
+          tabBarStyle: { height: window.height / 15 },
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
             if (route.name === "Swipe") {
               return (
                 <MaterialCommunityIcons
                   name={focused ? "cards" : "cards-outline"}
-                  size={window.height/27}
+                  size={window.height / 27}
                   color={color}
                 />
               );
@@ -37,7 +37,7 @@ const MyTabs = (props) => {
               return (
                 <Ionicons
                   name={focused ? "chatbubble" : "chatbubble-outline"}
-                  size={window.height/27}
+                  size={window.height / 27}
                   color={color}
                 />
               );

@@ -145,7 +145,7 @@ const SwipeScreen = ({ route }) => {
               onPress={handleOnSwipedLeft}
               color="white"
               backgroundColor="#E5566D"
-              size={window.height/50}
+              size={window.height / 50}
             />
           </TouchableOpacity>
           <TouchableOpacity>
@@ -154,7 +154,7 @@ const SwipeScreen = ({ route }) => {
               onPress={handleSwipeBack}
               color="white"
               backgroundColor="#FFB804"
-              size={window.height/50}
+              size={window.height / 50}
             />
           </TouchableOpacity>
           <TouchableOpacity>
@@ -163,7 +163,7 @@ const SwipeScreen = ({ route }) => {
               onPress={handleOnSwipedRight}
               color="white"
               backgroundColor="#0071C5"
-              size={window.height/50}
+              size={window.height / 50}
             />
           </TouchableOpacity>
         </View>

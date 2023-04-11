@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useRouter, useSearchParams } from "expo-router";
 import Icon from "react-native-vector-icons/AntDesign";
-import { url_refresh_hack, aws_url } from "../constants";
+import { url_refresh_hack, aws_url, window } from "../constants";
 
 const { height } = Dimensions.get("window");
 
@@ -44,7 +44,11 @@ export default function ExpandedProfile() {
               onPress={handleBackPress}
               activeOpacity={0.65}
             >
-              <Icon name={"caretup"} size={20} color={"white"} />
+              <Icon
+                name={"caretup"}
+                size={window.height / 50}
+                color={"white"}
+              />
             </TouchableOpacity>
           </View>
         </View>

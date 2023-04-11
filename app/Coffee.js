@@ -61,7 +61,7 @@ export default function Coffee() {
           { textAlign: "center", color: "white", fontStyle: "normal" },
         ]}
       >
-        Help us make this vision a reality!{"\n\n"}Donate below:
+        Help us make this vision a reality!{"\n\n"}Support us:
       </Text>
       <View style={{ flex: 1, width: window.width }}>
         <TouchableOpacity

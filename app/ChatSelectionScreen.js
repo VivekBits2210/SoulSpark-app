@@ -2,14 +2,11 @@ import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import { SBItemChatSelect } from "../components/SBItem";
-import { useRouter } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
 import { user, window, url_refresh_hack, api_url, aws_url } from "../constants";
 import { useState } from "react";
 import { ActivityIndicator } from "react-native-paper";
 import IconButton from "../components/IconButton/IconButton";
-
-const PAGE_WIDTH = window.width;
 
 export default function ChatSelectionScreen() {
   const ref = React.useRef(null);
@@ -37,16 +34,12 @@ export default function ChatSelectionScreen() {
 
   useFocusEffect(React.useCallback(getSelectedProfiles, []));
 
-  // useEffect(getSelectedProfiles, []);
-
   const baseOptions = {
     vertical: false,
-    width: PAGE_WIDTH * 0.93,
-    height: window.height * 0.68,
+    width: window.width * 0.88,
+    height: window.height * 0.7,
   };
   let chatIndex = 0;
-
-  const router = useRouter();
 
   function fn({ item }) {
     ref.current?.scrollTo({ index: 0 });
@@ -63,7 +56,7 @@ export default function ChatSelectionScreen() {
   }
 
   return (
-    <View style={{ flex: 1, paddingTop: 20, backgroundColor: "white" }}>
+    <View style={{ flex: 1, padding: "3%", backgroundColor: "white" }}>
       {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
       {chats ? (
         chats.length == 0 ? (
@@ -81,27 +74,34 @@ export default function ChatSelectionScreen() {
             </Text>
           </View>
         ) : (
-          <>
-            <Carousel
-              {...baseOptions}
-              loop={false}
-              ref={ref}
-              style={{ width: "100%" }}
-              scrollAnimationDuration={750}
-              data={chats}
-              pagingEnabled={true}
-              onSnapToItem={(index) => (chatIndex = index)}
-              renderItem={fn}
-            />
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <View style={{ flex: 5 }}>
+              <Carousel
+                {...baseOptions}
+                height={"100%"}
+                loop={false}
+                ref={ref}
+                style={{ width: "100%" }}
+                scrollAnimationDuration={750}
+                data={chats}
+                pagingEnabled={true}
+                onSnapToItem={(index) => (chatIndex = index)}
+                renderItem={fn}
+              />
+            </View>
             <View
               style={{
                 flex: 1,
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "space-between",
-                paddingTop: 10,
-                paddingLeft: 50,
-                paddingRight: 50,
+                paddingHorizontal: "15%",
               }}
             >
               <IconButton
@@ -111,7 +111,7 @@ export default function ChatSelectionScreen() {
                 }}
                 color="white"
                 backgroundColor="black"
-                size={20}
+                size={window.height / 50}
               />
               <IconButton
                 name="caretright"
@@ -120,7 +120,7 @@ export default function ChatSelectionScreen() {
                 }}
                 color="white"
                 backgroundColor="black"
-                size={20}
+                size={window.height / 50}
               />
 
               {/* <SButton
@@ -140,7 +140,7 @@ export default function ChatSelectionScreen() {
                 <Icon name={"caretright"} size={20} color={"white"} />
               </SButton> */}
             </View>
-          </>
+          </View>
         )
       ) : (
         <View

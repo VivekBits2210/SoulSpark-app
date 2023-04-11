@@ -3,7 +3,7 @@ import { window } from "../../constants";
 
 export default StyleSheet.create({
   card: {
-    flex: 0.75,
+    flex: 1,
     backgroundColor: "white",
     borderRadius: 5,
     shadowColor: "black",
@@ -11,7 +11,8 @@ export default StyleSheet.create({
       width: 60,
       height: 2,
     },
-    marginTop: - window.height/15,
+    marginTop: -window.height / 15,
+    marginBottom: window.height / 4.5,
     shadowRadius: 6,
     shadowOpacity: 0.3,
     elevation: 2,

@@ -34,7 +34,7 @@ const Card = ({ card }) => {
             onPress={handlePress}
             color="white"
             backgroundColor="black"
-            size={window.height/50}
+            size={window.height / 50}
           />
         </View>
       </View>
