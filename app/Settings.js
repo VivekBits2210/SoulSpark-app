@@ -417,9 +417,25 @@ export default function Settings() {
                 </Pressable>
                 <Pressable
                   style={[styles.submitButton, hasError ? styles.disabledSubmitButton : {}]}
-                  onPress={() => {
+                  onPress={(input_text) => {
                     setShowContactModal(!showContactModal);
-                    setInputText('');
+                    fetch(`${api_url}/user-profiles/post-feedback`, {
+                      method: "POST",
+                      body: JSON.stringify({ email: user.encryption, feedback: inputText }),
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                    })
+                      .then((res) => res.json())
+                      .then((json) => {
+                        console.log(json)
+                        setInputText('');
+                        Toast.show({
+                          type: "success",
+                          text1: "Feedback Sent",
+                          text2: "We will get back to you shortly!",
+                        });
+                      });
                     }
                   }
                   disabled={hasError}
