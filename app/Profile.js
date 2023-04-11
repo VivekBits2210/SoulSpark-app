@@ -3,7 +3,7 @@ import { View, Text } from "react-native-animatable";
 import { TextInput } from "react-native-gesture-handler";
 import { useForm, Controller } from "react-hook-form";
 import { Picker } from "@react-native-picker/picker";
-import { Pressable, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import { Pressable, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView } from "react-native";
 import { Chip } from "react-native-paper";
 import { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
@@ -74,7 +74,7 @@ const Profile = () => {
 
   return (
     <>
-    <View>
+    <SafeAreaView style={styles.safeArea}>
       {isLoading ? ( 
         <View
           style={{
@@ -87,7 +87,7 @@ const Profile = () => {
         <ActivityIndicator size="large" color="#000" />
       </View>
       ) : (
-            <ScrollView
+            <ScrollView contentContainerStyle={styles.scrollView}
               style={{
                 backgroundColor: "#fff",
                 height: "100%",
@@ -171,7 +171,12 @@ const Profile = () => {
           </View>
         </View>
 
-      <View style={{display:"flex", paddingVertical:"5%", alignContent: "center", alignItems: "center"}}>
+      <View style={{
+        display:"flex", 
+        paddingVertical:"5%", 
+        alignContent: "center", 
+        alignItems: "center",
+        marginBottom: 40,}}>
       <TouchableOpacity
         style={{
           flex: 1,
@@ -208,7 +213,7 @@ const Profile = () => {
       </View>
       </ScrollView>
       )}
-    </View>
+    </SafeAreaView>
     <Toast />
     </>
   );
@@ -416,6 +421,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 12,
     marginBottom: 20,
+  },
+  safeArea: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  scrollView: {
+    flexGrow: 1,
   },
 });
 
