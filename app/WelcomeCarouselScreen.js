@@ -16,48 +16,26 @@ import Animated, {
 } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 import { useRouter } from "expo-router";
-import { encrypEmail } from "../constants";
 import { SBItem } from "../components/SBItem";
-import { window } from "../constants";
+import { user, window, api_url, normalize_font } from "../constants";
+
+// Images
 import googleLogo from "../assets/g-logo-black.jpg";
 import m0 from "../assets/cropped_smiling_woman.jpg";
 import m1 from "../assets/cropped_journey.jpg";
 import m2 from "../assets/cropped_sad_day.jpg";
 import m3 from "../assets/cropped_zen.jpg";
 
-const PAGE_WIDTH = window.width;
 const colors = ["#26292E", "#899F9C", "#B3C680", "#5C6265"];
 const marketing_images = [m0, m1, m2, m3];
 
 function WelcomeCarouselScreen({ navigation }) {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = React.useState(0);
-  const [isVertical, setIsVertical] = React.useState(false);
-  const [autoPlay, setAutoPlay] = React.useState(true);
-  const [pagingEnabled, setPagingEnabled] = React.useState(true);
-  const [snapEnabled, setSnapEnabled] = React.useState(true);
   const progressValue = useSharedValue(0);
-  const baseOptions = isVertical
-    ? {
-        vertical: true,
-        width: PAGE_WIDTH * 0.86,
-        height: Dimensions.get("window").height,
-      }
-    : {
-        vertical: false,
-        width: PAGE_WIDTH,
-        height: window.height * 0.6,
-      };
-
-  // const getTimeZone = async() => {
-  //       const timeZone = await TimeZone.getTimeZone().then(zone => zone);
-  //       console.log({ timeZone });
-  //   }
 
   const checkProfileAndRedirect = () => {
-    fetch(
-      `https://api-soulspark.com/user-profiles/fetch-user-info?email=${encrypEmail}`
-    )
+    fetch(`${api_url}/user-profiles/fetch-user-info?email=${user.encryption}`)
       .then((res) => res.json())
       .then((json) => {
         if (json.age && json.gender) {
@@ -72,51 +50,43 @@ function WelcomeCarouselScreen({ navigation }) {
     <View
       style={{
         flex: 1,
-        justifyContent: "center",
         alignItems: "center",
-        paddingTop: 140,
         backgroundColor: "white",
       }}
     >
       <View
         style={{
-          backgroundColor: "white",
-          justifyContent: "center",
+          flex: 5,
           alignItems: "center",
-          height: Dimensions.get("window").height * 0.42, // adjust this value for the desired carousel height
         }}
       >
         <Carousel
-          {...baseOptions}
+          vertical={false}
+          width={window.width}
+          height={window.height * 0.65}
           style={{
             backgroundColor: "white",
-            width: PAGE_WIDTH,
-            height: Dimensions.get("window").height,
-            marginTop: window.height * 0.2,
           }}
           loop
-          pagingEnabled={pagingEnabled}
-          snapEnabled={snapEnabled}
-          autoPlay={autoPlay}
+          pagingEnabled={true}
+          snapEnabled={true}
+          autoPlay={true}
           autoPlayInterval={1800}
           onProgressChange={(_, absoluteProgress) => {
             progressValue.value = absoluteProgress;
-            // setCurrentIndex(Math.round(absoluteProgress * (colors.length - 1)));
           }}
           onSnapToItem={(index) => setCurrentIndex(index)}
           mode="parallax"
           modeConfig={{
             parallaxScrollingScale: 0.9,
-            parallaxScrollingOffset: 50,
+            parallaxScrollingOffset: 40,
           }}
           data={colors}
           renderItem={({ index }) => (
             <SBItem
               index={index}
               src={marketing_images[index]}
-              pretty={true}
-              text=""
-              style={{ height: "100%", width: "100%", padding: 10 }}
+              style={{ backgroundColor: "white" }}
             />
           )}
         />
@@ -124,10 +94,13 @@ function WelcomeCarouselScreen({ navigation }) {
       {!!progressValue && (
         <View
           style={{
+            flex: 0.2,
             flexDirection: "row",
+            backgroundColor: "transparent",
             justifyContent: "space-between",
-            width: 100,
-            marginBottom: 20, // adjust this value to add spacing between the dots and the login button
+            alignItems: "center",
+            alignContent: "center",
+            width: window.width / 3,
           }}
         >
           {colors.map((backgroundColor, index) => {
@@ -137,21 +110,20 @@ function WelcomeCarouselScreen({ navigation }) {
                 animValue={progressValue}
                 index={index}
                 key={index}
-                isRotate={isVertical}
+                isRotate={false}
                 length={colors.length}
               />
             );
           })}
         </View>
       )}
-      <View style={{ height: "10%" }}>
+      <View style={{ flex: 0.5, backgroundColor: "white" }}>
         <Text
           style={{
-            fontFamily: "Roboto", // change the font family to your desired system font
-            fontSize: 24, // increase the font size to make the text larger
-            fontWeight: "bold", // add font weight to make the text bold
-            color: "black", // change the color of the text
-            textAlign: "center", // center the text
+            fontFamily: "Roboto",
+            fontSize: normalize_font(20),
+            color: "black",
+            textAlign: "center",
           }}
         >
           {currentIndex === 0 ? (
@@ -166,7 +138,8 @@ function WelcomeCarouselScreen({ navigation }) {
             </Text>
           ) : currentIndex === 2 ? (
             <Text>
-              Find <Text style={{ color: "purple" }}>solace</Text> on difficult days
+              Find <Text style={{ color: "purple" }}>solace</Text> on difficult
+              days
             </Text>
           ) : (
             <Text>
@@ -175,18 +148,38 @@ function WelcomeCarouselScreen({ navigation }) {
           )}
         </Text>
       </View>
-      <Pressable
-        style={({ pressed }) => [
-          styles.customButton,
-          pressed ? styles.customButtonPressed : {},
-        ]}
-        onPress={() => {
-          checkProfileAndRedirect();
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          backgroundColor: "white",
+          width: "100%",
         }}
       >
-        <Image source={googleLogo} style={styles.logo} />
-        <Text style={styles.customButtonText}>Continue with Google</Text>
-      </Pressable>
+        <Pressable
+          style={({ pressed }) => [
+            styles.customButton,
+            pressed ? styles.customButtonPressed : {},
+          ]}
+          onPress={() => {
+            checkProfileAndRedirect();
+          }}
+        >
+          <View style={{ flex: 0.2 }}>
+            <Image source={googleLogo} style={styles.logo} />
+          </View>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text style={styles.customButtonText}>Continue with Google</Text>
+          </View>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -248,29 +241,28 @@ const PaginationItem = (props) => {
 
 const styles = StyleSheet.create({
   logo: {
-    width: 36,
-    height: 36,
+    resizeMode: "contain",
+    marginLeft: "13%",
+    height: "100%",
+    width: "100%",
   },
   customButtonPressed: {
-    opacity: 0.8,
+    opacity: 0.6,
   },
   customButton: {
+    flex: 0.4,
     flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    alignContent: "center",
+    justifyContent: "center",
+    width: window.width * 0.6,
     borderRadius: 50,
     borderWidth: 5,
     backgroundColor: "black",
-    marginTop: 36,
-    marginBottom: 36,
-    marginLeft: 36,
-    marginRight: 36,
   },
   customButtonText: {
     color: "white",
-    marginLeft: 8,
-    fontSize: 16,
+    fontSize: normalize_font(16),
+    fontFamily: "sans-serif",
   },
 });
 

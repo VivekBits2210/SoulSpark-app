@@ -21,8 +21,6 @@ const styles = StyleSheet.create({
   },
   titleImage: {
     marginTop: 10,
-    height: 60,
-    width: 120,
     objectFit: "contain",
   },
 });

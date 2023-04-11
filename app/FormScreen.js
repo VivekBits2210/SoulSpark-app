@@ -6,7 +6,7 @@ import { TouchableOpacity } from "react-native";
 import { SafeAreaView, StyleSheet, Text, View, ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "expo-router";
-import { encrypEmail } from "../constants";
+import { user, api_url } from "../constants";
 
 const CustomRadioButton = ({ label, value, selectedValue, onValueChange }) => {
   const isSelected = value === selectedValue;
@@ -43,7 +43,7 @@ const listData = [
 ];
 
 const ages = [];
-for (let i = 18; i <60; i++) {
+for (let i = 18; i < 60; i++) {
   ages[i] = "" + i;
 }
 
@@ -151,9 +151,8 @@ const FormScreen = ({ navigation }) => {
           <SButton
             disabled={false}
             onPress={handleSubmit((formValue) => {
-              // console.log("Form Value", JSON.stringify(formValue));
-              formValue.email = encrypEmail;
-              fetch(`https://api-soulspark.com/user-profiles/post-attribute`, {
+              formValue.email = user.encryption;
+              fetch(`${api_url}/user-profiles/post-attribute`, {
                 method: "POST",
                 body: JSON.stringify(formValue),
                 headers: {

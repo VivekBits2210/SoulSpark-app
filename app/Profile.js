@@ -1,13 +1,12 @@
 import React from "react";
 import { View, Text } from "react-native-animatable";
-import {  TextInput } from "react-native-gesture-handler";
+import { TextInput } from "react-native-gesture-handler";
 import { useForm, Controller } from "react-hook-form";
 import { Picker } from "@react-native-picker/picker";
 import { Pressable, StyleSheet, ScrollView } from "react-native";
 import { Chip } from "react-native-paper";
 import { useState } from "react";
-import SearchableDropdown from 'react-native-searchable-dropdown';
-
+import SearchableDropdown from "react-native-searchable-dropdown";
 
 const ages = [];
 for (let i = 18; i <= 60; i++) {
@@ -161,7 +160,6 @@ const Profile = () => {
       </View>
       <SearchableDropdown
         onItemSelect={(item) => {
-          console.log(item);
           setSelectedCountry(item);
         }}
         containerStyle={{ padding: 5 }}

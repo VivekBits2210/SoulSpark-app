@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useRouter, useSearchParams } from "expo-router";
 import Icon from "react-native-vector-icons/AntDesign";
-import { random_number } from "../constants";
+import { url_refresh_hack, aws_url, window } from "../constants";
 
 const { height } = Dimensions.get("window");
 
@@ -28,7 +28,7 @@ export default function ExpandedProfile() {
         <Image
           style={styles.image}
           source={{
-            uri: `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${bot_id}.jpg?random_number=${random_number}`,
+            uri: `${aws_url}/${bot_id}.jpg?url_refresh_hack=${url_refresh_hack}`,
           }}
           resizeMode="cover"
         />
@@ -40,19 +40,31 @@ export default function ExpandedProfile() {
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              style={[
-                styles.singleButton,
-                { backgroundColor: "black" },
-              ]}
+              style={[styles.singleButton, { backgroundColor: "black" }]}
               onPress={handleBackPress}
               activeOpacity={0.65}
             >
-              <Icon name={"caretup"} size={20} color={"white"} />
+              <Icon
+                name={"caretup"}
+                size={window.height / 50}
+                color={"white"}
+              />
             </TouchableOpacity>
           </View>
         </View>
       </View>
-      <Text style={{ textAlign: "justify", fontFamily: "Roboto", fontSize: 16, padding: 30, textShadowColor: "grey", textShadowRadius: 2 }}>{bio}</Text>
+      <Text
+        style={{
+          textAlign: "justify",
+          fontFamily: "Roboto",
+          fontSize: 16,
+          padding: 30,
+          textShadowColor: "grey",
+          textShadowRadius: 2,
+        }}
+      >
+        {bio}
+      </Text>
     </View>
   );
 }

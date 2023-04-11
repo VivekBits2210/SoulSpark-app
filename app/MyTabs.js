@@ -4,29 +4,14 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import SwipeScreen from "./SwipeScreen";
 import ChatSelectionScreen from "./ChatSelectionScreen";
-import { useEffect } from "react";
-import { encrypEmail } from "../constants";
-import { useFocusEffect } from "expo-router";
+import { window } from "../constants";
 const Tab = createBottomTabNavigator();
-
 
 const MyTabs = (props) => {
   const [tabBarOptions, setTabBarOptions] = React.useState({});
   const handleChatTabPress = () => {
     setTabBarOptions({});
   };
-
-  // const getSelectedProfiles = () => {
-  //   fetch(
-  //     `https://api-soulspark.com/chat-module/fetch-selected-profiles?email=${encrypEmail}`
-  //   )
-  //     .then((res) => res.json())
-  //     .then((json) => {
-  //       json.data.length==0?setTabBarOptions({}):setTabBarOptions({tabBarBadge:json.data.length});
-  //     });
-  // };
-
-  // useFocusEffect(React.useCallback(getSelectedProfiles, []));
 
   return (
     <View
@@ -37,13 +22,14 @@ const MyTabs = (props) => {
     >
       <Tab.Navigator
         screenOptions={({ route }) => ({
+          tabBarStyle: { height: window.height / 15 },
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
             if (route.name === "Swipe") {
               return (
                 <MaterialCommunityIcons
                   name={focused ? "cards" : "cards-outline"}
-                  size={size}
+                  size={window.height / 27}
                   color={color}
                 />
               );
@@ -51,7 +37,7 @@ const MyTabs = (props) => {
               return (
                 <Ionicons
                   name={focused ? "chatbubble" : "chatbubble-outline"}
-                  size={size}
+                  size={window.height / 27}
                   color={color}
                 />
               );
@@ -59,18 +45,24 @@ const MyTabs = (props) => {
           },
           tabBarInactiveTintColor: "gray",
           tabBarActiveTintColor: "black",
-        })} 
+        })}
       >
-        <Tab.Screen name="Swipe" component={SwipeScreen} initialParams={{"setTabBarOptions":setTabBarOptions}}
-         />
-        <Tab.Screen name="Chat" component={ChatSelectionScreen}
-        options={tabBarOptions} listeners={{
+        <Tab.Screen
+          name="Swipe"
+          component={SwipeScreen}
+          initialParams={{ setTabBarOptions: setTabBarOptions }}
+        />
+        <Tab.Screen
+          name="Chat"
+          component={ChatSelectionScreen}
+          options={tabBarOptions}
+          listeners={{
             tabPress: handleChatTabPress,
           }}
-          />
+        />
       </Tab.Navigator>
     </View>
   );
-}
+};
 
 export default MyTabs;

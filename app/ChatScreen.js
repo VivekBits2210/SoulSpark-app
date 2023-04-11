@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { View, StatusBar, Text } from "react-native";
+import { View, Text } from "react-native";
 import { Chat } from "@flyerhq/react-native-chat-ui";
 import * as Progress from "react-native-progress";
-import { email, encrypEmail } from "../constants";
+import { email, user, api_url } from "../constants";
 import { useEffect } from "react";
 import { useSearchParams } from "expo-router";
 import { Dimensions } from "react-native";
@@ -21,11 +21,9 @@ function ChatScreen() {
   };
   const [level, setLevel] = useState(-1);
   const [messages, setMessages] = useState([]);
-  const [isTyping, setIsTyping] = useState(false);
-  const user = { id: email };
+  const chatUser = { id: email };
 
   const addMessage = (message) => {
-    console.log("in addMessage, message: ", message);
     setMessages([message, ...messages]);
   };
 
@@ -33,24 +31,11 @@ function ChatScreen() {
 
   socket.onmessage = (message) => {
     getLevel();
-    // data = JSON.parse(message.data)
-
-    // if(data.who!==email){
-    //   const messageData = {
-    //     author: { id: data.who },
-    //     createdAt: Date.now(),
-    //     id: uuidv4(),
-    //     text: data.message,
-    //     type: "text",
-    //   };
-    // console.log("calling addMessage from socket.onmessage now with messageData", data.who)
-    // addMessage(messageData);
-    // }
   };
 
   function getLevel() {
     fetch(
-      `https://api-soulspark.com/chat-module/fetch-chat-history?bot_id=${id}&email=${encrypEmail}&lines=50`
+      `${api_url}/chat-module/fetch-chat-history?bot_id=${id}&email=${user.encryption}&lines=50`
     )
       .then((res) => res.json())
       .then((json) => {
@@ -67,7 +52,6 @@ function ChatScreen() {
         }
 
         setMessages(result);
-        console.log("json inside: ", json);
         setLevel(json.level ? json.level : 0);
       });
   }
@@ -80,16 +64,7 @@ function ChatScreen() {
       text: message.text,
       type: "text",
     };
-    console.log("calling addMessage from handleSendPress", message);
     addMessage(textMessage);
-    // const textMessage2 = {
-    //   author: { id: email },
-    //   createdAt: Date.now(),
-    //   id: uuidv4(),
-    //   text: message.text,
-    //   type: "text",
-    // };
-    // addMessage(textMessage2);
     socket.send(
       JSON.stringify({
         email: email,
@@ -98,7 +73,6 @@ function ChatScreen() {
       })
     );
   };
-  console.log("level outside json : ", level);
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -182,7 +156,7 @@ function ChatScreen() {
             </>
           );
         }}
-        user={user}
+        user={chatUser}
       />
     </View>
   );

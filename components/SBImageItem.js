@@ -1,13 +1,18 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, Image, Text } from "react-native";
-import { random_number } from "../constants";
-// ...and so on for all the images
+import { StyleSheet, View, Image, Text } from "react-native";
+import { url_refresh_hack } from "../constants";
 
-export const SBImageItem = ({ id, style, text, showIndex = true, src, borderRadius }) => {
-  // console.log(text);
-  const borderStyle = borderRadius?{"borderRadius":borderRadius}:{}
+export const SBImageItem = ({
+  id,
+  style,
+  text,
+  showIndex = true,
+  src,
+  borderRadius,
+}) => {
+  const borderStyle = borderRadius ? { borderRadius: borderRadius } : {};
   if (typeof src !== "number") {
-    src += `?random_number=${random_number}`;
+    src += `?url_refresh_hack=${url_refresh_hack}`;
   }
   return (
     <View
@@ -16,13 +21,13 @@ export const SBImageItem = ({ id, style, text, showIndex = true, src, borderRadi
         style,
         {
           flexDirection: "column",
-          justifyContent: "flex-end", // Add justifyContent: 'space-between'
-          flex: 1, // Add flex: 1
+          justifyContent: "flex-end",
+          flex: 1,
         },
       ]}
     >
       {typeof src === "number" ? (
-        <Image key={id} style={[styles.image,borderStyle]} source={src} />
+        <Image key={id} style={[styles.image, borderStyle]} source={src} />
       ) : (
         <Image key={id} style={styles.image} src={src} />
       )}
@@ -63,11 +68,6 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
-    // height: undefined,
-    // position: "absolute",
-    top: 0,
-    // left: 0,
-    // bottom: 0,
-    // right: 0,
+    resizeMode: "cover",
   },
 });
