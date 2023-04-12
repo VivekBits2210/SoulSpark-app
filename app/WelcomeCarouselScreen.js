@@ -7,6 +7,8 @@ import {
   Dimensions,
   Image,
   Pressable,
+  Platform,
+  Button,
 } from "react-native";
 import Animated, {
   Extrapolate,
@@ -26,6 +28,16 @@ import m1 from "../assets/cropped_journey.jpg";
 import m2 from "../assets/cropped_sad_day.jpg";
 import m3 from "../assets/cropped_zen.jpg";
 
+import * as Google from "expo-auth-session/providers/google";
+import { useEffect, useState } from "react";
+import * as AuthSession from "expo-auth-session";
+import { makeRedirectUri } from 'expo-auth-session';
+
+const redirectUri = makeRedirectUri({
+  native: 'com.soulspark.testpublishapp:/oauth2redirect',
+  useProxy: true,
+});
+
 const colors = ["#26292E", "#899F9C", "#B3C680", "#5C6265"];
 const marketing_images = [m0, m1, m2, m3];
 
@@ -44,6 +56,98 @@ function WelcomeCarouselScreen({ navigation }) {
           } else router.replace("MyTabs");
         } else router.push("FormScreen");
       });
+  };
+
+  const [userInfo, setUserInfo] = useState();
+  const [auth, setAuth] = useState();
+
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId:
+      "123407580501-bnpepikal9j1k7178c7v29au38ne7bsu.apps.googleusercontent.com",
+    iosClientId:
+      "123407580501-3m0u09eqspq7sk4oem79ssdjh736j7jp.apps.googleusercontent.com",
+    expoClientId:
+      "123407580501-s1iti9qokaqkeavio2ifptef48qiedo4.apps.googleusercontent.com",
+    redirectUri: redirectUri,
+  });
+
+  useEffect(() => {
+    console.log(response);
+    if (response?.type === "success") {
+      setAuth(response.authentication);
+
+      // Wait for the getUserData function to complete
+      getUserData().then((userInfo) => {
+        // Create User on the backend
+        fetch(
+          "http://ec2-100-25-31-90.compute-1.amazonaws.com:8000/user-profiles/create-user",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: userInfo.email,
+              name: userInfo.name,
+            }),
+          }
+        )
+          .then((response) => console.log("apiresponse" ,response.json()))
+          .then((data) => console.log(data))
+          .catch((error) => console.error(error));
+      });
+    }
+  }, [response]);
+
+  const getUserData = async () => {
+    let userInfoResponse = await fetch(
+      "https://www.googleapis.com/userinfo/v2/me",
+      {
+        headers: { Authorization: `Bearer ${auth.accessToken}` },
+      }
+    );
+
+    userInfoResponse.json().then((data) => {
+      console.log(data);
+      setUserInfo(data);
+      router.push("MyTabs")
+    });
+  };
+
+  const showUserData = () => {
+    if (userInfo) {
+      return (
+        <View style={styles.userInfo}>
+          <Image source={{ uri: userInfo.picture }} style={styles.profilePic} />
+          <Text>Welcome {userInfo.name}</Text>
+          <Text>{userInfo.email}</Text>
+        </View>
+      );
+    }
+  };
+
+  const getClientId = () => {
+    if (Platform.OS === "ios") {
+      return "123407580501-3m0u09eqspq7sk4oem79ssdjh736j7jp.apps.googleusercontent.com";
+    } else if (Platform.OS === "android") {
+      return "123407580501-bnpepikal9j1k7178c7v29au38ne7bsu.apps.googleusercontent.com";
+    } else {
+      console.log("Invalid platform - not handled");
+    }
+  };
+
+  const logout = async () => {
+    await AuthSession.revokeAsync(
+      {
+        token: auth.accessToken,
+      },
+      {
+        revocationEndpoint: "https://oauth2.googleapis.com/revoke",
+      }
+    );
+
+    setAuth(undefined);
+    setUserInfo(undefined);
   };
 
   return (
@@ -161,9 +265,15 @@ function WelcomeCarouselScreen({ navigation }) {
             styles.customButton,
             pressed ? styles.customButtonPressed : {},
           ]}
+          
           onPress={() => {
             checkProfileAndRedirect();
           }}
+          // onPress={
+          //   auth
+          //     ? getUserData
+          //     : () => promptAsync({ useProxy: true, showInRecents: true })
+          // }
         >
           <View style={{ flex: 0.2 }}>
             <Image source={googleLogo} style={styles.logo} />

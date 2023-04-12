@@ -1,6 +1,6 @@
 {
   "expo": {
-    "scheme": "acme",
+    "scheme": "com.soulspark.testpublishapp",
     "web": {
       "bundler": "metro"
     },
@@ -18,9 +18,8 @@
       "fallbackToCacheTimeout": 0
     },
     "ios": {
-      "supportsTablet": false,
-      "bundleIdentifier": "com.soulspark.testpublishapp",
-      "buildNumber": "1.0.1"
+      "supportsTablet": true,
+      "bundleIdentifier": "com.soulspark.testpublishapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,8 +27,7 @@
         "resizeMode": "contain",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.soulspark.testpublishapp",
-      "versionCode": 1
+      "package": "com.soulspark.testpublishapp"
     },
     "extra": {
       "eas": {
