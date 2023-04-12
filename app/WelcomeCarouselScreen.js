@@ -32,6 +32,12 @@ import * as Google from "expo-auth-session/providers/google";
 import { useEffect, useState } from "react";
 import * as AuthSession from "expo-auth-session";
 import { makeRedirectUri } from 'expo-auth-session';
+import { StackActions } from '@react-navigation/native';
+
+const navigateToMyTabs = () => {
+  const replaceAction = StackActions.replace('MyTabs');
+  navigation.dispatch(replaceAction);
+};
 
 const redirectUri = makeRedirectUri({
   native: 'com.soulspark.testpublishapp:/oauth2redirect',
@@ -46,18 +52,6 @@ function WelcomeCarouselScreen({ navigation }) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const progressValue = useSharedValue(0);
 
-  const checkProfileAndRedirect = () => {
-    fetch(`${api_url}/user-profiles/fetch-user-info?email=${user.encryption}`)
-      .then((res) => res.json())
-      .then((json) => {
-        if (json.age && json.gender) {
-          if (!json.interests) {
-            router.push("InterestsScreen");
-          } else router.replace("MyTabs");
-        } else router.push("FormScreen");
-      });
-  };
-
   const [userInfo, setUserInfo] = useState();
   const [auth, setAuth] = useState();
 
@@ -69,13 +63,18 @@ function WelcomeCarouselScreen({ navigation }) {
     expoClientId:
       "123407580501-s1iti9qokaqkeavio2ifptef48qiedo4.apps.googleusercontent.com",
     redirectUri: redirectUri,
+    prompt: "select_account",
   });
 
   useEffect(() => {
-    console.log(response);
+    console.log("auth response", response);
     if (response?.type === "success") {
       setAuth(response.authentication);
-
+    }
+  }, [response]);
+  
+  useEffect(() => {
+    if (auth) {
       // Wait for the getUserData function to complete
       getUserData().then((userInfo) => {
         // Create User on the backend
@@ -93,11 +92,14 @@ function WelcomeCarouselScreen({ navigation }) {
           }
         )
           .then((response) => console.log("apiresponse" ,response.json()))
-          .then((data) => console.log(data))
+          .then((data) => {
+            console.log(data);
+          })
           .catch((error) => console.error(error));
       });
     }
-  }, [response]);
+  }, [auth]);
+  
 
   const getUserData = async () => {
     let userInfoResponse = await fetch(
@@ -106,48 +108,12 @@ function WelcomeCarouselScreen({ navigation }) {
         headers: { Authorization: `Bearer ${auth.accessToken}` },
       }
     );
-
+  
     userInfoResponse.json().then((data) => {
-      console.log(data);
+      console.log("user info", data);
       setUserInfo(data);
-      router.push("MyTabs")
+      router.replace("FormScreen");
     });
-  };
-
-  const showUserData = () => {
-    if (userInfo) {
-      return (
-        <View style={styles.userInfo}>
-          <Image source={{ uri: userInfo.picture }} style={styles.profilePic} />
-          <Text>Welcome {userInfo.name}</Text>
-          <Text>{userInfo.email}</Text>
-        </View>
-      );
-    }
-  };
-
-  const getClientId = () => {
-    if (Platform.OS === "ios") {
-      return "123407580501-3m0u09eqspq7sk4oem79ssdjh736j7jp.apps.googleusercontent.com";
-    } else if (Platform.OS === "android") {
-      return "123407580501-bnpepikal9j1k7178c7v29au38ne7bsu.apps.googleusercontent.com";
-    } else {
-      console.log("Invalid platform - not handled");
-    }
-  };
-
-  const logout = async () => {
-    await AuthSession.revokeAsync(
-      {
-        token: auth.accessToken,
-      },
-      {
-        revocationEndpoint: "https://oauth2.googleapis.com/revoke",
-      }
-    );
-
-    setAuth(undefined);
-    setUserInfo(undefined);
   };
 
   return (
@@ -265,15 +231,11 @@ function WelcomeCarouselScreen({ navigation }) {
             styles.customButton,
             pressed ? styles.customButtonPressed : {},
           ]}
-          
-          onPress={() => {
-            checkProfileAndRedirect();
-          }}
-          // onPress={
-          //   auth
-          //     ? getUserData
-          //     : () => promptAsync({ useProxy: true, showInRecents: true })
-          // }
+          onPress={
+            auth
+              ? getUserData
+              : () => promptAsync({ useProxy: true, showInRecents: true })
+          }
         >
           <View style={{ flex: 0.2 }}>
             <Image source={googleLogo} style={styles.logo} />
