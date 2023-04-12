@@ -9,6 +9,8 @@ import { useRouter } from "expo-router";
 import { user, api_url, version } from "../constants";
 import Toast from "react-native-toast-message";
 import { ActivityIndicator } from "react-native-paper";
+import * as AuthSession from "expo-auth-session";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Settings() {
   const router = useRouter();
@@ -19,6 +21,7 @@ export default function Settings() {
   const [showLearnModal, setShowLearnModal] = useState(false);
   const [showDeleteChatModal, setShowDeleteChatModal] = useState(false);
   const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
+  const [showLogoutModal, setLogoutModal] = useState(false);
   const [inputText, setInputText] = useState('');
   const [hasError, setHasError] = useState(true);
   const [isLoading, setIsLoading] = useState(true);  
@@ -47,6 +50,26 @@ export default function Settings() {
       multiline
     />
   );
+
+  const logout = async () => {
+    const authString = await AsyncStorage.getItem("auth");
+    if (authString) {
+      const auth = JSON.parse(authString);
+      const token = auth.accessToken;
+  
+      await AuthSession.revokeAsync(
+        {
+          token: token,
+        },
+        {
+          revocationEndpoint: "https://oauth2.googleapis.com/revoke",
+        }
+      );
+    }
+  
+    await AsyncStorage.removeItem("auth");
+    router.push("WelcomeCarouselScreen")
+  };
 
   state = {
     refreshing: false,
@@ -221,6 +244,9 @@ export default function Settings() {
           titleStyle: {
             color: "red",
           },
+          onPress: () => {
+            setLogoutModal(true);
+          },
         },
       ],
     },
@@ -281,9 +307,21 @@ export default function Settings() {
                   padding: 10,
                   borderRadius: 50,
                 }}
-                onPress={() =>
-                  setShowDeleteAccountModal(!showDeleteAccountModal)
-                }
+                onPress={() => {
+                  fetch(`${api_url}/user-profiles/delete-user`, {
+                    method: "POST",
+                    body: JSON.stringify({ email: user.encryption }),
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  })
+                    .then((res) => res.json())
+                    .then((json) => {
+                      console.log("Account deletion", json);
+                      logout();
+                      setShowDeleteAccountModal(!showDeleteAccountModal);
+                    });
+                }}
               >
                 <Text
                   style={{
@@ -301,6 +339,64 @@ export default function Settings() {
                 }}
                 onPress={() =>
                   setShowDeleteAccountModal(!showDeleteAccountModal)
+                }
+              >
+                <Text
+                  style={{
+                    color: "white",
+                  }}
+                >
+                  Cancel
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          animationOut="fadeOutUp"
+          backgroundOpacity="0.7"
+          transparent={true}
+          isVisible={showLogoutModal}
+          onRequestClose={() => {
+            setLogoutModal(!showLogoutModal);
+          }}
+        >
+          <View style={styles.modalView}>
+            <Text>Are you sure you want to Log Out?</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                gap: 30,
+              }}
+            >
+              <Pressable
+                style={{
+                  backgroundColor: "red",
+                  padding: 10,
+                  borderRadius: 50,
+                }}
+                onPress={() =>{
+                  setLogoutModal(!showLogoutModal);
+                  logout();
+                  }
+                }
+              >
+                <Text
+                  style={{
+                    color: "white",
+                  }}
+                >
+                  Yes
+                </Text>
+              </Pressable>
+              <Pressable
+                style={{
+                  backgroundColor: "black",
+                  padding: 10,
+                  borderRadius: 20,
+                }}
+                onPress={() =>
+                  setLogoutModal(!showLogoutModal)
                 }
               >
                 <Text

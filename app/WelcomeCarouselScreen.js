@@ -7,6 +7,8 @@ import {
   Dimensions,
   Image,
   Pressable,
+  Platform,
+  Button,
 } from "react-native";
 import Animated, {
   Extrapolate,
@@ -17,7 +19,7 @@ import Animated, {
 import Carousel from "react-native-reanimated-carousel";
 import { useRouter } from "expo-router";
 import { SBItem } from "../components/SBItem";
-import { user, window, api_url, normalize_font } from "../constants";
+import { user, window, normalize_font } from "../constants";
 
 // Images
 import googleLogo from "../assets/g-logo-black.jpg";
@@ -25,6 +27,17 @@ import m0 from "../assets/cropped_smiling_woman.jpg";
 import m1 from "../assets/cropped_journey.jpg";
 import m2 from "../assets/cropped_sad_day.jpg";
 import m3 from "../assets/cropped_zen.jpg";
+
+import * as Google from "expo-auth-session/providers/google";
+import { useEffect, useState } from "react";
+import * as AuthSession from "expo-auth-session";
+import { makeRedirectUri } from 'expo-auth-session';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const redirectUri = makeRedirectUri({
+  native: 'com.soulspark.testpublishapp:/oauth2redirect',
+  useProxy: true,
+});
 
 const colors = ["#26292E", "#899F9C", "#B3C680", "#5C6265"];
 const marketing_images = [m0, m1, m2, m3];
@@ -34,16 +47,141 @@ function WelcomeCarouselScreen({ navigation }) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const progressValue = useSharedValue(0);
 
-  const checkProfileAndRedirect = () => {
-    fetch(`${api_url}/user-profiles/fetch-user-info?email=${user.encryption}`)
-      .then((res) => res.json())
-      .then((json) => {
-        if (json.age && json.gender) {
-          if (!json.interests) {
-            router.push("InterestsScreen");
-          } else router.replace("MyTabs");
-        } else router.push("FormScreen");
-      });
+  const [userInfo, setUserInfo] = useState();
+  const [auth, setAuth] = useState();
+  const [requireRefresh, setRequireRefresh] = useState(false);
+  const [pressedGoogleButton, setPressedGoogleButton] = useState(false);
+
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId:
+      "123407580501-bnpepikal9j1k7178c7v29au38ne7bsu.apps.googleusercontent.com",
+    iosClientId:
+      "123407580501-3m0u09eqspq7sk4oem79ssdjh736j7jp.apps.googleusercontent.com",
+    expoClientId:
+      "123407580501-s1iti9qokaqkeavio2ifptef48qiedo4.apps.googleusercontent.com",
+    redirectUri: redirectUri,
+    prompt: "select_account",
+  });
+
+  useEffect(() => {
+    console.log("auth response", response);
+    if (response && response?.type === "success") {
+      setAuth(response.authentication);
+    }
+  }, [response]);
+  
+  useEffect(() => {
+    if (auth) {
+      const persistAuth = async () => {
+        if(response){
+          console.log("Response auth", response.authentication);
+          await AsyncStorage.setItem(
+            "auth",
+            JSON.stringify(response.authentication)
+          );
+        }
+      };
+      persistAuth();
+      getUserData();
+    }
+  }, [auth]);
+
+  useEffect(() => {
+    const getPersistedAuth = async () => {
+      const jsonValue = await AsyncStorage.getItem("auth");
+      if (jsonValue != null) {
+        const authFromJson = JSON.parse(jsonValue);
+        console.log("persisted auth", authFromJson);
+        setAuth(authFromJson);
+        
+        setRequireRefresh(
+          !AuthSession.TokenResponse.isTokenFresh({
+            expiresIn: authFromJson.expiresIn,
+            issuedAt: authFromJson.issuedAt,
+          })
+        );
+      }
+    };
+    getPersistedAuth();
+  }, []);
+
+  useEffect(() => {
+    if (userInfo) {
+      if (!pressedGoogleButton) {
+        const timer = setTimeout(() => {
+          router.push("MyTabs");
+        }, 2000); // 10 seconds
+  
+        return () => clearTimeout(timer);
+      } else {
+        router.push("FormScreen");
+      }
+    }
+  }, [userInfo]);  
+  
+
+  const getUserData = async () => {
+    let userInfoResponse = await fetch(
+      "https://www.googleapis.com/userinfo/v2/me",
+      {
+        headers: { Authorization: `Bearer ${auth.accessToken}` },
+      }
+    );
+  
+    userInfoResponse.json().then((data) => {
+      console.log("user info", data);
+      setUserInfo(data);
+    });
+  };
+
+  const getClientId = () => {
+    if (Platform.OS === "ios") {
+      return "123407580501-3m0u09eqspq7sk4oem79ssdjh736j7jp.apps.googleusercontent.com";
+    } else if (Platform.OS === "android") {
+      return "123407580501-bnpepikal9j1k7178c7v29au38ne7bsu.apps.googleusercontent.com";
+    } else {
+      console.log("Invalid platform - not handled");
+    }
+  };
+
+  // const refreshToken = async () => {
+  //   const clientId = getClientId();
+  //   console.log(auth);
+  //   const tokenResult = await AuthSession.refreshAsync(
+  //     {
+  //       clientId: clientId,
+  //       refreshToken: auth.refreshToken,
+  //     },
+  //     {
+  //       tokenEndpoint: "https://www.googleapis.com/oauth2/v4/token",
+  //     }
+  //   );
+
+  //   tokenResult.refreshToken = auth.refreshToken;
+
+  //   setAuth(tokenResult);
+  //   await AsyncStorage.setItem("auth", JSON.stringify(tokenResult));
+  //   setRequireRefresh(false);
+  // };
+
+  // if (requireRefresh) {
+  //   return (
+  //     <View style={styles.container}>
+  //       <Text>Token requires refresh...</Text>
+  //       <Button title="Refresh Token" onPress={refreshToken} />
+  //     </View>
+  //   );
+  // }
+
+  const showUserData = () => {
+    if (userInfo) {
+      return (
+        <View style={styles.userInfo}>
+          <Image source={{ uri: userInfo.picture }} style={styles.profilePic} />
+          <Text style={{ fontSize: 24 }}>Welcome {userInfo.name}</Text>
+        </View>
+      );
+    }
   };
 
   return (
@@ -156,29 +294,37 @@ function WelcomeCarouselScreen({ navigation }) {
           width: "100%",
         }}
       >
-        <Pressable
-          style={({ pressed }) => [
-            styles.customButton,
-            pressed ? styles.customButtonPressed : {},
-          ]}
-          onPress={() => {
-            checkProfileAndRedirect();
-          }}
-        >
-          <View style={{ flex: 0.2 }}>
-            <Image source={googleLogo} style={styles.logo} />
-          </View>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
+         {!auth ? (
+          <Pressable
+            style={({ pressed }) => [
+              styles.customButton,
+              pressed ? styles.customButtonPressed : {},
+            ]}
+            onPress={() => {
+              promptAsync({ useProxy: true, showInRecents: true });
+              setPressedGoogleButton(true);
             }}
           >
-            <Text style={styles.customButtonText}>Continue with Google</Text>
-          </View>
-        </Pressable>
+            <View style={{ flex: 0.2 }}>
+              <Image source={googleLogo} style={styles.logo} />
+            </View>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={styles.customButtonText}>Continue with Google</Text>
+            </View>
+          </Pressable>
+
+          
+          
+        ) : (
+          showUserData()
+        )}
       </View>
     </View>
   );
@@ -263,6 +409,14 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: normalize_font(16),
     fontFamily: "sans-serif",
+  },
+  profilePic: {
+    width: 50,
+    height: 50,
+  },
+  userInfo: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
