@@ -19,7 +19,7 @@ import Animated, {
 import Carousel from "react-native-reanimated-carousel";
 import { useRouter } from "expo-router";
 import { SBItem } from "../components/SBItem";
-import { user, window, normalize_font } from "../constants";
+import { user, window, normalize_font, api_url } from "../constants";
 
 // Images
 import googleLogo from "../assets/g-logo-black.jpg";
@@ -109,12 +109,20 @@ function WelcomeCarouselScreen({ navigation }) {
     if (userInfo) {
       if (!pressedGoogleButton) {
         const timer = setTimeout(() => {
-          router.push("MyTabs");
-        }, 2000); // 10 seconds
+          router.replace("MyTabs");
+        }, 2000); 
   
         return () => clearTimeout(timer);
       } else {
-        router.push("FormScreen");
+        fetch(`${api_url}/user-profiles/fetch-user-info?email=${user.encryption}`)
+          .then((res) => res.json())
+          .then((json) => {
+            router.replace(
+              json.age && json.gender
+                ? !json.interests ? "InterestsScreen" : "MyTabs"
+                : "FormScreen"
+            );
+          });
       }
     }
   }, [userInfo]);  

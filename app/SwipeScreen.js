@@ -15,7 +15,7 @@ const SwipeScreen = ({ route }) => {
 
   const getProfilesForSwipe = (n) => {
     fetch(
-      `${api_url}/ai-profiles/fetch-profile?n=${n}`
+      `${api_url}/ai-profiles/fetch-profile?n=${n}&email=${user.encryption}`
     )
       .then((res) => res.json())
       .then((data) => {

@@ -68,7 +68,7 @@ export default function Settings() {
     }
   
     await AsyncStorage.removeItem("auth");
-    router.push("WelcomeCarouselScreen")
+    router.replace("WelcomeCarouselScreen")
   };
 
   state = {
@@ -83,7 +83,6 @@ export default function Settings() {
       .then((json) => {
         setIsMusicEnabled(json.music_enabled)
         setIsSoundsEnabled(json.sounds_enabled)
-        console.log("MUSIC AND SOUNDS", json.music_enabled, json.sounds_enabled);
         setIsLoading(false);
       });
   }
@@ -99,7 +98,6 @@ export default function Settings() {
       },
     }).then((res) => res.json())
     .then((json) => {
-      console.log(json.music_enabled);
       setIsMusicEnabled((previousState) => !previousState);
     });
   }
@@ -113,7 +111,6 @@ export default function Settings() {
       },
     }).then((res) => res.json())
     .then((json) => {
-      console.log(json.sounds_enabled);
       setIsSoundsEnabled((previousState) => !previousState);
     });
   }
@@ -294,7 +291,7 @@ export default function Settings() {
           }}
         >
           <View style={styles.modalView}>
-            <Text>Are you sure you want to delete your account?</Text>
+          <Text style={{paddingBottom:15}}>Are you sure you want to delete your account?</Text>
             <View
               style={{
                 flexDirection: "row",
@@ -362,7 +359,7 @@ export default function Settings() {
           }}
         >
           <View style={styles.modalView}>
-            <Text>Are you sure you want to Log Out?</Text>
+          <Text style={{paddingBottom:15}}>Are you sure you want to log out?</Text>
             <View
               style={{
                 flexDirection: "row",
@@ -518,7 +515,7 @@ export default function Settings() {
           }}
         >
           <View style={styles.modalView}>
-            <Text>Are you sure you want to delete all your chat history?</Text>
+            <Text style={{paddingBottom:15}}>Are you sure you want to delete all your chat history?</Text>
             <View
               style={{
                 flexDirection: "row",

@@ -78,7 +78,6 @@ const InterestsScreen = ({ navigation }) => {
                 },
               })
                 .then((res) => res.json())
-                .then((json) => console.log(json));
               router.replace("MyTabs");
             }}
             disabled={!selectedInterests.length}

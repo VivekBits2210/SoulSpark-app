@@ -330,11 +330,6 @@ const Layout = () => {
                   alignItems: "center",
                 }}
               >
-                <HeaderBackButton
-                  tintColor="white"
-                  onPress={() => router.back()}
-                  style={{ paddingLeft: 0 }}
-                ></HeaderBackButton>
                 <Text
                   style={{
                     color: "white",

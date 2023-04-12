@@ -160,8 +160,7 @@ const FormScreen = ({ navigation }) => {
                 },
               })
                 .then((res) => res.json())
-                .then((json) => console.log(json));
-              router.push("InterestsScreen");
+              router.replace("InterestsScreen");
             })}
             style={styles.button}
           >
