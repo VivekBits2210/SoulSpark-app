@@ -9,7 +9,32 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "name": "soulspark-app",
-    "slug": "soulspark-app"
+    "name": "soulspark",
+    "slug": "soulspark",
+    "version": "1.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/logo_better.png",
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.soulspark.testpublishapp",
+      "buildNumber": "1.0.1"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/logo_better.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.soulspark.testpublishapp",
+      "versionCode": 1
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0543baf7-185b-46dd-9bbe-f0af3bd523ed"
+      }
+    }
   }
 }
