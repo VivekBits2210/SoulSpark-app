@@ -32,12 +32,7 @@ import * as Google from "expo-auth-session/providers/google";
 import { useEffect, useState } from "react";
 import * as AuthSession from "expo-auth-session";
 import { makeRedirectUri } from 'expo-auth-session';
-import { StackActions } from '@react-navigation/native';
-
-const navigateToMyTabs = () => {
-  const replaceAction = StackActions.replace('MyTabs');
-  navigation.dispatch(replaceAction);
-};
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const redirectUri = makeRedirectUri({
   native: 'com.soulspark.testpublishapp:/oauth2redirect',
@@ -54,6 +49,8 @@ function WelcomeCarouselScreen({ navigation }) {
 
   const [userInfo, setUserInfo] = useState();
   const [auth, setAuth] = useState();
+  const [requireRefresh, setRequireRefresh] = useState(false);
+  const [pressedGoogleButton, setPressedGoogleButton] = useState(false);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId:
@@ -76,6 +73,14 @@ function WelcomeCarouselScreen({ navigation }) {
   useEffect(() => {
     if (auth) {
       // Wait for the getUserData function to complete
+      const persistAuth = async () => {
+        await AsyncStorage.setItem(
+          "auth",
+          JSON.stringify(response.authentication)
+        );
+      };
+      persistAuth();
+
       getUserData().then((userInfo) => {
         // Create User on the backend
         fetch(
@@ -99,6 +104,39 @@ function WelcomeCarouselScreen({ navigation }) {
       });
     }
   }, [auth]);
+
+  useEffect(() => {
+    const getPersistedAuth = async () => {
+      const jsonValue = await AsyncStorage.getItem("auth");
+      if (jsonValue != null) {
+        const authFromJson = JSON.parse(jsonValue);
+        setAuth(authFromJson);
+        console.log(authFromJson);
+
+        setRequireRefresh(
+          !AuthSession.TokenResponse.isTokenFresh({
+            expiresIn: authFromJson.expiresIn,
+            issuedAt: authFromJson.issuedAt,
+          })
+        );
+      }
+    };
+    getPersistedAuth();
+  }, []);
+
+  useEffect(() => {
+    if (userInfo) {
+      if (!pressedGoogleButton) {
+        const timer = setTimeout(() => {
+          router.push("MyTabs");
+        }, 10000); // 10 seconds
+  
+        return () => clearTimeout(timer);
+      } else {
+        router.push("FormScreen");
+      }
+    }
+  }, [userInfo]);  
   
 
   const getUserData = async () => {
@@ -112,8 +150,57 @@ function WelcomeCarouselScreen({ navigation }) {
     userInfoResponse.json().then((data) => {
       console.log("user info", data);
       setUserInfo(data);
-      router.replace("FormScreen");
     });
+  };
+
+  const getClientId = () => {
+    if (Platform.OS === "ios") {
+      return "123407580501-3m0u09eqspq7sk4oem79ssdjh736j7jp.apps.googleusercontent.com";
+    } else if (Platform.OS === "android") {
+      return "123407580501-bnpepikal9j1k7178c7v29au38ne7bsu.apps.googleusercontent.com";
+    } else {
+      console.log("Invalid platform - not handled");
+    }
+  };
+
+  // const refreshToken = async () => {
+  //   const clientId = getClientId();
+  //   console.log(auth);
+  //   const tokenResult = await AuthSession.refreshAsync(
+  //     {
+  //       clientId: clientId,
+  //       refreshToken: auth.refreshToken,
+  //     },
+  //     {
+  //       tokenEndpoint: "https://www.googleapis.com/oauth2/v4/token",
+  //     }
+  //   );
+
+  //   tokenResult.refreshToken = auth.refreshToken;
+
+  //   setAuth(tokenResult);
+  //   await AsyncStorage.setItem("auth", JSON.stringify(tokenResult));
+  //   setRequireRefresh(false);
+  // };
+
+  // if (requireRefresh) {
+  //   return (
+  //     <View style={styles.container}>
+  //       <Text>Token requires refresh...</Text>
+  //       <Button title="Refresh Token" onPress={refreshToken} />
+  //     </View>
+  //   );
+  // }
+
+  const showUserData = () => {
+    if (userInfo) {
+      return (
+        <View style={styles.userInfo}>
+          <Image source={{ uri: userInfo.picture }} style={styles.profilePic} />
+          <Text style={{ fontSize: 24 }}>Welcome {userInfo.name}</Text>
+        </View>
+      );
+    }
   };
 
   return (
@@ -226,31 +313,37 @@ function WelcomeCarouselScreen({ navigation }) {
           width: "100%",
         }}
       >
-        <Pressable
-          style={({ pressed }) => [
-            styles.customButton,
-            pressed ? styles.customButtonPressed : {},
-          ]}
-          onPress={
-            auth
-              ? getUserData
-              : () => promptAsync({ useProxy: true, showInRecents: true })
-          }
-        >
-          <View style={{ flex: 0.2 }}>
-            <Image source={googleLogo} style={styles.logo} />
-          </View>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
+         {!auth ? (
+          <Pressable
+            style={({ pressed }) => [
+              styles.customButton,
+              pressed ? styles.customButtonPressed : {},
+            ]}
+            onPress={() => {
+              promptAsync({ useProxy: true, showInRecents: true });
+              setPressedGoogleButton(true);
             }}
           >
-            <Text style={styles.customButtonText}>Continue with Google</Text>
-          </View>
-        </Pressable>
+            <View style={{ flex: 0.2 }}>
+              <Image source={googleLogo} style={styles.logo} />
+            </View>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={styles.customButtonText}>Continue with Google</Text>
+            </View>
+          </Pressable>
+
+          
+          
+        ) : (
+          showUserData()
+        )}
       </View>
     </View>
   );
@@ -335,6 +428,14 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: normalize_font(16),
     fontFamily: "sans-serif",
+  },
+  profilePic: {
+    width: 50,
+    height: 50,
+  },
+  userInfo: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
