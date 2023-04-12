@@ -19,7 +19,7 @@ import Animated, {
 import Carousel from "react-native-reanimated-carousel";
 import { useRouter } from "expo-router";
 import { SBItem } from "../components/SBItem";
-import { user, window, api_url, normalize_font } from "../constants";
+import { user, window, normalize_font } from "../constants";
 
 // Images
 import googleLogo from "../assets/g-logo-black.jpg";
@@ -65,43 +65,24 @@ function WelcomeCarouselScreen({ navigation }) {
 
   useEffect(() => {
     console.log("auth response", response);
-    if (response?.type === "success") {
+    if (response && response?.type === "success") {
       setAuth(response.authentication);
     }
   }, [response]);
   
   useEffect(() => {
     if (auth) {
-      // Wait for the getUserData function to complete
       const persistAuth = async () => {
-        await AsyncStorage.setItem(
-          "auth",
-          JSON.stringify(response.authentication)
-        );
+        if(response){
+          console.log("Response auth", response.authentication);
+          await AsyncStorage.setItem(
+            "auth",
+            JSON.stringify(response.authentication)
+          );
+        }
       };
       persistAuth();
-
-      getUserData().then((userInfo) => {
-        // Create User on the backend
-        fetch(
-          "http://ec2-100-25-31-90.compute-1.amazonaws.com:8000/user-profiles/create-user",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: userInfo.email,
-              name: userInfo.name,
-            }),
-          }
-        )
-          .then((response) => console.log("apiresponse" ,response.json()))
-          .then((data) => {
-            console.log(data);
-          })
-          .catch((error) => console.error(error));
-      });
+      getUserData();
     }
   }, [auth]);
 
@@ -110,9 +91,9 @@ function WelcomeCarouselScreen({ navigation }) {
       const jsonValue = await AsyncStorage.getItem("auth");
       if (jsonValue != null) {
         const authFromJson = JSON.parse(jsonValue);
+        console.log("persisted auth", authFromJson);
         setAuth(authFromJson);
-        console.log(authFromJson);
-
+        
         setRequireRefresh(
           !AuthSession.TokenResponse.isTokenFresh({
             expiresIn: authFromJson.expiresIn,
@@ -129,7 +110,7 @@ function WelcomeCarouselScreen({ navigation }) {
       if (!pressedGoogleButton) {
         const timer = setTimeout(() => {
           router.push("MyTabs");
-        }, 10000); // 10 seconds
+        }, 2000); // 10 seconds
   
         return () => clearTimeout(timer);
       } else {

@@ -307,9 +307,21 @@ export default function Settings() {
                   padding: 10,
                   borderRadius: 50,
                 }}
-                onPress={() =>
-                  setShowDeleteAccountModal(!showDeleteAccountModal)
-                }
+                onPress={() => {
+                  fetch(`${api_url}/user-profiles/delete-user`, {
+                    method: "POST",
+                    body: JSON.stringify({ email: user.encryption }),
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  })
+                    .then((res) => res.json())
+                    .then((json) => {
+                      console.log("Account deletion", json);
+                      logout();
+                      setShowDeleteAccountModal(!showDeleteAccountModal);
+                    });
+                }}
               >
                 <Text
                   style={{

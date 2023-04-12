@@ -8,14 +8,14 @@ import { api_url, user, url_refresh_hack, aws_url, window } from "../constants";
 import styles from "./App.styles";
 
 const SwipeScreen = ({ route }) => {
-  const { setTabBarOptions } = route.params;
+  // const { setTabBarOptions } = route.params;
   const swiperRef = useRef(null);
   const [photoCards, setPhotoCards] = useState([]);
   const [refreshing, setRefreshing] = React.useState(false);
 
   const getProfilesForSwipe = (n) => {
     fetch(
-      `${api_url}/ai-profiles/fetch-profile?n=${n}&email=${user.encryption}`
+      `${api_url}/ai-profiles/fetch-profile?n=${n}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -52,7 +52,7 @@ const SwipeScreen = ({ route }) => {
       .then((res) => res.json())
       .then((json) => {
         if (json.bot_id) {
-          setTabBarOptions({ tabBarBadge: 1 });
+          // setTabBarOptions({ tabBarBadge: 1 });
           Toast.show({
             type: "success",
             text1: "Matched",

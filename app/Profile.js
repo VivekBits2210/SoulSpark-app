@@ -267,6 +267,7 @@ const CustomRadioInput = (props) => {
             style={
               props.currValue === props.values[i] ? styles.selectedText : {}
             }
+            key={props.values[i]}
           >
             {props.labels[i]}
           </Text>

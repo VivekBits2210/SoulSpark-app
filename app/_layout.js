@@ -254,7 +254,32 @@ const Layout = () => {
       />
       <Stack.Screen
         options={{
-          headerShown: false,
+          headerShown: true,
+          headerStyle: { backgroundColor: "white" },
+          headerShadowVisible: true,
+          headerLeft: () => {
+            return (
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  backgroundColor: "white",
+                  borderBottomColor: "lightgrey",
+                }}
+              >
+                <ScreenHeaderBtn
+                  iconUrl={require("../assets/logo_better.png")}
+                  dimension="150%"
+                  handlePress={() => router.push("/Coffee")}
+                />
+                <View style={{ paddingLeft: "18%" }}>
+                  <ScreenHeaderTitle src={require("../assets/logo_text.jpg")} />
+                </View>
+              </View>
+            );
+          },
+          headerTitle: "",
         }}
         name="WelcomeCarouselScreen"
       />
