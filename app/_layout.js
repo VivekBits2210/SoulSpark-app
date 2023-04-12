@@ -1,7 +1,7 @@
 import { Text, View, TouchableOpacity } from "react-native";
 import { ScreenHeaderBtn } from "../components";
 import { Stack, useRouter } from "expo-router";
-import { HeaderBackButton } from "react-navigation-stack";
+import { HeaderBackButton } from "@react-navigation/stack";
 import UnmatchMenu from "./UnmatchMenu";
 import { useSearchParams } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
