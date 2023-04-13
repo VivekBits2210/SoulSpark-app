@@ -66,7 +66,7 @@ function WelcomeCarouselScreen() {
   });
 
   useEffect(() => {
-    console.log("persist ran?");
+    // console.log("persist ran?");
     if (response && response?.type === "success") {
       setAuth(response.authentication);
     }
@@ -91,18 +91,19 @@ function WelcomeCarouselScreen() {
   const navigation = useNavigation();
 
   useEffect(() => {
+    // console.log("basic log", encryptEmail("", "f7bbaef2b2ea621d89f5c5db5c5f3e5f"))
     navigation.addListener("beforeRemove", (e) => {
-      console.log("Navigate Action in welcome carousel");
+      // console.log("Navigate Action in welcome carousel");
       if (e.data.action.type === "GO_BACK") {
         e.preventDefault();
-        console.log("Back button disabled on Welcome Carousel Screen");
+        // console.log("Back button disabled on Welcome Carousel Screen");
       }
     });
     const getPersistedAuth = async () => {
       const jsonValue = await AsyncStorage.getItem("auth");
       if (jsonValue != null) {
         const authFromJson = JSON.parse(jsonValue);
-        console.log("persisted auth", authFromJson);
+        // console.log("persisted auth", authFromJson);
         setAuth(authFromJson);
 
         setRequireRefresh(
@@ -179,7 +180,7 @@ function WelcomeCarouselScreen() {
         "f7bbaef2b2ea621d89f5c5db5c5f3e5f"
       );
       console.log("Encryption", data["email"]);
-      console.log("user info", data);
+      // console.log("user info", data);
       fetch(`${api_url}/user-profiles/create-user`, {
         method: "POST",
         body: JSON.stringify({
@@ -194,9 +195,9 @@ function WelcomeCarouselScreen() {
       })
         .then((res) => res.json())
         .then((json) => {
-          console.log("");
-          console.log("response from create-user", json);
-          console.log("is data still available", data);
+          // console.log("");
+          // console.log("response from create-user", json);
+          // console.log("is data still available", data);
           AsyncStorage.setItem("emailEncryption", data["emailEncryption"]);
         })
         .then((json) => setUserInfo(data))
