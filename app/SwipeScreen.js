@@ -21,9 +21,11 @@ const SwipeScreen = ({ route }) => {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const getProfilesForSwipe = (n) => {
+    console.log("encryption", encryption);
     fetch(`${api_url}/ai-profiles/fetch-profile?n=${n}&email=${encryption}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log("data", data);
         let result = [];
         for (let i = 0; i < data.length; i++) {
           let src = `${aws_url}/${data[i].bot_id}.jpg?url_refresh_hack=${url_refresh_hack}`;

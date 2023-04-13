@@ -83,7 +83,7 @@ export default function Settings() {
     }
 
     await AsyncStorage.removeItem("auth");
-    await AsyncStorage.removeItem("user_data");
+    await AsyncStorage.removeItem("emailEncryption");
     router.replace("WelcomeCarouselScreen");
   };
 
@@ -93,20 +93,17 @@ export default function Settings() {
 
   function loadUserInfo() {
     const getEncryption = async () => {
-      const jsonValue = await AsyncStorage.getItem("user_data");
-      const user_data = JSON.parse(jsonValue);
-      setEncryption(user_data["emailEncryption"]);
-      return user_data;
+      const emailEncryption = await AsyncStorage.getItem("emailEncryption");
+      setEncryption(emailEncryption);
+      return emailEncryption;
     };
-    getEncryption().then((data) => {
-      fetch(
-        `${api_url}/user-profiles/fetch-user-info?email=${data["emailEncryption"]}`
-      )
+    getEncryption().then((emailEncryption) => {
+      fetch(`${api_url}/user-profiles/fetch-user-info?email=${emailEncryption}`)
         .then((res) => res.json())
         .then((json) => {
           setName(json.name);
-          setEmail(data["email"]);
-          setSrc(data["picture"]);
+          setEmail(json.email);
+          setSrc(json.picture);
           setIsMusicEnabled(json.music_enabled);
           setIsSoundsEnabled(json.sounds_enabled);
           setIsLoading(false);
@@ -128,6 +125,7 @@ export default function Settings() {
     })
       .then((res) => res.json())
       .then((json) => {
+        console.log(json);
         setIsMusicEnabled((previousState) => !previousState);
       });
   };
@@ -145,6 +143,7 @@ export default function Settings() {
     })
       .then((res) => res.json())
       .then((json) => {
+        console.log(json);
         setIsSoundsEnabled((previousState) => !previousState);
       });
   };

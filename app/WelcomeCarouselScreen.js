@@ -67,15 +67,6 @@ function WelcomeCarouselScreen() {
 
   useEffect(() => {
     console.log("persist ran?");
-    const cleaner = async () => {
-      await AsyncStorage.removeItem("auth"); //TODO: Remove
-      await AsyncStorage.removeItem("user_data");
-      got_auth = await AsyncStorage.getItem("auth");
-      got_user_data = await AsyncStorage.getItem("user_data");
-      console.log("got_auth", got_auth);
-      console.log("got_user_data", got_user_data);
-    };
-    // cleaner();
     if (response && response?.type === "success") {
       setAuth(response.authentication);
     }
@@ -100,11 +91,11 @@ function WelcomeCarouselScreen() {
   const navigation = useNavigation();
 
   useEffect(() => {
-    navigation.addListener('beforeRemove', (e) => {
-      console.log("Navigate Action in welcome carousel")
-      if(e.data.action.type==="GO_BACK"){
+    navigation.addListener("beforeRemove", (e) => {
+      console.log("Navigate Action in welcome carousel");
+      if (e.data.action.type === "GO_BACK") {
         e.preventDefault();
-        console.log('Back button disabled on Welcome Carousel Screen');
+        console.log("Back button disabled on Welcome Carousel Screen");
       }
     });
     const getPersistedAuth = async () => {
@@ -131,9 +122,22 @@ function WelcomeCarouselScreen() {
       const pictureHexString = "emptyString";
       if (!pressedGoogleButton) {
         const timer = setTimeout(() => {
-          router.push(
-            `MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
-          );
+          fetch(
+            `${api_url}/user-profiles/fetch-user-info?email=${userInfo.emailEncryption}`
+          )
+            .then((res) => res.json())
+            .then((json) => {
+              router.push(
+                json.age && json.gender
+                  ? !json.interests
+                    ? `InterestsScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
+                    : `MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
+                  : `FormScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
+              );
+            });
+          // router.push(
+          //   `MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
+          // );
         }, 2000);
 
         return () => clearTimeout(timer);
@@ -169,12 +173,12 @@ function WelcomeCarouselScreen() {
     );
 
     userInfoResponse.json().then((data) => {
-      console.log("ID",data["email"])
+      console.log("ID", data["email"]);
       data["emailEncryption"] = encryptEmail(
         data["email"],
         "f7bbaef2b2ea621d89f5c5db5c5f3e5f"
       );
-      console.log("Encryption",data["email"])
+      console.log("Encryption", data["email"]);
       console.log("user info", data);
       fetch(`${api_url}/user-profiles/create-user`, {
         method: "POST",
@@ -182,7 +186,7 @@ function WelcomeCarouselScreen() {
           email: data["emailEncryption"],
           first_name: data["given_name"],
           last_name: data["family_name"],
-          picture: data["picture"]
+          picture: data["picture"],
         }),
         headers: {
           "Content-Type": "application/json",
@@ -193,7 +197,7 @@ function WelcomeCarouselScreen() {
           console.log("");
           console.log("response from create-user", json);
           console.log("is data still available", data);
-          AsyncStorage.setItem("user_data", JSON.stringify(data));
+          AsyncStorage.setItem("emailEncryption", data["emailEncryption"]);
         })
         .then((json) => setUserInfo(data))
         .catch((e) => console.log("Create user error", e));
@@ -246,7 +250,7 @@ function WelcomeCarouselScreen() {
           <ActivityIndicator size="large" color="#000" />
           {/* <Image source={{ uri: userInfo.picture }} style={styles.profilePic} /> */}
           <Text style={{ fontSize: normalize_font(20) }}>
-            Welcome {userInfo.name}
+            Welcome, {userInfo.given_name}
           </Text>
         </View>
       );

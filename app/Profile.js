@@ -52,13 +52,14 @@ const Profile = () => {
     )
       .then((res) => res.json())
       .then((json) => {
+        console.log("data fetched", json);
         const { name, age, gender, gender_focus, interests } = json;
         setUserProfile(json);
         setName(name);
         setAge(String(age));
         setGender(gender);
         setGenderFocus(gender_focus);
-        setSelectedInterests(interests.split(","));
+        setSelectedInterests(interests ? interests.split(",") : "");
         // console.log(json);
         setIsLoading(false);
       });
@@ -133,6 +134,7 @@ const Profile = () => {
             />
             <CustomRadioInput
               key={"key1"}
+              keys={["key01", "key02"]}
               values={["M", "F"]}
               labels={["Male", "Female"]}
               element={<Pressable style={styles.radioSelect} />}
@@ -145,6 +147,7 @@ const Profile = () => {
             />
             <CustomRadioInput
               key={"key2"}
+              keys={["key11", "key12"]}
               values={["M", "F", "E"]}
               labels={["Male", "Female", "Any"]}
               element={<Pressable style={styles.radioSelect} />}
@@ -290,7 +293,7 @@ const CustomRadioInput = (props) => {
             style={
               props.currValue === props.values[i] ? styles.selectedText : {}
             }
-            key={props.values[i]}
+            key={props.keys[i]}
           >
             {props.labels[i]}
           </Text>
