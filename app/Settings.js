@@ -212,7 +212,7 @@ export default function Settings() {
         {
           title: "Rate Us",
           onPress: () => {
-            Linking.openURL("https://www.google.com");
+            Linking.openURL("market://search?q=SoulSpark");
           },
           showDisclosureIndicator: true,
         },
@@ -220,7 +220,7 @@ export default function Settings() {
           title: "FAQ",
           showDisclosureIndicator: true,
           onPress: () => {
-            Linking.openURL("https://www.google.com");
+            Linking.openURL("https://emerald-rocket-31a.notion.site/c3b28e291aaa4896b13301ed5f6e912d?v=0e31fb9b28dd4dab9fd27cc721904951");
           },
         },
         {
@@ -480,7 +480,7 @@ export default function Settings() {
                   marginBottom: 40,
                   // borderRadius: 20,
                 }}
-                onPress={() => Linking.openURL("https://www.google.com")}
+                onPress={() => Linking.openURL("https://blog.opencounseling.com/suicide-hotlines/")}
               >
                 <Text
                   style={{
