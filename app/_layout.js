@@ -427,7 +427,6 @@ const Layout = () => {
         name="[user]"
       />
     </Stack>
-    
   );
 };
 

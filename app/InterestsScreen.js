@@ -91,11 +91,14 @@ const InterestsScreen = () => {
                 headers: {
                   "Content-Type": "application/json",
                 },
-              }).then((res) => res.json());
-              console.log("here")
-              router.push(
-                `MyTabs?encryption=${encryption}&picture=${picture}`
-              );
+              })
+                .then((res) => res.json())
+                .then((json) => {
+                  console.log("interests form output", json);
+                  router.push(
+                    `MyTabs?encryption=${encryption}&picture=${picture}`
+                  );
+                });
             }}
             disabled={!selectedInterests.length}
           >

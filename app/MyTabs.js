@@ -18,11 +18,11 @@ const MyTabs = (props) => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    navigation.addListener('beforeRemove', (e) => {
-      if(e.data.action.type==="GO_BACK"){
+    navigation.addListener("beforeRemove", (e) => {
+      if (e.data.action.type === "GO_BACK") {
         e.preventDefault();
-        console.log('Back button disabled on My Tab screen');
-    }
+        console.log("Back button disabled on My Tab screen");
+      }
     });
   }, []);
 
