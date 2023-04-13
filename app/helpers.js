@@ -8,6 +8,5 @@ export default function encryptEmail(email, key) {
     mode: CryptoJS.mode.ECB,
     padding: CryptoJS.pad.Pkcs7,
   });
-
-  return encrypted.ciphertext.toString(CryptoJS.enc.Base64);
+  return encrypted.ciphertext.toString(CryptoJS.enc.Hex);
 }
