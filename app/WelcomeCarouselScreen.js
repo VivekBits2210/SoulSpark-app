@@ -182,6 +182,7 @@ function WelcomeCarouselScreen() {
           email: data["emailEncryption"],
           first_name: data["given_name"],
           last_name: data["family_name"],
+          picture: data["picture"]
         }),
         headers: {
           "Content-Type": "application/json",
