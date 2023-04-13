@@ -1,15 +1,13 @@
 import * as React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { useRouter, useSearchParams } from "expo-router";
 import Icon from "react-native-vector-icons/AntDesign";
-import { url_refresh_hack, aws_url, window, normalize_font } from "../constants";
-
+import {
+  url_refresh_hack,
+  aws_url,
+  window,
+  normalize_font,
+} from "../constants";
 
 export default function ExpandedProfile() {
   const router = useRouter();
@@ -55,7 +53,7 @@ export default function ExpandedProfile() {
           textAlign: "justify",
           fontFamily: "Roboto",
           fontSize: normalize_font(17),
-          padding: window.height/25,
+          padding: window.height / 25,
           textShadowColor: "grey",
           textShadowRadius: 2,
         }}

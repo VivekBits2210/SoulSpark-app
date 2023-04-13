@@ -7,15 +7,15 @@ import { user, window, url_refresh_hack, api_url, aws_url } from "../constants";
 import { useState } from "react";
 import { ActivityIndicator } from "react-native-paper";
 import IconButton from "../components/IconButton/IconButton";
+import { useSearchParams } from "expo-router";
 
 export default function ChatSelectionScreen() {
+  const { encryption } = useSearchParams();
   const ref = React.useRef(null);
   const [chats, setChats] = useState(null);
 
   const getSelectedProfiles = () => {
-    fetch(
-      `${api_url}/chat-module/fetch-selected-profiles?email=${user.encryption}`
-    )
+    fetch(`${api_url}/chat-module/fetch-selected-profiles?email=${encryption}`)
       .then((res) => res.json())
       .then((json) => {
         let result = [];
@@ -50,6 +50,7 @@ export default function ChatSelectionScreen() {
           name={item.name}
           src={item.photo}
           pretty={true}
+          encryption={encryption}
         />
       </View>
     );

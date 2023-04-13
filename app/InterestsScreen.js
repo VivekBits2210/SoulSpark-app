@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { Chip, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useRouter, useSearchParams } from "expo-router";
 import SButton from "../components/SButton";
 import { user, api_url } from "../constants";
 
@@ -20,6 +20,7 @@ const interests = [
 ];
 
 const InterestsScreen = ({ navigation }) => {
+  const { encryption, picture } = useSearchParams();
   const router = useRouter();
   const [selectedInterests, setSelectedInterests] = useState([]);
 
@@ -70,16 +71,16 @@ const InterestsScreen = ({ navigation }) => {
               fetch(`${api_url}/user-profiles/post-attribute`, {
                 method: "POST",
                 body: JSON.stringify({
-                  email: user.encryption,
+                  email: encryption,
                   interests: selectedInterests.join(","),
                 }),
                 headers: {
                   "Content-Type": "application/json",
                 },
-              })
-                .then((res) => res.json())
-                .then((json) => console.log(json));
-              router.replace("MyTabs");
+              }).then((res) => res.json());
+              router.replace(
+                `MyTabs?encryption=${encryption}&picture=${picture}`
+              );
             }}
             disabled={!selectedInterests.length}
           >

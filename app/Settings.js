@@ -1,6 +1,17 @@
-import * as React from 'react';
-import { StyleSheet, Text, TextInput, View, Image, Switch, Linking, Dimensions, ScrollView, FlatList,
-  Keyboard,} from "react-native";
+import * as React from "react";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Image,
+  Switch,
+  Linking,
+  Dimensions,
+  ScrollView,
+  FlatList,
+  Keyboard,
+} from "react-native";
 import { SettingsScreen, Chevron } from "react-native-settings-screen";
 import { useState, useRef, useEffect } from "react";
 import Modal from "react-native-modal";
@@ -16,15 +27,19 @@ export default function Settings() {
   const router = useRouter();
   const [isMusicEnabled, setIsMusicEnabled] = useState(true);
   const [isSoundsEnabled, setIsSoundsEnabled] = useState(true);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [src, setSrc] = useState("");
+  const [encryption, setEncryption] = useState("");
   const [showContactModal, setShowContactModal] = useState(false);
   const [showCrisisModal, setShowCrisisModal] = useState(false);
   const [showLearnModal, setShowLearnModal] = useState(false);
   const [showDeleteChatModal, setShowDeleteChatModal] = useState(false);
   const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
   const [showLogoutModal, setLogoutModal] = useState(false);
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState("");
   const [hasError, setHasError] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);  
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleTextChange = (text) => {
     setInputText(text);
@@ -56,7 +71,7 @@ export default function Settings() {
     if (authString) {
       const auth = JSON.parse(authString);
       const token = auth.accessToken;
-  
+
       await AuthSession.revokeAsync(
         {
           token: token,
@@ -66,9 +81,10 @@ export default function Settings() {
         }
       );
     }
-  
+
     await AsyncStorage.removeItem("auth");
-    router.push("WelcomeCarouselScreen")
+    await AsyncStorage.removeItem("user_data");
+    router.replace("WelcomeCarouselScreen");
   };
 
   state = {
@@ -76,47 +92,62 @@ export default function Settings() {
   };
 
   function loadUserInfo() {
-    fetch(
-      `${api_url}/user-profiles/fetch-user-info?email=${user.encryption}`
-    )
-      .then((res) => res.json())
-      .then((json) => {
-        setIsMusicEnabled(json.music_enabled)
-        setIsSoundsEnabled(json.sounds_enabled)
-        console.log("MUSIC AND SOUNDS", json.music_enabled, json.sounds_enabled);
-        setIsLoading(false);
-      });
+    const getEncryption = async () => {
+      const jsonValue = await AsyncStorage.getItem("user_data");
+      const user_data = JSON.parse(jsonValue);
+      setEncryption(user_data["emailEncryption"]);
+      return user_data;
+    };
+    getEncryption().then((data) => {
+      fetch(
+        `${api_url}/user-profiles/fetch-user-info?email=${data["emailEncryption"]}`
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          setName(json.name);
+          setEmail(data["email"]);
+          setSrc(data["picture"]);
+          setIsMusicEnabled(json.music_enabled);
+          setIsSoundsEnabled(json.sounds_enabled);
+          setIsLoading(false);
+        });
+    });
   }
   useEffect(loadUserInfo, []);
 
-
-  const toggleMusicSwitch = () =>  {
+  const toggleMusicSwitch = () => {
     fetch(`${api_url}/user-profiles/post-attribute`, {
       method: "POST",
-      body: JSON.stringify({"music_enabled": !isMusicEnabled, "email": user.encryption}),
+      body: JSON.stringify({
+        music_enabled: !isMusicEnabled,
+        email: encryption,
+      }),
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((res) => res.json())
-    .then((json) => {
-      console.log(json.music_enabled);
-      setIsMusicEnabled((previousState) => !previousState);
-    });
-  }
-  
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        setIsMusicEnabled((previousState) => !previousState);
+      });
+  };
+
   const toggleSoundsSwitch = () => {
     fetch(`${api_url}/user-profiles/post-attribute`, {
       method: "POST",
-      body: JSON.stringify({"sounds_enabled": !isSoundsEnabled, "email": user.encryption}),
+      body: JSON.stringify({
+        sounds_enabled: !isSoundsEnabled,
+        email: encryption,
+      }),
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((res) => res.json())
-    .then((json) => {
-      console.log(json.sounds_enabled);
-      setIsSoundsEnabled((previousState) => !previousState);
-    });
-  }
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        setIsSoundsEnabled((previousState) => !previousState);
+      });
+  };
 
   settingsData = [
     {
@@ -126,16 +157,13 @@ export default function Settings() {
         <Pressable
           style={styles.heroContainer}
           onPress={() => {
-            router.push("Profile");
+            router.push(`Profile?encryption=${encryption}`);
           }}
         >
-          <Image
-            source={require("../assets/profile.jpg")}
-            style={styles.heroImage}
-          />
+          <Image source={{ uri: src }} style={styles.heroImage} />
           <View style={{ flex: 1 }}>
-            <Text style={styles.heroTitle}>{user.name}</Text>
-            <Text style={styles.heroSubtitle}>{user.email}</Text>
+            <Text style={styles.heroTitle}>{name}</Text>
+            <Text style={styles.heroSubtitle}>{email}</Text>
           </View>
           <Chevron />
         </Pressable>
@@ -271,7 +299,7 @@ export default function Settings() {
 
   return (
     <>
-    {isLoading ? ( 
+      {isLoading ? (
         <View
           style={{
             display: "flex",
@@ -280,388 +308,401 @@ export default function Settings() {
             height: "100%",
           }}
         >
-        <ActivityIndicator size="large" color="#000" />
-      </View>
+          <ActivityIndicator size="large" color="#000" />
+        </View>
       ) : (
-      <View style={styles.container}>
-        <Modal
-          animationOut="fadeOutUp"
-          backgroundOpacity="0.7"
-          transparent={true}
-          isVisible={showDeleteAccountModal}
-          onRequestClose={() => {
-            setShowDeleteAccountModal(!showDeleteAccountModal);
-          }}
-        >
-          <View style={styles.modalView}>
-            <Text>Are you sure you want to delete your account?</Text>
-            <View
-              style={{
-                flexDirection: "row",
-                gap: 30,
-              }}
-            >
-              <Pressable
+        <View style={styles.container}>
+          <Modal
+            animationOut="fadeOutUp"
+            backgroundOpacity="0.7"
+            transparent={true}
+            isVisible={showDeleteAccountModal}
+            onRequestClose={() => {
+              setShowDeleteAccountModal(!showDeleteAccountModal);
+            }}
+          >
+            <View style={styles.modalView}>
+              <Text style={{ paddingBottom: 15 }}>
+                Are you sure you want to delete your account?
+              </Text>
+              <View
                 style={{
-                  backgroundColor: "red",
-                  padding: 10,
-                  borderRadius: 50,
-                }}
-                onPress={() => {
-                  fetch(`${api_url}/user-profiles/delete-user`, {
-                    method: "POST",
-                    body: JSON.stringify({ email: user.encryption }),
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                  })
-                    .then((res) => res.json())
-                    .then((json) => {
-                      console.log("Account deletion", json);
-                      logout();
-                      setShowDeleteAccountModal(!showDeleteAccountModal);
-                    });
+                  flexDirection: "row",
+                  gap: 30,
                 }}
               >
-                <Text
+                <Pressable
                   style={{
-                    color: "white",
+                    backgroundColor: "red",
+                    padding: 10,
+                    borderRadius: 50,
+                  }}
+                  onPress={() => {
+                    fetch(`${api_url}/user-profiles/delete-user`, {
+                      method: "POST",
+                      body: JSON.stringify({ email: encryption }),
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                    })
+                      .then((res) => res.json())
+                      .then((json) => {
+                        console.log("Account deletion", json);
+                        logout();
+                        setShowDeleteAccountModal(!showDeleteAccountModal);
+                      });
                   }}
                 >
-                  Delete
-                </Text>
-              </Pressable>
-              <Pressable
-                style={{
-                  backgroundColor: "black",
-                  padding: 10,
-                  borderRadius: 20,
-                }}
-                onPress={() =>
-                  setShowDeleteAccountModal(!showDeleteAccountModal)
-                }
-              >
-                <Text
+                  <Text
+                    style={{
+                      color: "white",
+                    }}
+                  >
+                    Delete
+                  </Text>
+                </Pressable>
+                <Pressable
                   style={{
-                    color: "white",
+                    backgroundColor: "black",
+                    padding: 10,
+                    borderRadius: 20,
                   }}
-                >
-                  Cancel
-                </Text>
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
-        <Modal
-          animationOut="fadeOutUp"
-          backgroundOpacity="0.7"
-          transparent={true}
-          isVisible={showLogoutModal}
-          onRequestClose={() => {
-            setLogoutModal(!showLogoutModal);
-          }}
-        >
-          <View style={styles.modalView}>
-            <Text>Are you sure you want to Log Out?</Text>
-            <View
-              style={{
-                flexDirection: "row",
-                gap: 30,
-              }}
-            >
-              <Pressable
-                style={{
-                  backgroundColor: "red",
-                  padding: 10,
-                  borderRadius: 50,
-                }}
-                onPress={() =>{
-                  setLogoutModal(!showLogoutModal);
-                  logout();
+                  onPress={() =>
+                    setShowDeleteAccountModal(!showDeleteAccountModal)
                   }
-                }
+                >
+                  <Text
+                    style={{
+                      color: "white",
+                    }}
+                  >
+                    Cancel
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+          <Modal
+            animationOut="fadeOutUp"
+            backgroundOpacity="0.7"
+            transparent={true}
+            isVisible={showLogoutModal}
+            onRequestClose={() => {
+              setLogoutModal(!showLogoutModal);
+            }}
+          >
+            <View style={styles.modalView}>
+              <Text style={{ paddingBottom: 15 }}>
+                Are you sure you want to log out?
+              </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  gap: 30,
+                }}
               >
-                <Text
+                <Pressable
                   style={{
-                    color: "white",
+                    backgroundColor: "red",
+                    padding: 10,
+                    borderRadius: 50,
+                  }}
+                  onPress={() => {
+                    setLogoutModal(!showLogoutModal);
+                    logout();
                   }}
                 >
-                  Yes
-                </Text>
-              </Pressable>
+                  <Text
+                    style={{
+                      color: "white",
+                    }}
+                  >
+                    Yes
+                  </Text>
+                </Pressable>
+                <Pressable
+                  style={{
+                    backgroundColor: "black",
+                    padding: 10,
+                    borderRadius: 20,
+                  }}
+                  onPress={() => setLogoutModal(!showLogoutModal)}
+                >
+                  <Text
+                    style={{
+                      color: "white",
+                    }}
+                  >
+                    Cancel
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+          <Modal
+            animationOut="fadeOutUp"
+            backgroundOpacity="0.7"
+            transparent={true}
+            isVisible={showCrisisModal}
+            onRequestClose={() => {
+              setShowCrisisModal(!showCrisisModal);
+            }}
+          >
+            <View style={styles.modalView}>
+              <Text style={styles.heading}>If you're in crisis</Text>
+              <Text style={styles.description}>
+                If you're in the US, please call the National Suicide Prevention
+                Lifeline (toll-free)
+              </Text>
               <Pressable
                 style={{
                   backgroundColor: "black",
                   padding: 10,
-                  borderRadius: 20,
+                  marginBottom: 10,
+                  // borderRadius: 20,
                 }}
-                onPress={() =>
-                  setLogoutModal(!showLogoutModal)
-                }
+                onPress={() => makePhoneCall("1-800-273-TALK")}
               >
                 <Text
                   style={{
                     color: "white",
                   }}
                 >
-                  Cancel
+                  1-800-273-TALK
                 </Text>
               </Pressable>
-            </View>
-          </View>
-        </Modal>
-        <Modal
-          animationOut="fadeOutUp"
-          backgroundOpacity="0.7"
-          transparent={true}
-          isVisible={showCrisisModal}
-          onRequestClose={() => {
-            setShowCrisisModal(!showCrisisModal);
-          }}
-        >
-          <View style={styles.modalView}>
-            <Text style={styles.heading}>If you're in crisis</Text>
-            <Text style={styles.description}>If you're in the US, please call the National Suicide Prevention Lifeline (toll-free)</Text>
-            <Pressable
-              style={{
-                backgroundColor: "black",
-                padding: 10,
-                marginBottom: 10,
-                // borderRadius: 20,
-              }}
-              onPress={() => makePhoneCall('1-800-273-TALK')}
-            >
-              <Text
-                style={{
-                  color: "white",
-                }}
-              >
-                1-800-273-TALK
+              <Text style={styles.description}>
+                If you're elsewhere, please call a local hotline
               </Text>
-            </Pressable>
-            <Text style={styles.description}>If you're elsewhere, please call a local hotline</Text>
-            <Pressable
-              style={{
-                backgroundColor: "black",
-                padding: 10,
-                marginBottom: 40,
-                // borderRadius: 20,
-              }}
-              onPress={() => Linking.openURL("https://www.google.com")}
-            >
-              <Text
+              <Pressable
                 style={{
-                  color: "white",
+                  backgroundColor: "black",
+                  padding: 10,
+                  marginBottom: 40,
+                  // borderRadius: 20,
                 }}
+                onPress={() => Linking.openURL("https://www.google.com")}
               >
-                Find a hotline in your country
-              </Text>
-            </Pressable>
-            <View 
-              style={{
+                <Text
+                  style={{
+                    color: "white",
+                  }}
+                >
+                  Find a hotline in your country
+                </Text>
+              </Pressable>
+              <View
+                style={{
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "space-between",
                   width: "100%",
-              }}
-              >
-              <View></View>
-              <Pressable
-                style={{
-                  backgroundColor: "black",
-                  padding: 10,
-                  // borderRadius: 20,
-                }}
-                onPress={() => setShowCrisisModal(!showCrisisModal)}
-              >
-                <Text style={styles.cancelButtonText}>Cancel</Text>
-              </Pressable>
-              </View>
-          </View>
-        </Modal>
-        <Modal
-          animationOut="fadeOutUp"
-          backgroundOpacity="0.7"
-          transparent={true}
-          isVisible={showLearnModal}
-          onRequestClose={() => {
-            setShowLearnModal(!showLearnModal);
-          }}
-        >
-          <View style={styles.modalView}>
-            <Text>Learn more</Text>
-            <Pressable
-              style={{
-                backgroundColor: "black",
-                padding: 10,
-                borderRadius: 50,
-              }}
-              onPress={() => setShowLearnModal(!showLearnModal)}
-            >
-              <Text
-                style={{
-                  color: "white",
                 }}
               >
-                OK
-              </Text>
-            </Pressable>
-          </View>
-        </Modal>
-        <Modal
-          animationOut="fadeOutUp"
-          backgroundOpacity="0.7"
-          transparent={true}
-          isVisible={showDeleteChatModal}
-          onRequestClose={() => {
-            setShowDeleteChatModal(!showDeleteChatModal);
-          }}
-        >
-          <View style={styles.modalView}>
-            <Text>Are you sure you want to delete all your chat history?</Text>
-            <View
-              style={{
-                flexDirection: "row",
-                gap: 30,
-              }}
-            >
-              <Pressable
-                style={{
-                  backgroundColor: "red",
-                  padding: 10,
-                  borderRadius: 50,
-                }}
-                onPress={() => {
-                  setShowDeleteChatModal(!showDeleteChatModal);
-                  fetch(`${api_url}/chat-module/delete-all-chat-history`, {
-                    method: "POST",
-                    body: JSON.stringify({ email: user.encryption }),
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                  })
-                    .then((res) => res.json())
-                    .then((json) => {
-                      Toast.show({
-                        type: "success",
-                        text1: "Chat History Deleted",
-                        text2: "All chat history has been wiped!",
-                      });
-                    });
-                }}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                  }}
-                >
-                  Delete
-                </Text>
-              </Pressable>
-              <Pressable
-                style={{
-                  backgroundColor: "black",
-                  padding: 10,
-                  borderRadius: 20,
-                }}
-                onPress={() => setShowDeleteChatModal(!showDeleteChatModal)}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                  }}
-                >
-                  Cancel
-                </Text>
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
-        <Modal
-          animationOut="fadeOutUp"
-          backgroundOpacity="0.7"
-          transparent={true}
-          isVisible={showContactModal}
-          onRequestClose={() => {
-            setShowContactModal(!showContactModal);
-          }}
-        >
-          <View style={styles.container}>
-            <View style={styles.modalView}>
-              <Text style={{ fontWeight: 'bold' }}>Please send us your query here!</Text>
-              <View style={styles.textInputContainer}>
-                <FlatList
-                  ref={flatListRef}
-                  data={[{ key: 'textInput' }]}
-                  renderItem={renderItem}
-                  onContentSizeChange={() => flatListRef.current.scrollToEnd({ animated: true })}
-                  onScrollBeginDrag={Keyboard.dismiss}
-                  keyboardShouldPersistTaps="handled"
-                />
-              </View>
-              {hasError && (
-                <Text style={styles.errorMessage}>
-                  {inputText.length >= 250
-                    ? "Please limit your input to 250 characters."
-                    : "Please enter at least 10 characters."}
-                </Text>
-              )}
-              <View style={styles.buttonContainer}>
+                <View></View>
                 <Pressable
-                  style={styles.cancelButton}
-                  onPress={() => {
-                    setShowContactModal(!showContactModal); 
-                    setInputText('');
-                  }
-                }
+                  style={{
+                    backgroundColor: "black",
+                    padding: 10,
+                    // borderRadius: 20,
+                  }}
+                  onPress={() => setShowCrisisModal(!showCrisisModal)}
                 >
                   <Text style={styles.cancelButtonText}>Cancel</Text>
                 </Pressable>
-                <Pressable
-                  style={[styles.submitButton, hasError ? styles.disabledSubmitButton : {}]}
-                  onPress={() => {
-                    setShowContactModal(!showContactModal);
-                    setInputText('');
-                    }
-                  }
-                  disabled={hasError}
+              </View>
+            </View>
+          </Modal>
+          <Modal
+            animationOut="fadeOutUp"
+            backgroundOpacity="0.7"
+            transparent={true}
+            isVisible={showLearnModal}
+            onRequestClose={() => {
+              setShowLearnModal(!showLearnModal);
+            }}
+          >
+            <View style={styles.modalView}>
+              <Text>Learn more</Text>
+              <Pressable
+                style={{
+                  backgroundColor: "black",
+                  padding: 10,
+                  borderRadius: 50,
+                }}
+                onPress={() => setShowLearnModal(!showLearnModal)}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                  }}
                 >
-                  <Text style={styles.submitButtonText}>Submit</Text>
+                  OK
+                </Text>
+              </Pressable>
+            </View>
+          </Modal>
+          <Modal
+            animationOut="fadeOutUp"
+            backgroundOpacity="0.7"
+            transparent={true}
+            isVisible={showDeleteChatModal}
+            onRequestClose={() => {
+              setShowDeleteChatModal(!showDeleteChatModal);
+            }}
+          >
+            <View style={styles.modalView}>
+              <Text style={{ paddingBottom: 15 }}>
+                Are you sure you want to delete all your chat history?
+              </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  gap: 30,
+                }}
+              >
+                <Pressable
+                  style={{
+                    backgroundColor: "red",
+                    padding: 10,
+                    borderRadius: 50,
+                  }}
+                  onPress={() => {
+                    setShowDeleteChatModal(!showDeleteChatModal);
+                    fetch(`${api_url}/chat-module/delete-all-chat-history`, {
+                      method: "POST",
+                      body: JSON.stringify({ email: encryption }),
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                    })
+                      .then((res) => res.json())
+                      .then((json) => {
+                        Toast.show({
+                          type: "success",
+                          text1: "Chat History Deleted",
+                          text2: "All chat history has been wiped!",
+                        });
+                      });
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: "white",
+                    }}
+                  >
+                    Delete
+                  </Text>
+                </Pressable>
+                <Pressable
+                  style={{
+                    backgroundColor: "black",
+                    padding: 10,
+                    borderRadius: 20,
+                  }}
+                  onPress={() => setShowDeleteChatModal(!showDeleteChatModal)}
+                >
+                  <Text
+                    style={{
+                      color: "white",
+                    }}
+                  >
+                    Cancel
+                  </Text>
                 </Pressable>
               </View>
             </View>
-          </View>
-        </Modal>
-        <SettingsScreen
-          data={this.settingsData}
-          globalTextStyle={{ fontFamily: "Roboto" }}
-          // scrollViewProps={{
-          //   refreshControl: (
-          //     <RefreshControl
-          //       refreshing={this.state.refreshing}
-          //       onRefresh={() => {
-          //         this.setState({ refreshing: true })
-          //         setTimeout(() => this.setState({ refreshing: false }), 3000)
-          //       }}
-          //     />
-          //   ),
-          // }}
-        />
-      </View>
+          </Modal>
+          <Modal
+            animationOut="fadeOutUp"
+            backgroundOpacity="0.7"
+            transparent={true}
+            isVisible={showContactModal}
+            onRequestClose={() => {
+              setShowContactModal(!showContactModal);
+            }}
+          >
+            <View style={styles.container}>
+              <View style={styles.modalView}>
+                <Text style={{ fontWeight: "bold" }}>
+                  Please send us your query here!
+                </Text>
+                <View style={styles.textInputContainer}>
+                  <FlatList
+                    ref={flatListRef}
+                    data={[{ key: "textInput" }]}
+                    renderItem={renderItem}
+                    onContentSizeChange={() =>
+                      flatListRef.current.scrollToEnd({ animated: true })
+                    }
+                    onScrollBeginDrag={Keyboard.dismiss}
+                    keyboardShouldPersistTaps="handled"
+                  />
+                </View>
+                {hasError && (
+                  <Text style={styles.errorMessage}>
+                    {inputText.length >= 250
+                      ? "Please limit your input to 250 characters."
+                      : "Please enter at least 10 characters."}
+                  </Text>
+                )}
+                <View style={styles.buttonContainer}>
+                  <Pressable
+                    style={styles.cancelButton}
+                    onPress={() => {
+                      setShowContactModal(!showContactModal);
+                      setInputText("");
+                    }}
+                  >
+                    <Text style={styles.cancelButtonText}>Cancel</Text>
+                  </Pressable>
+                  <Pressable
+                    style={[
+                      styles.submitButton,
+                      hasError ? styles.disabledSubmitButton : {},
+                    ]}
+                    onPress={() => {
+                      setShowContactModal(!showContactModal);
+                      setInputText("");
+                    }}
+                    disabled={hasError}
+                  >
+                    <Text style={styles.submitButtonText}>Submit</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          </Modal>
+          <SettingsScreen
+            data={this.settingsData}
+            globalTextStyle={{ fontFamily: "Roboto" }}
+            // scrollViewProps={{
+            //   refreshControl: (
+            //     <RefreshControl
+            //       refreshing={this.state.refreshing}
+            //       onRefresh={() => {
+            //         this.setState({ refreshing: true })
+            //         setTimeout(() => this.setState({ refreshing: false }), 3000)
+            //       }}
+            //     />
+            //   ),
+            // }}
+          />
+        </View>
       )}
       <Toast />
     </>
   );
 }
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 const paddingHorizontalMargin = 20;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: paddingHorizontalMargin,
   },
   heroContainer: {
@@ -695,17 +736,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   modalView: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
     width: width - 2 * paddingHorizontalMargin,
   },
   textInputContainer: {
-    width: '100%',
+    width: "100%",
     maxHeight: 80,
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderRadius: 4,
     marginVertical: 10,
   },
@@ -714,36 +755,36 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   errorMessage: {
-    color: 'red',
+    color: "red",
     marginBottom: 10,
   },
   buttonContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 20,
-    justifyContent: 'space-between',
-    width: '100%',
+    justifyContent: "space-between",
+    width: "100%",
     marginTop: 20,
   },
   cancelButton: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     padding: 10,
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
   },
   submitButton: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     padding: 10,
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
   },
   disabledSubmitButton: {
     opacity: 0.5,
   },
   submitButtonText: {
-    color: 'white',
+    color: "white",
   },
   cancelButtonText: {
-    color: 'red',
+    color: "red",
   },
   heading: {
     fontSize: 24,

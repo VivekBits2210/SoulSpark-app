@@ -9,7 +9,7 @@ import { Input } from "@flyerhq/react-native-chat-ui";
 import { KeyboardAccessoryView } from "@flyerhq/react-native-keyboard-accessory-view";
 
 function ChatScreen() {
-  const { name, id } = useSearchParams();
+  const { name, id, encryption, picture } = useSearchParams();
   const uuidv4 = () => {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
       const r = Math.floor(Math.random() * 16);
@@ -33,7 +33,7 @@ function ChatScreen() {
 
   function getLevel() {
     fetch(
-      `${api_url}/user-profiles/fetch-chat-history?bot_id=${id}&email=${user.encryption}&lines=50`
+      `${api_url}/user-profiles/fetch-chat-history?bot_id=${id}&email=${encryption}&picture=${picture}&lines=50`
     )
       .then((res) => res.json())
       .then((json) => {

@@ -18,7 +18,7 @@ const Card = ({ card }) => {
   return (
     <View style={styles.card}>
       <Image
-        style={ styles.image}
+        style={styles.image}
         source={{ uri: card.photo }}
         resizeMode="cover"
       />

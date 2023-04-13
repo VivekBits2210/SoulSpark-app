@@ -1,3 +1,4 @@
+import { Buffer } from "buffer";
 import { Text, View, TouchableOpacity } from "react-native";
 import { ScreenHeaderBtn } from "../components";
 import { Stack, useRouter } from "expo-router";
@@ -5,7 +6,12 @@ import { HeaderBackButton } from "react-navigation-stack";
 import UnmatchMenu from "./UnmatchMenu";
 import { useSearchParams } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { url_refresh_hack, aws_url, window, normalize_font } from "../constants";
+import {
+  url_refresh_hack,
+  aws_url,
+  window,
+  normalize_font,
+} from "../constants";
 import ScreenHeaderTitle from "../components/Header/ScreenHeaderTitle";
 
 SplashScreen.preventAutoHideAsync();
@@ -14,8 +20,7 @@ export const unstable_settings = {
 };
 const Layout = () => {
   const router = useRouter();
-
-  const { name, id } = useSearchParams();
+  const { name, id, encryption, picture } = useSearchParams();
   let src = `${aws_url}/${id}.jpg?url_refresh_hack=${url_refresh_hack}`;
   return (
     <Stack>
@@ -78,7 +83,8 @@ const Layout = () => {
                 />
                 <ScreenHeaderTitle src={require("../assets/logo_text.jpg")} />
                 <ScreenHeaderBtn
-                  iconUrl={require("../assets/profile.jpg")}
+                  iconUrl={require("../assets/profile.png")}
+                  // iconUrl={{uri:Buffer.from(picture, "hex").toString()}}
                   dimension="100%"
                   handlePress={() => router.push("/Settings")}
                 />
@@ -114,7 +120,7 @@ const Layout = () => {
                     iconUrl={{ uri: src }}
                     backgroundColor={"black"}
                     dimension="100%"
-                    handlePress={()=>{}}
+                    handlePress={() => {}}
                   ></ScreenHeaderBtn>
                 </TouchableOpacity>
                 <Text
@@ -124,7 +130,7 @@ const Layout = () => {
                     fontSize: normalize_font(22),
                     paddingLeft: 10,
                   }}
-                  onPress={()=>{}}
+                  onPress={() => {}}
                 >
                   {name}
                 </Text>
@@ -132,7 +138,7 @@ const Layout = () => {
             );
           },
           headerRight: () => {
-            return <UnmatchMenu id={id}></UnmatchMenu>;
+            return <UnmatchMenu id={id} encryption={encryption}></UnmatchMenu>;
           },
           headerTitle: "",
         }}
@@ -330,11 +336,6 @@ const Layout = () => {
                   alignItems: "center",
                 }}
               >
-                <HeaderBackButton
-                  tintColor="white"
-                  onPress={() => router.back()}
-                  style={{ paddingLeft: 0 }}
-                ></HeaderBackButton>
                 <Text
                   style={{
                     color: "white",

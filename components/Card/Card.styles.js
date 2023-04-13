@@ -10,7 +10,7 @@ export default StyleSheet.create({
     borderRadius: 5,
     shadowColor: "black",
     shadowOffset: {
-      width: window.width/100,
+      width: window.width / 100,
       height: 2,
     },
     // marginTop: -window.height / 15,
