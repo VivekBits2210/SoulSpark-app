@@ -15,9 +15,7 @@ export default function ChatSelectionScreen() {
   const [chats, setChats] = useState(null);
 
   const getSelectedProfiles = () => {
-    fetch(
-      `${api_url}/chat-module/fetch-selected-profiles?email=${encryption}`
-    )
+    fetch(`${api_url}/chat-module/fetch-selected-profiles?email=${encryption}`)
       .then((res) => res.json())
       .then((json) => {
         let result = [];

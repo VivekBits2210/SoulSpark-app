@@ -7,7 +7,7 @@ export default StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   swiperContainer: {
     flex: 9,

@@ -24,7 +24,7 @@ const UnmatchMenu = (props) => {
     let data = new FormData();
     data.append("email", props.encryption);
     data.append("bot_id", id);
-    console.log("Form data", data, typeof data)
+    console.log("Form data", data, typeof data);
     fetch(`${api_url}/chat-module/unmatch`, {
       method: "POST",
       body: data,

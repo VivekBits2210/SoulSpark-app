@@ -159,9 +159,10 @@ const FormScreen = ({ navigation }) => {
                 headers: {
                   "Content-Type": "application/json",
                 },
-              })
-                .then((res) => res.json())
-              router.replace(`InterestsScreen?encryption=${encryption}&picture=${picture}`);
+              }).then((res) => res.json());
+              router.replace(
+                `InterestsScreen?encryption=${encryption}&picture=${picture}`
+              );
             })}
             style={styles.button}
           >

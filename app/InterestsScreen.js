@@ -77,9 +77,10 @@ const InterestsScreen = ({ navigation }) => {
                 headers: {
                   "Content-Type": "application/json",
                 },
-              })
-                .then((res) => res.json())
-              router.replace(`MyTabs?encryption=${encryption}&picture=${picture}`);
+              }).then((res) => res.json());
+              router.replace(
+                `MyTabs?encryption=${encryption}&picture=${picture}`
+              );
             }}
             disabled={!selectedInterests.length}
           >

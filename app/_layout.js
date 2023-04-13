@@ -1,4 +1,4 @@
-import { Buffer } from 'buffer';
+import { Buffer } from "buffer";
 import { Text, View, TouchableOpacity } from "react-native";
 import { ScreenHeaderBtn } from "../components";
 import { Stack, useRouter } from "expo-router";
@@ -6,7 +6,12 @@ import { HeaderBackButton } from "react-navigation-stack";
 import UnmatchMenu from "./UnmatchMenu";
 import { useSearchParams } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { url_refresh_hack, aws_url, window, normalize_font } from "../constants";
+import {
+  url_refresh_hack,
+  aws_url,
+  window,
+  normalize_font,
+} from "../constants";
 import ScreenHeaderTitle from "../components/Header/ScreenHeaderTitle";
 
 SplashScreen.preventAutoHideAsync();
@@ -115,7 +120,7 @@ const Layout = () => {
                     iconUrl={{ uri: src }}
                     backgroundColor={"black"}
                     dimension="100%"
-                    handlePress={()=>{}}
+                    handlePress={() => {}}
                   ></ScreenHeaderBtn>
                 </TouchableOpacity>
                 <Text
@@ -125,7 +130,7 @@ const Layout = () => {
                     fontSize: normalize_font(22),
                     paddingLeft: 10,
                   }}
-                  onPress={()=>{}}
+                  onPress={() => {}}
                 >
                   {name}
                 </Text>
