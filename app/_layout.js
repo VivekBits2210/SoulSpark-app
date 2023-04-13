@@ -1,7 +1,7 @@
 import { Buffer } from "buffer";
 import { Text, View, TouchableOpacity } from "react-native";
 import { ScreenHeaderBtn } from "../components";
-import { Stack, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { HeaderBackButton } from "react-navigation-stack";
 import UnmatchMenu from "./UnmatchMenu";
 import { useSearchParams } from "expo-router";
@@ -13,17 +13,32 @@ import {
   normalize_font,
 } from "../constants";
 import ScreenHeaderTitle from "../components/Header/ScreenHeaderTitle";
+import { createStackNavigator } from '@react-navigation/stack';
+import FormScreen from './FormScreen';
+import WelcomeCarouselScreen from "./WelcomeCarouselScreen";
+import MyTabs from "./MyTabs";
+import ChatScreen from "./ChatScreen";
+import Index from "./index";
+import Coffee from "./Coffee";
+import Customization from "./Customization";
+import InterestsScreen from "./InterestsScreen";
+import Profile from "./Profile";
+import Settings from "./Settings";
+import ExpandedProfile from "./ExpandedProfile";
+import Unmatch from "./Unmatched";
+import User from "./[user]";
+import Missing from "./missing";
 
 SplashScreen.preventAutoHideAsync();
-export const unstable_settings = {
-  initialRouteName: "index",
-};
+
+const Stack = createStackNavigator();
+
 const Layout = () => {
   const router = useRouter();
   const { name, id, encryption, picture } = useSearchParams();
   let src = `${aws_url}/${id}.jpg?url_refresh_hack=${url_refresh_hack}`;
   return (
-    <Stack>
+    <Stack.Navigator initialRouteName="index">
       <Stack.Screen
         options={{
           headerShown: true,
@@ -55,6 +70,7 @@ const Layout = () => {
           headerTitle: "",
         }}
         name="index"
+        component={Index}
       />
       <Stack.Screen
         options={{
@@ -95,6 +111,7 @@ const Layout = () => {
           headerTitle: "",
         }}
         name="MyTabs"
+        component={MyTabs}
       />
       <Stack.Screen
         options={{
@@ -144,6 +161,7 @@ const Layout = () => {
           headerTitle: "",
         }}
         name="ChatScreen"
+        component={ChatScreen}
       />
       <Stack.Screen
         options={{
@@ -181,6 +199,7 @@ const Layout = () => {
           headerTitle: "",
         }}
         name="Settings"
+        component={Settings}
       />
       <Stack.Screen
         options={{
@@ -218,6 +237,7 @@ const Layout = () => {
           headerTitle: "",
         }}
         name="Profile"
+        component={Profile}
       />
       <Stack.Screen
         options={{
@@ -258,6 +278,7 @@ const Layout = () => {
           headerTitle: "",
         }}
         name="Coffee"
+        component={Coffee}
       />
       <Stack.Screen
         options={{
@@ -290,6 +311,7 @@ const Layout = () => {
           headerTitle: "",
         }}
         name="WelcomeCarouselScreen"
+        component={WelcomeCarouselScreen}
       />
       <Stack.Screen
         options={{
@@ -323,6 +345,7 @@ const Layout = () => {
           headerTitle: "",
         }}
         name="FormScreen"
+        component={FormScreen}
       />
       <Stack.Screen
         options={{
@@ -356,6 +379,7 @@ const Layout = () => {
           headerTitle: "",
         }}
         name="InterestsScreen"
+        component={InterestsScreen}
       />
       <Stack.Screen
         options={{
@@ -393,6 +417,7 @@ const Layout = () => {
           headerTitle: "",
         }}
         name="Customization"
+        component={Customization}
       />
       <Stack.Screen
         options={{
@@ -401,6 +426,7 @@ const Layout = () => {
           headerTitle: "",
         }}
         name="ExpandedProfile"
+        component={ExpandedProfile}
       />
       <Stack.Screen
         options={{
@@ -409,6 +435,7 @@ const Layout = () => {
           headerTitle: "",
         }}
         name="Unmatched"
+        component={Unmatch}
       />
       <Stack.Screen
         options={{
@@ -417,6 +444,7 @@ const Layout = () => {
           headerTitle: "",
         }}
         name="missing"
+        component={Missing}
       />
       <Stack.Screen
         options={{
@@ -425,8 +453,9 @@ const Layout = () => {
           headerTitle: "",
         }}
         name="[user]"
+        component={User}
       />
-    </Stack>
+    </Stack.Navigator>
   );
 };
 
