@@ -1,12 +1,11 @@
 import React from "react";
 import { Picker } from "@react-native-picker/picker";
-import { CheckBox } from "react-native-elements";
 import SButton from "../components/SButton";
-import { TouchableOpacity } from "react-native";
-import { SafeAreaView, StyleSheet, Text, View, ScrollView } from "react-native";
+import { useEffect } from "react";
+import { TouchableOpacity, SafeAreaView, StyleSheet, Text, View, ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import { useRouter, useSearchParams } from "expo-router";
-import { user, api_url } from "../constants";
+import { useRouter, useNavigation, useSearchParams } from "expo-router";
+import { api_url } from "../constants";
 
 const CustomRadioButton = ({ label, value, selectedValue, onValueChange }) => {
   const isSelected = value === selectedValue;
@@ -47,7 +46,7 @@ for (let i = 18; i < 60; i++) {
   ages[i] = "" + i;
 }
 
-const FormScreen = ({ navigation }) => {
+const FormScreen = () => {
   const { encryption, picture } = useSearchParams();
   const router = useRouter();
   const {
@@ -55,6 +54,18 @@ const FormScreen = ({ navigation }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    console.log("Navigate Action in form screen maybe")
+    navigation.addListener('beforeRemove', (e) => {
+      if(e.data.action.type==="GO_BACK"){
+          e.preventDefault();
+          console.log('Back button disabled on Form Screen');
+      }
+    });
+  }, []);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -68,6 +79,7 @@ const FormScreen = ({ navigation }) => {
               <View style={styles.textBox}>
                 <Text style={styles.label}>Select an age</Text>
                 <Picker selectedValue={value} onValueChange={onChange}>
+                  <Picker.Item key={"null_item"} label="" value={null} /> 
                   {ages.map((item, key) => (
                     <Picker.Item key={key} label={item} value={item} />
                   ))}
@@ -160,7 +172,7 @@ const FormScreen = ({ navigation }) => {
                   "Content-Type": "application/json",
                 },
               }).then((res) => res.json());
-              router.replace(
+              router.push(
                 `InterestsScreen?encryption=${encryption}&picture=${picture}`
               );
             })}

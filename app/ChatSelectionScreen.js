@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import { SBItemChatSelect } from "../components/SBItem";
 import { useFocusEffect } from "@react-navigation/native";
-import { user, window, url_refresh_hack, api_url, aws_url } from "../constants";
+import { window, url_refresh_hack, api_url, aws_url } from "../constants";
 import { useState } from "react";
 import { ActivityIndicator } from "react-native-paper";
 import IconButton from "../components/IconButton/IconButton";

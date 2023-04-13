@@ -13,7 +13,7 @@ import {
 import { Chip } from "react-native-paper";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "expo-router";
-import { api_url, user, normalize_font } from "../constants";
+import { api_url, normalize_font } from "../constants";
 import { ActivityIndicator } from "react-native-paper";
 import Toast from "react-native-toast-message";
 
@@ -132,6 +132,7 @@ const Profile = () => {
               }}
             />
             <CustomRadioInput
+              key={"key1"}
               values={["M", "F"]}
               labels={["Male", "Female"]}
               element={<Pressable style={styles.radioSelect} />}
@@ -143,6 +144,7 @@ const Profile = () => {
               customName="Select your gender"
             />
             <CustomRadioInput
+              key={"key2"}
               values={["M", "F", "E"]}
               labels={["Male", "Female", "Any"]}
               element={<Pressable style={styles.radioSelect} />}

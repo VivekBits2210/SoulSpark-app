@@ -17,7 +17,7 @@ import { useState, useRef, useEffect } from "react";
 import Modal from "react-native-modal";
 import { Pressable } from "react-native";
 import { useRouter } from "expo-router";
-import { user, api_url, version } from "../constants";
+import { api_url, version } from "../constants";
 import Toast from "react-native-toast-message";
 import { ActivityIndicator } from "react-native-paper";
 import * as AuthSession from "expo-auth-session";
@@ -233,27 +233,27 @@ export default function Settings() {
         },
       ],
     },
+    // {
+    //   type: "SECTION",
+    //   header: "Legal".toUpperCase(),
+    //   rows: [
+    //     {
+    //       title: "Terms of Service",
+    //       onPress: () => {
+    //         Linking.openURL("https://www.google.com");
+    //       },
+    //     },
+    //     {
+    //       title: "Privacy Policy",
+    //       onPress: () => {
+    //         Linking.openURL("https://www.google.com");
+    //       },
+    //     },
+    //   ],
+    // },
     {
       type: "SECTION",
-      header: "Legal".toUpperCase(),
-      rows: [
-        {
-          title: "Terms of Service",
-          onPress: () => {
-            Linking.openURL("https://www.google.com");
-          },
-        },
-        {
-          title: "Privacy Policy",
-          onPress: () => {
-            Linking.openURL("https://www.google.com");
-          },
-        },
-      ],
-    },
-    {
-      type: "SECTION",
-      header: "Other".toUpperCase(),
+      header: "Exit".toUpperCase(),
       rows: [
         {
           title: "Delete chat history",
@@ -261,12 +261,12 @@ export default function Settings() {
             setShowDeleteChatModal(true);
           },
         },
-        {
-          title: "Delete account",
-          onPress: () => {
-            setShowDeleteAccountModal(true);
-          },
-        },
+        // {
+        //   title: "Delete account",
+        //   onPress: () => {
+        //     setShowDeleteAccountModal(true);
+        //   },
+        // },
         {
           title: "Log out",
           titleStyle: {

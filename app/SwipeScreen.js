@@ -9,7 +9,7 @@ import Swiper from "react-native-deck-swiper";
 import Toast from "react-native-toast-message";
 import { ActivityIndicator } from "react-native-paper";
 import { Card, IconButton, OverlayLabel } from "../components";
-import { api_url, user, url_refresh_hack, aws_url, window } from "../constants";
+import { api_url, url_refresh_hack, aws_url, window } from "../constants";
 import styles from "./App.styles";
 import { useSearchParams } from "expo-router";
 
