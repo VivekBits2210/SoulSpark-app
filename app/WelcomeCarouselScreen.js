@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer';
 import * as React from "react";
 // import TimeZone from 'react-native-timezone';
 import {
@@ -20,7 +21,6 @@ import Carousel from "react-native-reanimated-carousel";
 import { useRouter } from "expo-router";
 import { SBItem } from "../components/SBItem";
 import { user, window, normalize_font, api_url } from "../constants";
-
 // Images
 import googleLogo from "../assets/g-logo-black.jpg";
 import m0 from "../assets/cropped_smiling_woman.jpg";
@@ -33,6 +33,7 @@ import { useEffect, useState } from "react";
 import * as AuthSession from "expo-auth-session";
 import { makeRedirectUri } from 'expo-auth-session';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import encryptEmail from "./helpers";
 
 const redirectUri = makeRedirectUri({
   native: 'com.soulspark.testpublishapp:/oauth2redirect',
@@ -64,7 +65,16 @@ function WelcomeCarouselScreen({ navigation }) {
   });
 
   useEffect(() => {
-    console.log("auth response", response);
+    console.log("persist ran?")
+    const cleaner = async () => {
+      await AsyncStorage.removeItem("auth"); //TODO: Remove
+      await AsyncStorage.removeItem("user_data");
+      got_auth = await AsyncStorage.getItem("auth");
+      got_user_data =  await AsyncStorage.getItem("user_data");
+      console.log("got_auth", got_auth);
+      console.log("got_user_data", got_user_data);
+    }
+    // cleaner();
     if (response && response?.type === "success") {
       setAuth(response.authentication);
     }
@@ -107,20 +117,24 @@ function WelcomeCarouselScreen({ navigation }) {
 
   useEffect(() => {
     if (userInfo) {
+      console.log("here?", userInfo)
+      // const pictureHexString = Buffer.from(userInfo.picture).toString('hex');
+      const pictureHexString = "emptyString";
       if (!pressedGoogleButton) {
         const timer = setTimeout(() => {
-          router.replace("MyTabs");
+          router.replace(`MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`);
         }, 2000); 
   
         return () => clearTimeout(timer);
       } else {
-        fetch(`${api_url}/user-profiles/fetch-user-info?email=${user.encryption}`)
+        fetch(`${api_url}/user-profiles/fetch-user-info?email=${userInfo.emailEncryption}`)
           .then((res) => res.json())
           .then((json) => {
             router.replace(
               json.age && json.gender
-                ? !json.interests ? "InterestsScreen" : "MyTabs"
-                : "FormScreen"
+                ? !json.interests ? `InterestsScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}` 
+                : `MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
+                : `FormScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
             );
           });
       }
@@ -129,6 +143,9 @@ function WelcomeCarouselScreen({ navigation }) {
   
 
   const getUserData = async () => {
+    String.prototype.toProperCase = function () {
+      return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    };
     let userInfoResponse = await fetch(
       "https://www.googleapis.com/userinfo/v2/me",
       {
@@ -137,9 +154,28 @@ function WelcomeCarouselScreen({ navigation }) {
     );
   
     userInfoResponse.json().then((data) => {
+      data['emailEncryption'] = encryptEmail(data['email'],"f7bbaef2b2ea621d89f5c5db5c5f3e5f")
       console.log("user info", data);
-      setUserInfo(data);
-    });
+      fetch(`${api_url}/user-profiles/create-user`, {
+        method: "POST",
+        body: JSON.stringify({email: data['emailEncryption'], first_name: data['given_name'], last_name:data['family_name']}),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => res.json())
+      .then((json) =>  {
+        console.log("")
+        console.log("response from create-user", json)
+        console.log("is data still available", data)
+        AsyncStorage.setItem(
+          "user_data",
+          JSON.stringify(data)
+        )
+      })
+      .then((json)=> setUserInfo(data))
+      .catch((e)=> console.log("Create user error",e))
+      })
   };
 
   const getClientId = () => {
@@ -186,7 +222,7 @@ function WelcomeCarouselScreen({ navigation }) {
       return (
         <View style={styles.userInfo}>
           <Image source={{ uri: userInfo.picture }} style={styles.profilePic} />
-          <Text style={{ fontSize: 24 }}>Welcome {userInfo.name}</Text>
+          <Text style={{ fontSize: normalize_font(20) }}>Welcome {userInfo.name}</Text>
         </View>
       );
     }
@@ -419,8 +455,8 @@ const styles = StyleSheet.create({
     fontFamily: "sans-serif",
   },
   profilePic: {
-    width: 50,
-    height: 50,
+    width: "5%",
+    height: "5%",
   },
   userInfo: {
     alignItems: "center",

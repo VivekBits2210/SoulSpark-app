@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer';
 import { Text, View, TouchableOpacity } from "react-native";
 import { ScreenHeaderBtn } from "../components";
 import { Stack, useRouter } from "expo-router";
@@ -14,8 +15,7 @@ export const unstable_settings = {
 };
 const Layout = () => {
   const router = useRouter();
-
-  const { name, id } = useSearchParams();
+  const { name, id, encryption, picture } = useSearchParams();
   let src = `${aws_url}/${id}.jpg?url_refresh_hack=${url_refresh_hack}`;
   return (
     <Stack>
@@ -78,7 +78,8 @@ const Layout = () => {
                 />
                 <ScreenHeaderTitle src={require("../assets/logo_text.jpg")} />
                 <ScreenHeaderBtn
-                  iconUrl={require("../assets/profile.jpg")}
+                  iconUrl={require("../assets/profile.png")}
+                  // iconUrl={{uri:Buffer.from(picture, "hex").toString()}}
                   dimension="100%"
                   handlePress={() => router.push("/Settings")}
                 />
@@ -132,7 +133,7 @@ const Layout = () => {
             );
           },
           headerRight: () => {
-            return <UnmatchMenu id={id}></UnmatchMenu>;
+            return <UnmatchMenu id={id} encryption={encryption}></UnmatchMenu>;
           },
           headerTitle: "",
         }}

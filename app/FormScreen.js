@@ -5,7 +5,7 @@ import SButton from "../components/SButton";
 import { TouchableOpacity } from "react-native";
 import { SafeAreaView, StyleSheet, Text, View, ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import { useRouter } from "expo-router";
+import { useRouter, useSearchParams } from "expo-router";
 import { user, api_url } from "../constants";
 
 const CustomRadioButton = ({ label, value, selectedValue, onValueChange }) => {
@@ -48,6 +48,7 @@ for (let i = 18; i < 60; i++) {
 }
 
 const FormScreen = ({ navigation }) => {
+  const { encryption, picture } = useSearchParams();
   const router = useRouter();
   const {
     control,
@@ -151,7 +152,7 @@ const FormScreen = ({ navigation }) => {
           <SButton
             disabled={false}
             onPress={handleSubmit((formValue) => {
-              formValue.email = user.encryption;
+              formValue.email = encryption;
               fetch(`${api_url}/user-profiles/post-attribute`, {
                 method: "POST",
                 body: JSON.stringify(formValue),
@@ -160,7 +161,7 @@ const FormScreen = ({ navigation }) => {
                 },
               })
                 .then((res) => res.json())
-              router.replace("InterestsScreen");
+              router.replace(`InterestsScreen?encryption=${encryption}&picture=${picture}`);
             })}
             style={styles.button}
           >

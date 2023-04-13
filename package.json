@@ -30,6 +30,7 @@
     "react-native": "^0.71.6",
     "react-native-app-auth": "^6.4.3",
     "react-native-country-picker-modal": "^2.0.0",
+    "react-native-crypto-js": "^1.0.0",
     "react-native-date-picker": "^4.2.10",
     "react-native-deck-swiper": "^2.0.13",
     "react-native-elements": "^3.4.3",

@@ -6,16 +6,18 @@ import { ActivityIndicator } from "react-native-paper";
 import { Card, IconButton, OverlayLabel } from "../components";
 import { api_url, user, url_refresh_hack, aws_url, window } from "../constants";
 import styles from "./App.styles";
+import { useSearchParams } from "expo-router";
 
 const SwipeScreen = ({ route }) => {
   // const { setTabBarOptions } = route.params;
+  const { encryption } = useSearchParams();
   const swiperRef = useRef(null);
   const [photoCards, setPhotoCards] = useState([]);
   const [refreshing, setRefreshing] = React.useState(false);
 
   const getProfilesForSwipe = (n) => {
     fetch(
-      `${api_url}/ai-profiles/fetch-profile?n=${n}&email=${user.encryption}`
+      `${api_url}/ai-profiles/fetch-profile?n=${n}&email=${encryption}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -47,7 +49,7 @@ const SwipeScreen = ({ route }) => {
   const getBotId = (cardIndex) => {
     const bot_id = photoCards[cardIndex].key;
     fetch(
-      `${api_url}/chat-module/fetch-chat-history?lines=0&bot_id=${bot_id}&email=${user.encryption}`
+      `${api_url}/chat-module/fetch-chat-history?lines=0&bot_id=${bot_id}&email=${encryption}`
     )
       .then((res) => res.json())
       .then((json) => {

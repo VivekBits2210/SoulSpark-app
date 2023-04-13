@@ -6,7 +6,7 @@ import { Picker } from "@react-native-picker/picker";
 import { Pressable, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView } from "react-native";
 import { Chip } from "react-native-paper";
 import { useState, useEffect } from "react";
-import { useRouter } from "expo-router";
+import { useRouter, useSearchParams } from "expo-router";
 import { api_url, user, normalize_font } from "../constants";
 import { ActivityIndicator } from "react-native-paper";
 import Toast from "react-native-toast-message";
@@ -30,6 +30,7 @@ const interests = [
 ];
 
 const Profile = () => {
+  const { encryption, picture } = useSearchParams();
   const router = useRouter();
   const [gender, setGender] = useState("Male");
   const [genderFocus, setGenderFocus] = useState("Female");
@@ -41,7 +42,7 @@ const Profile = () => {
 
   function loadUserInfo() {
     fetch(
-      `${api_url}/user-profiles/fetch-user-info?email=${user.encryption}`
+      `${api_url}/user-profiles/fetch-user-info?email=${encryption}&picture=${picture}`
     )
       .then((res) => res.json())
       .then((json) => {
@@ -195,7 +196,7 @@ const Profile = () => {
             "gender_focus": genderFocus,
             "interests": selectedInterests.join(","),
           }
-          formValue.email = user.encryption;
+          formValue.email = encryption;
           fetch(`${api_url}/user-profiles/post-attribute`, {
             method: "POST",
             body: JSON.stringify(formValue),

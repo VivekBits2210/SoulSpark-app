@@ -16,6 +16,10 @@ export default function Settings() {
   const router = useRouter();
   const [isMusicEnabled, setIsMusicEnabled] = useState(true);
   const [isSoundsEnabled, setIsSoundsEnabled] = useState(true);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [src, setSrc] = useState("");
+  const [encryption, setEncryption] = useState("");
   const [showContactModal, setShowContactModal] = useState(false);
   const [showCrisisModal, setShowCrisisModal] = useState(false);
   const [showLearnModal, setShowLearnModal] = useState(false);
@@ -68,6 +72,7 @@ export default function Settings() {
     }
   
     await AsyncStorage.removeItem("auth");
+    await AsyncStorage.removeItem("user_data");
     router.replace("WelcomeCarouselScreen")
   };
 
@@ -76,15 +81,26 @@ export default function Settings() {
   };
 
   function loadUserInfo() {
-    fetch(
-      `${api_url}/user-profiles/fetch-user-info?email=${user.encryption}`
-    )
-      .then((res) => res.json())
-      .then((json) => {
-        setIsMusicEnabled(json.music_enabled)
-        setIsSoundsEnabled(json.sounds_enabled)
-        setIsLoading(false);
-      });
+    const getEncryption = async () => {
+      const jsonValue = await AsyncStorage.getItem("user_data");
+      const user_data = JSON.parse(jsonValue);
+      setEncryption(user_data['emailEncryption']);
+      return user_data;
+    }
+    getEncryption().then((data)=>{
+      fetch(
+        `${api_url}/user-profiles/fetch-user-info?email=${data['emailEncryption']}`
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          setName(json.name);
+          setEmail(data['email'])
+          setSrc(data['picture'])
+          setIsMusicEnabled(json.music_enabled)
+          setIsSoundsEnabled(json.sounds_enabled)
+          setIsLoading(false);
+        });
+    })
   }
   useEffect(loadUserInfo, []);
 
@@ -92,7 +108,7 @@ export default function Settings() {
   const toggleMusicSwitch = () =>  {
     fetch(`${api_url}/user-profiles/post-attribute`, {
       method: "POST",
-      body: JSON.stringify({"music_enabled": !isMusicEnabled, "email": user.encryption}),
+      body: JSON.stringify({music_enabled: !isMusicEnabled, email: encryption}),
       headers: {
         "Content-Type": "application/json",
       },
@@ -105,7 +121,7 @@ export default function Settings() {
   const toggleSoundsSwitch = () => {
     fetch(`${api_url}/user-profiles/post-attribute`, {
       method: "POST",
-      body: JSON.stringify({"sounds_enabled": !isSoundsEnabled, "email": user.encryption}),
+      body: JSON.stringify({sounds_enabled: !isSoundsEnabled, email: encryption}),
       headers: {
         "Content-Type": "application/json",
       },
@@ -123,16 +139,16 @@ export default function Settings() {
         <Pressable
           style={styles.heroContainer}
           onPress={() => {
-            router.push("Profile");
+            router.push(`Profile?encryption=${encryption}`);
           }}
         >
           <Image
-            source={require("../assets/profile.jpg")}
+            source={{ uri: src }}
             style={styles.heroImage}
           />
           <View style={{ flex: 1 }}>
-            <Text style={styles.heroTitle}>{user.name}</Text>
-            <Text style={styles.heroSubtitle}>{user.email}</Text>
+            <Text style={styles.heroTitle}>{name}</Text>
+            <Text style={styles.heroSubtitle}>{email}</Text>
           </View>
           <Chevron />
         </Pressable>
@@ -307,7 +323,7 @@ export default function Settings() {
                 onPress={() => {
                   fetch(`${api_url}/user-profiles/delete-user`, {
                     method: "POST",
-                    body: JSON.stringify({ email: user.encryption }),
+                    body: JSON.stringify({ email: encryption }),
                     headers: {
                       "Content-Type": "application/json",
                     },
@@ -532,7 +548,7 @@ export default function Settings() {
                   setShowDeleteChatModal(!showDeleteChatModal);
                   fetch(`${api_url}/chat-module/delete-all-chat-history`, {
                     method: "POST",
-                    body: JSON.stringify({ email: user.encryption }),
+                    body: JSON.stringify({ email: encryption }),
                     headers: {
                       "Content-Type": "application/json",
                     },

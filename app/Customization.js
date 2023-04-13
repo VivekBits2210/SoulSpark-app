@@ -17,7 +17,7 @@ function renderHero(name, src) {
 }
 
 export default function Customization() {
-  const { name, id } = useSearchParams();
+  const { name, id, encryption } = useSearchParams();
   const src = `${aws_url}/${id}.jpg?url_refresh_hack=${url_refresh_hack}`;
   state = {
     refreshing: false,

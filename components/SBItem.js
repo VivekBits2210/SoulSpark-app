@@ -23,10 +23,10 @@ export const SBItem = (props) => {
 };
 
 export const SBItemChatSelect = (props) => {
-  const { id, src, name, style, pretty, testID, ...animatedViewProps } = props;
+  const { id, src, name, style, pretty, testID, encryption, ...animatedViewProps } = props;
   const router = useRouter();
   const handleItemClick = () => {
-    router.push(`./ChatScreen?name=${name}&id=${id}`);
+    router.push(`./ChatScreen?name=${name}&id=${id}&encryption=${encryption}`);
   };
   const [isPretty, setIsPretty] = React.useState(pretty);
   return (
