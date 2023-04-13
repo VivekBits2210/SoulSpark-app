@@ -408,7 +408,7 @@ const Layout = () => {
           headerShadowVisible: false,
           headerTitle: "",
         }}
-        name="Unmatched"
+        name="unmatched"
       />
       <Stack.Screen
         options={{
@@ -417,14 +417,6 @@ const Layout = () => {
           headerTitle: "",
         }}
         name="missing"
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-          headerShadowVisible: false,
-          headerTitle: "",
-        }}
-        name="[user]"
       />
     </Stack>
   );

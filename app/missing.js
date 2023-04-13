@@ -1,6 +1,6 @@
 import { ActivityIndicator } from "react-native-paper";
 
-export default function Unmatched() {
+export default function Missing() {
   return (
     <View
       style={{
