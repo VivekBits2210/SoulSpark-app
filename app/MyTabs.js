@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import SwipeScreen from "./SwipeScreen";
 import ChatSelectionScreen from "./ChatSelectionScreen";
 import { window } from "../constants";
+import { useNavigation } from "expo-router";
+
 const Tab = createBottomTabNavigator();
 
 const MyTabs = (props) => {
@@ -12,6 +14,17 @@ const MyTabs = (props) => {
   const handleChatTabPress = () => {
     setTabBarOptions({});
   };
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.addListener('beforeRemove', (e) => {
+      if(e.data.action.type==="GO_BACK"){
+        e.preventDefault();
+        console.log('Back button disabled on My Tab screen');
+    }
+    });
+  }, []);
 
   return (
     <View

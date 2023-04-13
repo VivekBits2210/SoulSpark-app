@@ -27,6 +27,7 @@ const Layout = () => {
       <Stack.Screen
         options={{
           headerShown: true,
+          gestureEnabled: false,
           headerStyle: { backgroundColor: "white" },
           headerShadowVisible: true,
           headerLeft: () => {
@@ -262,6 +263,7 @@ const Layout = () => {
         options={{
           headerShown: true,
           headerStyle: { backgroundColor: "white" },
+          gestureEnabled: false,
           headerShadowVisible: true,
           headerLeft: () => {
             return (
@@ -293,6 +295,7 @@ const Layout = () => {
         options={{
           headerStyle: { backgroundColor: "black" },
           headerShadowVisible: false,
+          gestureEnabled: false,
           headerBackTitle: "",
           headerLeft: () => {
             return (
@@ -325,6 +328,7 @@ const Layout = () => {
         options={{
           headerStyle: { backgroundColor: "black" },
           headerShadowVisible: false,
+          gestureEnabled: false,
           headerBackTitle: "",
           headerLeft: () => {
             return (
@@ -398,7 +402,32 @@ const Layout = () => {
         }}
         name="ExpandedProfile"
       />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          headerShadowVisible: false,
+          headerTitle: "",
+        }}
+        name="Unmatched"
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          headerShadowVisible: false,
+          headerTitle: "",
+        }}
+        name="missing"
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          headerShadowVisible: false,
+          headerTitle: "",
+        }}
+        name="[user]"
+      />
     </Stack>
+    
   );
 };
 

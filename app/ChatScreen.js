@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text } from "react-native";
 import { Chat } from "@flyerhq/react-native-chat-ui";
 import * as Progress from "react-native-progress";
-import { email, user, api_url, normalize_font, window } from "../constants";
+import { email, api_url, normalize_font, window } from "../constants";
 import { useEffect } from "react";
 import { useSearchParams } from "expo-router";
 import { Input } from "@flyerhq/react-native-chat-ui";

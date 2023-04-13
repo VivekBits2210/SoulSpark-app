@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { Chip, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter, useSearchParams } from "expo-router";
+import { useRouter, useSearchParams, useNavigation } from "expo-router";
 import SButton from "../components/SButton";
-import { user, api_url } from "../constants";
+import { api_url } from "../constants";
 
 const interests = [
   "photography",
@@ -19,10 +19,24 @@ const interests = [
   "sports",
 ];
 
-const InterestsScreen = ({ navigation }) => {
+const InterestsScreen = () => {
   const { encryption, picture } = useSearchParams();
   const router = useRouter();
   const [selectedInterests, setSelectedInterests] = useState([]);
+
+  // const navigation = useNavigation();
+
+  // useEffect(() => {
+  //   navigation.addListener('beforeRemove', (e) => {
+  //       if(e.data.action.type==="GO_BACK"){
+  //         e.preventDefault();
+  //         console.log('Back button disabled on Interests Screen');
+  //       }
+  //       else{
+  //         navigation.dispatch(e.data.action)
+  //       }
+  //   });
+  // });
 
   const toggleInterest = (interest) => {
     if (selectedInterests.includes(interest)) {
@@ -78,7 +92,8 @@ const InterestsScreen = ({ navigation }) => {
                   "Content-Type": "application/json",
                 },
               }).then((res) => res.json());
-              router.replace(
+              console.log("here")
+              router.push(
                 `MyTabs?encryption=${encryption}&picture=${picture}`
               );
             }}

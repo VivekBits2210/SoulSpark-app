@@ -18,9 +18,9 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
-import { useRouter } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import { SBItem } from "../components/SBItem";
-import { user, window, normalize_font, api_url } from "../constants";
+import { window, normalize_font, api_url } from "../constants";
 // Images
 import googleLogo from "../assets/g-logo-black.jpg";
 import m0 from "../assets/cropped_smiling_woman.jpg";
@@ -34,6 +34,7 @@ import * as AuthSession from "expo-auth-session";
 import { makeRedirectUri } from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import encryptEmail from "./helpers";
+import { ActivityIndicator } from "react-native-paper";
 
 const redirectUri = makeRedirectUri({
   native: "com.soulspark.testpublishapp:/oauth2redirect",
@@ -43,7 +44,7 @@ const redirectUri = makeRedirectUri({
 const colors = ["#26292E", "#899F9C", "#B3C680", "#5C6265"];
 const marketing_images = [m0, m1, m2, m3];
 
-function WelcomeCarouselScreen({ navigation }) {
+function WelcomeCarouselScreen() {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const progressValue = useSharedValue(0);
@@ -96,7 +97,16 @@ function WelcomeCarouselScreen({ navigation }) {
     }
   }, [auth]);
 
+  const navigation = useNavigation();
+
   useEffect(() => {
+    navigation.addListener('beforeRemove', (e) => {
+      console.log("Navigate Action in welcome carousel")
+      if(e.data.action.type==="GO_BACK"){
+        e.preventDefault();
+        console.log('Back button disabled on Welcome Carousel Screen');
+      }
+    });
     const getPersistedAuth = async () => {
       const jsonValue = await AsyncStorage.getItem("auth");
       if (jsonValue != null) {
@@ -118,11 +128,10 @@ function WelcomeCarouselScreen({ navigation }) {
   useEffect(() => {
     if (userInfo) {
       console.log("here?", userInfo);
-      // const pictureHexString = Buffer.from(userInfo.picture).toString('hex');
       const pictureHexString = "emptyString";
       if (!pressedGoogleButton) {
         const timer = setTimeout(() => {
-          router.replace(
+          router.push(
             `MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
           );
         }, 2000);
@@ -134,7 +143,7 @@ function WelcomeCarouselScreen({ navigation }) {
         )
           .then((res) => res.json())
           .then((json) => {
-            router.replace(
+            router.push(
               json.age && json.gender
                 ? !json.interests
                   ? `InterestsScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
@@ -160,10 +169,12 @@ function WelcomeCarouselScreen({ navigation }) {
     );
 
     userInfoResponse.json().then((data) => {
+      console.log("ID",data["email"])
       data["emailEncryption"] = encryptEmail(
         data["email"],
         "f7bbaef2b2ea621d89f5c5db5c5f3e5f"
       );
+      console.log("Encryption",data["email"])
       console.log("user info", data);
       fetch(`${api_url}/user-profiles/create-user`, {
         method: "POST",
@@ -231,7 +242,8 @@ function WelcomeCarouselScreen({ navigation }) {
     if (userInfo) {
       return (
         <View style={styles.userInfo}>
-          <Image source={{ uri: userInfo.picture }} style={styles.profilePic} />
+          <ActivityIndicator size="large" color="#000" />
+          {/* <Image source={{ uri: userInfo.picture }} style={styles.profilePic} /> */}
           <Text style={{ fontSize: normalize_font(20) }}>
             Welcome {userInfo.name}
           </Text>
