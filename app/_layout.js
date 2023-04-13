@@ -418,6 +418,14 @@ const Layout = () => {
         }}
         name="missing"
       />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          headerShadowVisible: false,
+          headerTitle: "",
+        }}
+        name="[...unmatched]"
+      />
     </Stack>
   );
 };
