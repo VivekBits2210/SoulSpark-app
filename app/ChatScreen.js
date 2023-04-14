@@ -28,18 +28,18 @@ function ChatScreen() {
   socket = new WebSocket(`wss://api-soulspark.com/ws/chat/`);
 
   socket.onmessage = (message) => {
-    console.log("message",message)
+    console.log("message", message);
     getLevel();
   };
 
   function getLevel() {
-    console.log("id", id, "encryption", encryption)
+    console.log("id", id, "encryption", encryption);
     fetch(
       `${api_url}/chat-module/fetch-chat-history?bot_id=${id}&email=${encryption}&lines=50`
     )
       .then((res) => res.json())
       .then((json) => {
-        console.log("Chat History",json)
+        console.log("Chat History", json);
         let result = [];
         for (let i = json.history.length - 1; i >= 0; i--) {
           result.push({
@@ -70,11 +70,9 @@ function ChatScreen() {
       email: encryption,
       bot_id: id,
       text: message.text,
-    }
-    console.log("socketMessage", socketMessage)
-    socket.send(
-      JSON.stringify(socketMessage)
-    );
+    };
+    console.log("socketMessage", socketMessage);
+    socket.send(JSON.stringify(socketMessage));
   };
 
   return (

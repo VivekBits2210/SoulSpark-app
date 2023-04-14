@@ -64,7 +64,11 @@ const MyTabs = (props) => {
         <Tab.Screen
           name="Swipe"
           component={SwipeScreen}
-          initialParams={{ setTabBarOptions: setTabBarOptions, tabBarOptions: tabBarOptions, refreshed: true}}
+          initialParams={{
+            setTabBarOptions: setTabBarOptions,
+            tabBarOptions: tabBarOptions,
+            refreshed: true,
+          }}
         />
         <Tab.Screen
           name="Chat"
