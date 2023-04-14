@@ -179,7 +179,8 @@ function WelcomeCarouselScreen() {
         data["email"],
         "f7bbaef2b2ea621d89f5c5db5c5f3e5f"
       );
-      console.log("Encryption", data["email"]);
+      console.log("email", data["email"]);
+      console.log("encryption", data["emailEncryption"])
       // console.log("user info", data);
       fetch(`${api_url}/user-profiles/create-user`, {
         method: "POST",
