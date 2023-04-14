@@ -664,7 +664,21 @@ export default function Settings() {
                     ]}
                     onPress={() => {
                       setShowContactModal(!showContactModal);
-                      setInputText("");
+                      fetch(`${api_url}/user-profiles/post-feedback`, {
+                        method: "POST",
+                        body: JSON.stringify({
+                          email: encryption,
+                          feedback: inputText
+                        }),
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                      })
+                        .then((res) => res.json())
+                        .then((json) => {
+                          console.log("Feedback response",json);
+                          setInputText("");
+                      });
                     }}
                     disabled={hasError}
                   >
