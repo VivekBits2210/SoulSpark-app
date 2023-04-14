@@ -29,6 +29,7 @@ export default function ChatSelectionScreen() {
           });
         }
         setChats(result);
+        ref.current?.scrollTo({ index: 0 });
       });
   };
 
@@ -42,7 +43,6 @@ export default function ChatSelectionScreen() {
   let chatIndex = 0;
 
   function fn({ item }) {
-    ref.current?.scrollTo({ index: 0 });
     return (
       <View style={{ flex: 1, marginLeft: "2.5%" }}>
         <SBItemChatSelect
