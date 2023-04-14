@@ -35,6 +35,7 @@ import { makeRedirectUri } from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import encryptEmail from "./helpers";
 import { ActivityIndicator } from "react-native-paper";
+import { encryptionKey } from "../constants/secrets";
 
 const redirectUri = makeRedirectUri({
   native: "com.soulspark.testpublishapp:/oauth2redirect",
@@ -91,7 +92,6 @@ function WelcomeCarouselScreen() {
   const navigation = useNavigation();
 
   useEffect(() => {
-    // console.log("basic log", encryptEmail("", "f7bbaef2b2ea621d89f5c5db5c5f3e5f"))
     navigation.addListener("beforeRemove", (e) => {
       // console.log("Navigate Action in welcome carousel");
       if (e.data.action.type === "GO_BACK") {
@@ -120,6 +120,8 @@ function WelcomeCarouselScreen() {
   useEffect(() => {
     if (userInfo) {
       console.log("here?", userInfo);
+      if(userInfo.status==="UNAUTHENTICATED")
+        return;
       const pictureHexString = "emptyString";
       if (!pressedGoogleButton) {
         const timer = setTimeout(() => {
@@ -177,7 +179,7 @@ function WelcomeCarouselScreen() {
       console.log("ID", data["email"]);
       data["emailEncryption"] = encryptEmail(
         data["email"],
-        "f7bbaef2b2ea621d89f5c5db5c5f3e5f"
+        encryptionKey
       );
       console.log("email", data["email"]);
       console.log("encryption", data["emailEncryption"])
