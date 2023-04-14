@@ -14,7 +14,7 @@ import styles from "./App.styles";
 import { useSearchParams } from "expo-router";
 
 const SwipeScreen = ({ route }) => {
-  // const { setTabBarOptions } = route.params;
+  const { setTabBarOptions, tabBarOptions } = route.params;
   const { encryption } = useSearchParams();
   const swiperRef = useRef(null);
   const [photoCards, setPhotoCards] = useState([]);
@@ -59,7 +59,7 @@ const SwipeScreen = ({ route }) => {
       .then((res) => res.json())
       .then((json) => {
         if (json.bot_id) {
-          // setTabBarOptions({ tabBarBadge: 1 });
+          setTabBarOptions({tabBarBadge: 1});
           Toast.show({
             type: "success",
             text1: "Matched",
