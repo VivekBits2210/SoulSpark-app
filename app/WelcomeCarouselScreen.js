@@ -120,8 +120,7 @@ function WelcomeCarouselScreen() {
   useEffect(() => {
     if (userInfo) {
       console.log("here?", userInfo);
-      if(userInfo.status==="UNAUTHENTICATED")
-        return;
+      if (userInfo.status === "UNAUTHENTICATED") return;
       const pictureHexString = "emptyString";
       if (!pressedGoogleButton) {
         const timer = setTimeout(() => {
@@ -177,12 +176,9 @@ function WelcomeCarouselScreen() {
 
     userInfoResponse.json().then((data) => {
       console.log("ID", data["email"]);
-      data["emailEncryption"] = encryptEmail(
-        data["email"],
-        encryptionKey
-      );
+      data["emailEncryption"] = encryptEmail(data["email"], encryptionKey);
       console.log("email", data["email"]);
-      console.log("encryption", data["emailEncryption"])
+      console.log("encryption", data["emailEncryption"]);
       // console.log("user info", data);
       fetch(`${api_url}/user-profiles/create-user`, {
         method: "POST",

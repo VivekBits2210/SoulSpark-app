@@ -116,7 +116,7 @@ export default function Settings() {
     fetch(`${api_url}/user-profiles/post-attribute`, {
       method: "POST",
       body: JSON.stringify({
-        music_enabled: (!isMusicEnabled)?"True":"False",
+        music_enabled: !isMusicEnabled ? "True" : "False",
         email: encryption,
       }),
       headers: {
@@ -127,14 +127,14 @@ export default function Settings() {
       .then((json) => {
         console.log(json);
         setIsMusicEnabled((previousState) => !previousState);
-      })
+      });
   };
 
   const toggleSoundsSwitch = () => {
     fetch(`${api_url}/user-profiles/post-attribute`, {
       method: "POST",
       body: JSON.stringify({
-        sounds_enabled: (!isSoundsEnabled)?"True":"False",
+        sounds_enabled: !isSoundsEnabled ? "True" : "False",
         email: encryption,
       }),
       headers: {
@@ -199,7 +199,7 @@ export default function Settings() {
             color: "red",
           },
           onPress: () => {
-            setShowCrisisModal(true); 
+            setShowCrisisModal(true);
           },
         },
         {
@@ -214,13 +214,15 @@ export default function Settings() {
           onPress: () => {
             Linking.openURL("market://search?q=SoulSpark");
           },
-          showDisclosureIndicator: true,  
+          showDisclosureIndicator: true,
         },
         {
           title: "FAQ",
           showDisclosureIndicator: true,
           onPress: () => {
-            Linking.openURL("https://emerald-rocket-31a.notion.site/c3b28e291aaa4896b13301ed5f6e912d?v=0e31fb9b28dd4dab9fd27cc721904951");
+            Linking.openURL(
+              "https://emerald-rocket-31a.notion.site/c3b28e291aaa4896b13301ed5f6e912d?v=0e31fb9b28dd4dab9fd27cc721904951"
+            );
           },
         },
         {
@@ -480,7 +482,11 @@ export default function Settings() {
                   marginBottom: 40,
                   // borderRadius: 20,
                 }}
-                onPress={() => Linking.openURL("https://blog.opencounseling.com/suicide-hotlines/")}
+                onPress={() =>
+                  Linking.openURL(
+                    "https://blog.opencounseling.com/suicide-hotlines/"
+                  )
+                }
               >
                 <Text
                   style={{
@@ -522,9 +528,18 @@ export default function Settings() {
             }}
           >
             <View style={styles.modalView}>
-              <Text style={{paddingBottom:15, textAlign: "center"}}>SoulSpark uses GPT-3 technology to generate realistic and engaging conversations. Click <Text style={{color: 'blue'}}
-      onPress={() => Linking.openURL('https://openai.com/blog/chatgpt')}>here to learn more.
-</Text></Text>
+              <Text style={{ paddingBottom: 15, textAlign: "center" }}>
+                SoulSpark uses GPT-3 technology to generate realistic and
+                engaging conversations. Click{" "}
+                <Text
+                  style={{ color: "blue" }}
+                  onPress={() =>
+                    Linking.openURL("https://openai.com/blog/chatgpt")
+                  }
+                >
+                  here to learn more.
+                </Text>
+              </Text>
               <Pressable
                 style={{
                   backgroundColor: "black",
@@ -669,7 +684,7 @@ export default function Settings() {
                         method: "POST",
                         body: JSON.stringify({
                           email: encryption,
-                          feedback: inputText
+                          feedback: inputText,
                         }),
                         headers: {
                           "Content-Type": "application/json",
@@ -677,9 +692,9 @@ export default function Settings() {
                       })
                         .then((res) => res.json())
                         .then((json) => {
-                          console.log("Feedback response",json);
+                          console.log("Feedback response", json);
                           setInputText("");
-                      });
+                        });
                     }}
                     disabled={hasError}
                   >

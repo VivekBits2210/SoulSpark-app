@@ -1,5 +1,5 @@
 import { ActivityIndicator } from "react-native-paper";
-import { Text,View } from "react-native";
+import { Text, View } from "react-native";
 import { useEffect } from "react";
 import { useRouter } from "expo-router";
 
