@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { View, Text } from "react-native";
 import { Chat } from "@flyerhq/react-native-chat-ui";
 import * as Progress from "react-native-progress";
-import { email, api_url, normalize_font, window } from "../constants";
+import { api_url, normalize_font, window } from "../constants";
 import { useEffect } from "react";
-import { useSearchParams } from "expo-router";
+import { useSearchParams, useFocusEffect } from "expo-router";
 import { Input } from "@flyerhq/react-native-chat-ui";
 import { KeyboardAccessoryView } from "@flyerhq/react-native-keyboard-accessory-view";
 
@@ -19,7 +19,7 @@ function ChatScreen() {
   };
   const [level, setLevel] = useState(-1);
   const [messages, setMessages] = useState([]);
-  const chatUser = { id: email };
+  const chatUser = { id: encryption };
 
   const addMessage = (message) => {
     setMessages([message, ...messages]);
@@ -28,15 +28,18 @@ function ChatScreen() {
   socket = new WebSocket(`wss://api-soulspark.com/ws/chat/`);
 
   socket.onmessage = (message) => {
+    console.log("message",message)
     getLevel();
   };
 
   function getLevel() {
+    console.log("id", id, "encryption", encryption)
     fetch(
-      `${api_url}/user-profiles/fetch-chat-history?bot_id=${id}&email=${encryption}&picture=${picture}&lines=50`
+      `${api_url}/chat-module/fetch-chat-history?bot_id=${id}&email=${encryption}&lines=50`
     )
       .then((res) => res.json())
       .then((json) => {
+        console.log("Chat History",json)
         let result = [];
         for (let i = json.history.length - 1; i >= 0; i--) {
           result.push({
@@ -56,25 +59,26 @@ function ChatScreen() {
   useEffect(getLevel, []);
   const handleSendPress = (message) => {
     const textMessage = {
-      author: { id: email },
+      author: { id: encryption },
       createdAt: Date.now(),
       id: uuidv4(),
       text: message.text,
       type: "text",
     };
     addMessage(textMessage);
+    const socketMessage = {
+      email: encryption,
+      bot_id: id,
+      text: message.text,
+    }
+    console.log("socketMessage", socketMessage)
     socket.send(
-      JSON.stringify({
-        email: email,
-        bot_id: id,
-        text: message.text,
-      })
+      JSON.stringify(socketMessage)
     );
   };
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
       <View
         style={{
           backgroundColor: "rgba(60, 52, 151, 1)",
@@ -110,7 +114,7 @@ function ChatScreen() {
         customBottomComponent={() => {
           return (
             <>
-              {messages.length && messages[0].author.id === email ? (
+              {messages.length && messages[0].author.id === encryption ? (
                 <View
                   style={{
                     display: "flex",
