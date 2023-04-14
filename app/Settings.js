@@ -199,7 +199,7 @@ export default function Settings() {
             color: "red",
           },
           onPress: () => {
-            setShowCrisisModal(true);
+            setShowCrisisModal(true); 
           },
         },
         {
@@ -214,7 +214,7 @@ export default function Settings() {
           onPress: () => {
             Linking.openURL("market://search?q=SoulSpark");
           },
-          showDisclosureIndicator: true,
+          showDisclosureIndicator: true,  
         },
         {
           title: "FAQ",
@@ -522,7 +522,9 @@ export default function Settings() {
             }}
           >
             <View style={styles.modalView}>
-              <Text>Learn more</Text>
+              <Text style={{paddingBottom:15, textAlign: "center"}}>SoulSpark uses GPT-3 technology to generate realistic and engaging conversations. Click <Text style={{color: 'blue'}}
+      onPress={() => Linking.openURL('https://openai.com/blog/chatgpt')}>here to learn more.
+</Text></Text>
               <Pressable
                 style={{
                   backgroundColor: "black",
