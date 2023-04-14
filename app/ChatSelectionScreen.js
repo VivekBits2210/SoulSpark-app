@@ -20,9 +20,9 @@ export default function ChatSelectionScreen() {
       .then((json) => {
         let result = [];
         for (let i = json.data.length - 1; i >= 0; i--) {
-          let src = `${aws_url}/${json.data[i].bot_id}.jpg?url_refresh_hack=${url_refresh_hack}`;
+          let src = `${aws_url}/${json.data[i].bot_profile_id}.jpg?url_refresh_hack=${url_refresh_hack}`;
           result.push({
-            myKey: json.data[i].bot_id,
+            myKey: json.data[i].bot_profile_id,
             name: json.data[i].name,
             photo: src,
             index: i,

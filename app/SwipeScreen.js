@@ -28,13 +28,13 @@ const SwipeScreen = ({ route }) => {
         console.log("data", data);
         let result = [];
         for (let i = 0; i < data.length; i++) {
-          let src = `${aws_url}/${data[i].bot_id}.jpg?url_refresh_hack=${url_refresh_hack}`;
+          let src = `${aws_url}/${data[i].bot_profile_id}.jpg?url_refresh_hack=${url_refresh_hack}`;
           result.push({
             name: data[i].name,
             age: data[i].age,
             photo: src,
             bio: data[i].bio,
-            key: data[i].bot_id,
+            key: data[i].bot_profile_id,
           });
         }
         setPhotoCards(result);
@@ -52,13 +52,13 @@ const SwipeScreen = ({ route }) => {
   }, []);
 
   const getBotId = (cardIndex) => {
-    const bot_id = photoCards[cardIndex].key;
+    const bot_profile_id = photoCards[cardIndex].key;
     fetch(
-      `${api_url}/chat-module/fetch-chat-history?lines=0&bot_id=${bot_id}&email=${encryption}`
+      `${api_url}/chat-module/fetch-chat-history?lines=0&bot_profile_id=${bot_profile_id}&email=${encryption}`
     )
       .then((res) => res.json())
       .then((json) => {
-        if (json.bot_id) {
+        if (json.bot_profile_id) {
           setTabBarOptions({ tabBarBadge: 1 });
           Toast.show({
             type: "success",
