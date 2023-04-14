@@ -50,7 +50,7 @@ export default function ExpandedProfile() {
       </View>
       <Text
         style={{
-          textAlign: "justify",
+          textAlign: "left",
           fontFamily: "Roboto",
           fontSize: normalize_font(17),
           padding: window.height / 25,

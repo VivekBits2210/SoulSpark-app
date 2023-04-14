@@ -6,7 +6,7 @@ export default StyleSheet.create({
     flex: 0.72,
     marginTop: -30,
     // height: "100%",
-    backgroundColor: "transparent",
+    backgroundColor: "white",
     borderRadius: 5,
     shadowColor: "black",
     shadowOffset: {
