@@ -35,7 +35,7 @@ function ChatScreen() {
   function getLevel() {
     console.log("id", id, "encryption", encryption);
     fetch(
-      `${api_url}/chat-module/fetch-chat-history?bot_id=${id}&email=${encryption}&lines=50`
+      `${api_url}/chat-module/fetch-chat-history?bot_profile_id=${id}&email=${encryption}&lines=50`
     )
       .then((res) => res.json())
       .then((json) => {
@@ -68,7 +68,7 @@ function ChatScreen() {
     addMessage(textMessage);
     const socketMessage = {
       email: encryption,
-      bot_id: id,
+      bot_profile_id: id,
       text: message.text,
     };
     console.log("socketMessage", socketMessage);

@@ -11,7 +11,7 @@ import {
 
 export default function ExpandedProfile() {
   const router = useRouter();
-  const { name, age, bio, photo, bot_id } = useSearchParams();
+  const { name, age, bio, photo, bot_profile_id } = useSearchParams();
 
   const handleBackPress = () => {
     router.back();
@@ -23,7 +23,7 @@ export default function ExpandedProfile() {
         <Image
           style={styles.image}
           source={{
-            uri: `${aws_url}/${bot_id}.jpg?url_refresh_hack=${url_refresh_hack}`,
+            uri: `${aws_url}/${bot_profile_id}.jpg?url_refresh_hack=${url_refresh_hack}`,
           }}
           resizeMode="cover"
         />

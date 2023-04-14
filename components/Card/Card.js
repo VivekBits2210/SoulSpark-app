@@ -11,7 +11,7 @@ const Card = ({ card }) => {
 
   const handlePress = () => {
     router.push(
-      `/ExpandedProfile?name=${card.name}&age=${card.age}&bio=${card.bio}&bot_id=${id}`
+      `/ExpandedProfile?name=${card.name}&age=${card.age}&bio=${card.bio}&bot_profile_id=${id}`
     );
   };
 
