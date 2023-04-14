@@ -215,6 +215,7 @@ const Profile = () => {
                     gender_focus: genderFocus,
                     interests: selectedInterests.join(","),
                   };
+                  console.log("formValues", formValue)
                   formValue.email = encryption;
                   fetch(`${api_url}/user-profiles/post-attribute`, {
                     method: "POST",
@@ -222,7 +223,9 @@ const Profile = () => {
                     headers: {
                       "Content-Type": "application/json",
                     },
-                  }).then((res) => res.json());
+                  })
+                  .then((res) => res.json())
+                  .then((json)=> console.log("Profile Form", json));
                   router.back();
                 }}
               >

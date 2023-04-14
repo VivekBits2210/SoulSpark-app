@@ -185,8 +185,9 @@ const FormScreen = () => {
                   console.log("form output", json);
                   router.push(
                     `InterestsScreen?encryption=${encryption}&picture=${picture}`
-                  );
-                });
+                  )
+                })
+                .catch((e) => {console.log(e); console.log("response", res)})
             })}
             style={styles.button}
           >

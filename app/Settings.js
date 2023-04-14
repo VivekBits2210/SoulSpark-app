@@ -16,7 +16,7 @@ import { SettingsScreen, Chevron } from "react-native-settings-screen";
 import { useState, useRef, useEffect } from "react";
 import Modal from "react-native-modal";
 import { Pressable } from "react-native";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { api_url, version } from "../constants";
 import Toast from "react-native-toast-message";
 import { ActivityIndicator } from "react-native-paper";
@@ -110,13 +110,13 @@ export default function Settings() {
         });
     });
   }
-  useEffect(loadUserInfo, []);
+  useFocusEffect(loadUserInfo);
 
   const toggleMusicSwitch = () => {
     fetch(`${api_url}/user-profiles/post-attribute`, {
       method: "POST",
       body: JSON.stringify({
-        music_enabled: !isMusicEnabled,
+        music_enabled: (!isMusicEnabled)?"True":"False",
         email: encryption,
       }),
       headers: {
@@ -127,14 +127,14 @@ export default function Settings() {
       .then((json) => {
         console.log(json);
         setIsMusicEnabled((previousState) => !previousState);
-      });
+      })
   };
 
   const toggleSoundsSwitch = () => {
     fetch(`${api_url}/user-profiles/post-attribute`, {
       method: "POST",
       body: JSON.stringify({
-        sounds_enabled: !isSoundsEnabled,
+        sounds_enabled: (!isSoundsEnabled)?"True":"False",
         email: encryption,
       }),
       headers: {
@@ -583,6 +583,7 @@ export default function Settings() {
                           type: "success",
                           text1: "Chat History Deleted",
                           text2: "All chat history has been wiped!",
+                          visibilityTime: 2000,
                         });
                       });
                   }}
@@ -718,7 +719,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: paddingHorizontalMargin,
+    paddingHorizontal: 5,
   },
   heroContainer: {
     marginTop: 40,

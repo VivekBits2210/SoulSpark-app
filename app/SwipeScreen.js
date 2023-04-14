@@ -64,6 +64,8 @@ const SwipeScreen = ({ route }) => {
             type: "success",
             text1: "Matched",
             text2: `👋 ${json.name} wants to talk to you!`,
+            visibilityTime: 1000,
+            autoHide: true,
           });
           // setMatchedModalVisible({ visible: true, name: json.name });
         }
@@ -73,6 +75,8 @@ const SwipeScreen = ({ route }) => {
             type: "error",
             text1: "Out of Swipes",
             text2: `You cannot match with more than three profiles!`,
+            visibilityTime: 2000,
+            autoHide: true,
           });
           // setLimitedModalVisible(true);
         }
