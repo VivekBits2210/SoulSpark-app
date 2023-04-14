@@ -718,7 +718,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: paddingHorizontalMargin,
+    paddingHorizontal: 5,
   },
   heroContainer: {
     marginTop: 40,

@@ -222,7 +222,9 @@ const Profile = () => {
                     headers: {
                       "Content-Type": "application/json",
                     },
-                  }).then((res) => res.json());
+                  })
+                  .then((res) => res.json())
+                  .then((json)=> console.log("Profile Form", json));
                   router.back();
                 }}
               >
