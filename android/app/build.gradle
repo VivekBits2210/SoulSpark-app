@@ -115,7 +115,6 @@ android {
 
     namespace 'com.soulspark.testpublishapp'
     defaultConfig {
-        manifestPlaceholders = [appAuthRedirectScheme: 'com.soulspark.testpublishapp']
         applicationId 'com.soulspark.testpublishapp'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
