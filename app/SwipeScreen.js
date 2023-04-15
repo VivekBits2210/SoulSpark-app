@@ -11,10 +11,10 @@ import { ActivityIndicator } from "react-native-paper";
 import { Card, IconButton, OverlayLabel } from "../components";
 import { api_url, url_refresh_hack, aws_url, window } from "../constants";
 import styles from "./App.styles";
-import { useSearchParams } from "expo-router";
+import { useFocusEffect, useSearchParams } from "expo-router";
 
 const SwipeScreen = ({ route }) => {
-  const { setTabBarOptions, tabBarOptions } = route.params;
+  const { setTabBarOptions, tabBarOptions, refresh } = route.params;
   const { encryption } = useSearchParams();
   const swiperRef = useRef(null);
   const [photoCards, setPhotoCards] = useState([]);
@@ -25,7 +25,6 @@ const SwipeScreen = ({ route }) => {
     fetch(`${api_url}/ai-profiles/fetch-profile?n=${n}&email=${encryption}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("data", data);
         let result = [];
         for (let i = 0; i < data.length; i++) {
           let src = `${aws_url}/${data[i].bot_profile_id}.jpg?url_refresh_hack=${url_refresh_hack}`;

@@ -96,7 +96,7 @@ const InterestsScreen = () => {
                 .then((json) => {
                   console.log("interests form output", json);
                   router.push(
-                    `MyTabs?encryption=${encryption}&picture=${picture}`
+                    `MyTabs?encryption=${encryption}&picture=${picture}&refresh=${true}`
                   );
                 });
             }}

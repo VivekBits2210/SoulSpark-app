@@ -118,9 +118,19 @@ function WelcomeCarouselScreen() {
   }, []);
 
   useEffect(() => {
+    const cleaner = async () =>{
+      await AsyncStorage.removeItem("auth")
+      await AsyncStorage.removeItem("emailEncryption")
+    };
+
     if (userInfo) {
       console.log("here?", userInfo);
-      if (userInfo.status === "UNAUTHENTICATED") return;
+      if (userInfo.error?.status === "UNAUTHENTICATED"){
+        cleaner().then(()=>{
+          router.replace("");
+        })
+      }
+      else {
       const pictureHexString = "emptyString";
       if (!pressedGoogleButton) {
         const timer = setTimeout(() => {
@@ -133,7 +143,7 @@ function WelcomeCarouselScreen() {
                 json.age && json.gender
                   ? !json.interests
                     ? `InterestsScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
-                    : `MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
+                    : `MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}&refresh=${true}`
                   : `FormScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
               );
             });
@@ -153,10 +163,11 @@ function WelcomeCarouselScreen() {
               json.age && json.gender
                 ? !json.interests
                   ? `InterestsScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
-                  : `MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
+                  : `MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}&refresh=${true}`
                 : `FormScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
             );
           });
+      }
       }
     }
   }, [userInfo]);
