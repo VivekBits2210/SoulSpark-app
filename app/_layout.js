@@ -1,3 +1,4 @@
+import { Buffer } from "buffer";
 import { Text, View, TouchableOpacity } from "react-native";
 import { ScreenHeaderBtn } from "../components";
 import { Stack, useRouter } from "expo-router";
@@ -5,26 +6,30 @@ import { HeaderBackButton } from "react-navigation-stack";
 import UnmatchMenu from "./UnmatchMenu";
 import { useSearchParams } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { encrypEmail, random_number } from "../constants";
+import {
+  url_refresh_hack,
+  aws_url,
+  window,
+  normalize_font,
+} from "../constants";
 import ScreenHeaderTitle from "../components/Header/ScreenHeaderTitle";
 
 SplashScreen.preventAutoHideAsync();
 export const unstable_settings = {
-  // Ensure any route can link back to `/`
   initialRouteName: "index",
 };
 const Layout = () => {
   const router = useRouter();
-
-  const { name, id } = useSearchParams();
-  let src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${id}.jpg?random_number=${random_number}`;
+  const { name, id, encryption, picture } = useSearchParams();
+  let src = `${aws_url}/${id}.jpg?url_refresh_hack=${url_refresh_hack}`;
   return (
     <Stack>
       <Stack.Screen
         options={{
           headerShown: true,
+          gestureEnabled: false,
           headerStyle: { backgroundColor: "white" },
-          headerShadowVisible: false,
+          headerShadowVisible: true,
           headerLeft: () => {
             return (
               <View
@@ -55,6 +60,7 @@ const Layout = () => {
         options={{
           headerShadowVisible: true,
           headerTitleAlign: "center",
+          // headerStyle: {height:200},
           header: () => {
             return (
               <View
@@ -78,7 +84,8 @@ const Layout = () => {
                 />
                 <ScreenHeaderTitle src={require("../assets/logo_text.jpg")} />
                 <ScreenHeaderBtn
-                  iconUrl={require("../assets/profile.jpg")}
+                  iconUrl={require("../assets/profile.png")}
+                  // iconUrl={{uri:Buffer.from(picture, "hex").toString()}}
                   dimension="100%"
                   handlePress={() => router.push("/Settings")}
                 />
@@ -114,21 +121,17 @@ const Layout = () => {
                     iconUrl={{ uri: src }}
                     backgroundColor={"black"}
                     dimension="100%"
-                    handlePress={() =>
-                      router.push(`/Customization?name=${name}&id=${id}`)
-                    }
+                    handlePress={() => {}}
                   ></ScreenHeaderBtn>
                 </TouchableOpacity>
                 <Text
                   style={{
                     color: "white",
                     alignSelf: "center",
-                    fontSize: 22,
+                    fontSize: normalize_font(22),
                     paddingLeft: 10,
                   }}
-                  onPress={() =>
-                    router.push(`/Customization?name=${name}&id=${id}`)
-                  }
+                  onPress={() => {}}
                 >
                   {name}
                 </Text>
@@ -136,7 +139,7 @@ const Layout = () => {
             );
           },
           headerRight: () => {
-            return <UnmatchMenu id={id}></UnmatchMenu>;
+            return <UnmatchMenu id={id} encryption={encryption}></UnmatchMenu>;
           },
           headerTitle: "",
         }}
@@ -212,38 +215,16 @@ const Layout = () => {
               </View>
             );
           },
-          headerRight: () => {
-            return (
-              <TouchableOpacity
-                activeOpacity={0.94}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: 10,
-                  borderRadius: 20,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                  }}
-                >
-                  SAVE
-                </Text>
-              </TouchableOpacity>
-            );
-          },
           headerTitle: "",
         }}
         name="Profile"
       />
       <Stack.Screen
         options={{
-          // headerShown: false,
           headerStyle: { backgroundColor: "black" },
           headerShadowVisible: false,
           headerBackTitle: "",
+          headerBackTitleVisible: false,
           headerLeft: () => {
             return (
               <View
@@ -258,6 +239,8 @@ const Layout = () => {
                   tintColor="white"
                   onPress={() => router.back()}
                   style={{ paddingLeft: 0 }}
+                  headerBackTitle=""
+                  headerBackTitleVisible={false}
                 ></HeaderBackButton>
                 <Text
                   style={{
@@ -278,7 +261,33 @@ const Layout = () => {
       />
       <Stack.Screen
         options={{
-          headerShown: false,
+          headerShown: true,
+          headerStyle: { backgroundColor: "white" },
+          gestureEnabled: false,
+          headerShadowVisible: true,
+          headerLeft: () => {
+            return (
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  backgroundColor: "white",
+                  borderBottomColor: "lightgrey",
+                }}
+              >
+                <ScreenHeaderBtn
+                  iconUrl={require("../assets/logo_better.png")}
+                  dimension="150%"
+                  handlePress={() => router.push("/Coffee")}
+                />
+                <View style={{ paddingLeft: "18%" }}>
+                  <ScreenHeaderTitle src={require("../assets/logo_text.jpg")} />
+                </View>
+              </View>
+            );
+          },
+          headerTitle: "",
         }}
         name="WelcomeCarouselScreen"
       />
@@ -286,6 +295,7 @@ const Layout = () => {
         options={{
           headerStyle: { backgroundColor: "black" },
           headerShadowVisible: false,
+          gestureEnabled: false,
           headerBackTitle: "",
           headerLeft: () => {
             return (
@@ -318,6 +328,7 @@ const Layout = () => {
         options={{
           headerStyle: { backgroundColor: "black" },
           headerShadowVisible: false,
+          gestureEnabled: false,
           headerBackTitle: "",
           headerLeft: () => {
             return (
@@ -329,11 +340,6 @@ const Layout = () => {
                   alignItems: "center",
                 }}
               >
-                <HeaderBackButton
-                  tintColor="white"
-                  onPress={() => router.back()}
-                  style={{ paddingLeft: 0 }}
-                ></HeaderBackButton>
                 <Text
                   style={{
                     color: "white",
@@ -391,15 +397,26 @@ const Layout = () => {
       <Stack.Screen
         options={{
           headerShown: false,
-          // headerStyle: { backgroundColor: "black"},
           headerShadowVisible: false,
-          // headerLeft: () => {
-          // },
-          // headerRight: () => {
-          // },
           headerTitle: "",
         }}
         name="ExpandedProfile"
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          headerShadowVisible: false,
+          headerTitle: "",
+        }}
+        name="[user]"
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          headerShadowVisible: false,
+          headerTitle: "",
+        }}
+        name="[...unmatched]"
       />
     </Stack>
   );

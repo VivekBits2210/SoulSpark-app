@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { Chip, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useRouter, useSearchParams, useNavigation } from "expo-router";
 import SButton from "../components/SButton";
-import { useEffect } from "react";
-import { encrypEmail } from "../constants";
+import { api_url } from "../constants";
 
 const interests = [
   "photography",
@@ -20,10 +19,24 @@ const interests = [
   "sports",
 ];
 
-const InterestsScreen = ({ navigation }) => {
+const InterestsScreen = () => {
+  const { encryption, picture } = useSearchParams();
   const router = useRouter();
   const [selectedInterests, setSelectedInterests] = useState([]);
-  // const [validInterests, setValidInterests] = useState(false);
+
+  // const navigation = useNavigation();
+
+  // useEffect(() => {
+  //   navigation.addListener('beforeRemove', (e) => {
+  //       if(e.data.action.type==="GO_BACK"){
+  //         e.preventDefault();
+  //         console.log('Back button disabled on Interests Screen');
+  //       }
+  //       else{
+  //         navigation.dispatch(e.data.action)
+  //       }
+  //   });
+  // });
 
   const toggleInterest = (interest) => {
     if (selectedInterests.includes(interest)) {
@@ -45,13 +58,19 @@ const InterestsScreen = ({ navigation }) => {
               selected={selectedInterests.includes(interest)}
               onPress={() => {
                 toggleInterest(interest);
-                // console.log("length: " + selectedInterests.length);
               }}
               style={[
                 styles.chip,
-                selectedInterests.includes(interest) ? styles.chipSelected : styles.chipUnselected,
+                selectedInterests.includes(interest)
+                  ? styles.chipSelected
+                  : styles.chipUnselected,
               ]}
-              textStyle={selectedInterests.includes(interest) ? styles.chipTextSelected : styles.chipTextUnselected}
+              textStyle={
+                selectedInterests.includes(interest)
+                  ? styles.chipTextSelected
+                  : styles.chipTextUnselected
+              }
+              selectedColor="white"
             >
               {interest}
             </Chip>
@@ -61,13 +80,12 @@ const InterestsScreen = ({ navigation }) => {
           <SButton
             onPress={() => {
               if (selectedInterests.length === 0) {
-                // console.log("no interests selected");
                 return;
               }
-              fetch(`https://api-soulspark.com/user-profiles/post-attribute`, {
+              fetch(`${api_url}/user-profiles/post-attribute`, {
                 method: "POST",
                 body: JSON.stringify({
-                  email: encrypEmail,
+                  email: encryption,
                   interests: selectedInterests.join(","),
                 }),
                 headers: {
@@ -75,9 +93,12 @@ const InterestsScreen = ({ navigation }) => {
                 },
               })
                 .then((res) => res.json())
-                .then((json) => console.log(json));
-              router.replace("MyTabs");
-              // console.log(selectedInterests);
+                .then((json) => {
+                  console.log("interests form output", json);
+                  router.push(
+                    `MyTabs?encryption=${encryption}&picture=${picture}&refresh=${true}`
+                  );
+                });
             }}
             disabled={!selectedInterests.length}
           >
@@ -116,19 +137,19 @@ const styles = StyleSheet.create({
     margin: 4,
   },
   chipSelected: {
-    backgroundColor: 'black',
-    borderColor: 'white',
+    backgroundColor: "black",
+    borderColor: "white",
   },
   chipUnselected: {
-    backgroundColor: 'white',
-    borderColor: 'black',
+    backgroundColor: "white",
+    borderColor: "black",
   },
   chipTextSelected: {
-    color: 'white',
+    color: "white",
   },
   chipTextUnselected: {
-    color: 'black',
-  },  
+    color: "black",
+  },
   continueButton: {
     marginTop: 32,
   },

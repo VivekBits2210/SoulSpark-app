@@ -1,17 +1,15 @@
 import React, { useState } from "react";
-import { View, StatusBar, Text } from "react-native";
+import { View, Text } from "react-native";
 import { Chat } from "@flyerhq/react-native-chat-ui";
 import * as Progress from "react-native-progress";
-import { email, encrypEmail } from "../constants";
+import { api_url, normalize_font, window } from "../constants";
 import { useEffect } from "react";
-import { useSearchParams } from "expo-router";
-import { Dimensions } from "react-native";
+import { useSearchParams, useFocusEffect } from "expo-router";
 import { Input } from "@flyerhq/react-native-chat-ui";
 import { KeyboardAccessoryView } from "@flyerhq/react-native-keyboard-accessory-view";
-const windowWidth = Dimensions.get("window").width;
 
 function ChatScreen() {
-  const { name, id } = useSearchParams();
+  const { name, id, encryption, picture } = useSearchParams();
   const uuidv4 = () => {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
       const r = Math.floor(Math.random() * 16);
@@ -21,39 +19,27 @@ function ChatScreen() {
   };
   const [level, setLevel] = useState(-1);
   const [messages, setMessages] = useState([]);
-  const [isTyping, setIsTyping] = useState(false);
-  const user = { id: email };
+  const chatUser = { id: encryption };
 
   const addMessage = (message) => {
-    console.log("in addMessage, message: ", message);
     setMessages([message, ...messages]);
   };
 
   socket = new WebSocket(`wss://api-soulspark.com/ws/chat/`);
 
   socket.onmessage = (message) => {
+    console.log("message", message);
     getLevel();
-    // data = JSON.parse(message.data)
-
-    // if(data.who!==email){
-    //   const messageData = {
-    //     author: { id: data.who },
-    //     createdAt: Date.now(),
-    //     id: uuidv4(),
-    //     text: data.message,
-    //     type: "text",
-    //   };
-    // console.log("calling addMessage from socket.onmessage now with messageData", data.who)
-    // addMessage(messageData);
-    // }
   };
 
   function getLevel() {
+    console.log("id", id, "encryption", encryption);
     fetch(
-      `https://api-soulspark.com/chat-module/fetch-chat-history?bot_id=${id}&email=${encrypEmail}&lines=50`
+      `${api_url}/chat-module/fetch-chat-history?bot_profile_id=${id}&email=${encryption}&lines=50`
     )
       .then((res) => res.json())
       .then((json) => {
+        console.log("Chat History", json);
         let result = [];
         for (let i = json.history.length - 1; i >= 0; i--) {
           result.push({
@@ -67,48 +53,36 @@ function ChatScreen() {
         }
 
         setMessages(result);
-        console.log("json inside: ", json);
         setLevel(json.level ? json.level : 0);
       });
   }
   useEffect(getLevel, []);
   const handleSendPress = (message) => {
     const textMessage = {
-      author: { id: email },
+      author: { id: encryption },
       createdAt: Date.now(),
       id: uuidv4(),
       text: message.text,
       type: "text",
     };
-    console.log("calling addMessage from handleSendPress", message);
     addMessage(textMessage);
-    // const textMessage2 = {
-    //   author: { id: email },
-    //   createdAt: Date.now(),
-    //   id: uuidv4(),
-    //   text: message.text,
-    //   type: "text",
-    // };
-    // addMessage(textMessage2);
-    socket.send(
-      JSON.stringify({
-        email: email,
-        bot_id: id,
-        text: message.text,
-      })
-    );
+    const socketMessage = {
+      email: encryption,
+      bot_profile_id: id,
+      text: message.text,
+    };
+    console.log("socketMessage", socketMessage);
+    socket.send(JSON.stringify(socketMessage));
   };
-  console.log("level outside json : ", level);
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
       <View
         style={{
           backgroundColor: "rgba(60, 52, 151, 1)",
           display: "flex",
           flexDirection: "row",
-          maxWidth: windowWidth,
+          maxWidth: window.width,
         }}
       >
         <Progress.Bar
@@ -118,7 +92,7 @@ function ChatScreen() {
           borderColor={"rgba(60, 52, 151, 1)"}
           style={{ borderBottomRightRadius: 10, borderTopRightRadius: 10 }}
           height={17}
-          width={windowWidth * 0.8}
+          width={window.width * 0.8}
         />
         <View
           style={{
@@ -126,7 +100,7 @@ function ChatScreen() {
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: "rgba(60, 52, 151, 1)",
-            width: 0.2 * windowWidth,
+            width: 0.2 * window.width,
           }}
         >
           <Text style={{ color: "#fff" }}>LEVEL {Math.floor(level + 1)}</Text>
@@ -138,16 +112,16 @@ function ChatScreen() {
         customBottomComponent={() => {
           return (
             <>
-              {messages.length && messages[0].author.id === email ? (
+              {messages.length && messages[0].author.id === encryption ? (
                 <View
                   style={{
                     display: "flex",
                     flexDirection: "row",
-                    width: 200,
-                    height: 40,
+                    // width: 200,
+                    // height: 40,
                     backgroundColor: "white",
-                    marginLeft: 20,
-                    marginBottom: 16,
+                    // marginLeft: 20,
+                    // marginBottom: 16,
                     alignItems: "center",
                   }}
                 >
@@ -155,7 +129,8 @@ function ChatScreen() {
                     style={{
                       fontFamily: "Roboto",
                       fontStyle: "italic",
-                      fontSize: 11,
+                      fontSize: normalize_font(15),
+                      marginBottom: "10%",
                     }}
                   >
                     {name} is typing...
@@ -182,7 +157,7 @@ function ChatScreen() {
             </>
           );
         }}
-        user={user}
+        user={chatUser}
       />
     </View>
   );

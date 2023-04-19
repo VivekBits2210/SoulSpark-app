@@ -8,37 +8,34 @@ import { SBImageItem } from "./SBImageItem";
 import { SBTextItem } from "./SBTextItem";
 
 export const SBItem = (props) => {
-  const { src, name, key, style, pretty, testID, ...animatedViewProps } = props;
-  // console.log(name);
-  const [isPretty, setIsPretty] = React.useState(pretty);
+  const { src, text, key, style, testID } = props;
   return (
-    <LongPressGestureHandler
-      onActivated={() => {
-        setIsPretty(!isPretty);
-      }}
-    >
-      <Animated.View testID={testID} style={{ flex: 1 }} {...animatedViewProps}>
-        {isPretty ? (
-          <SBImageItem
-            text={name}
-            id={key}
-            src={src}
-            style={style}
-            borderRadius={10}
-          />
-        ) : (
-          <SBTextItem text={name} style={style} />
-        )}
-      </Animated.View>
-    </LongPressGestureHandler>
+    <Animated.View testID={testID} style={{ flex: 1 }}>
+      <SBImageItem
+        text={text}
+        id={key}
+        src={src}
+        style={style}
+        borderRadius={10}
+      />
+    </Animated.View>
   );
 };
 
 export const SBItemChatSelect = (props) => {
-  const { id, src, name, style, pretty, testID, ...animatedViewProps } = props;
+  const {
+    id,
+    src,
+    name,
+    style,
+    pretty,
+    testID,
+    encryption,
+    ...animatedViewProps
+  } = props;
   const router = useRouter();
   const handleItemClick = () => {
-    router.push(`./ChatScreen?name=${name}&id=${id}`);
+    router.push(`./ChatScreen?name=${name}&id=${id}&encryption=${encryption}`);
   };
   const [isPretty, setIsPretty] = React.useState(pretty);
   return (
@@ -49,7 +46,7 @@ export const SBItemChatSelect = (props) => {
     >
       <LongPressGestureHandler
         onActivated={() => {
-          setIsPretty(!isPretty);
+          //          setIsPretty(!isPretty);
         }}
       >
         <Animated.View

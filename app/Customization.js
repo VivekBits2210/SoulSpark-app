@@ -1,24 +1,9 @@
 import * as React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  Image,
-  Platform,
-  RefreshControl,
-  Switch,
-} from "react-native";
+import { StyleSheet, Text, View, Image, Switch } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
-import {
-  SettingsScreen,
-  SettingsData,
-  Chevron,
-} from "react-native-settings-screen";
+import { SettingsScreen } from "react-native-settings-screen";
 import { useSearchParams } from "expo-router";
-import { random_number } from "../constants";
-
-const fontFamily = Platform.OS === "ios" ? "Avenir" : "sans-serif";
+import { url_refresh_hack, aws_url } from "../constants";
 
 function renderHero(name, src) {
   return (
@@ -32,8 +17,8 @@ function renderHero(name, src) {
 }
 
 export default function Customization() {
-  const { name, id } = useSearchParams();
-  const src = `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${id}.jpg?random_number=${random_number}`;
+  const { name, id, encryption } = useSearchParams();
+  const src = `${aws_url}/${id}.jpg?url_refresh_hack=${url_refresh_hack}`;
   state = {
     refreshing: false,
   };
@@ -151,7 +136,7 @@ export default function Customization() {
             color: "#999",
             marginBottom: 40,
             marginTop: -30,
-            fontFamily,
+            fontFamily: "Roboto",
           }}
         >
           v1.2.3
@@ -162,49 +147,19 @@ export default function Customization() {
 
   return (
     <View style={styles.container}>
-      {/* <StatusBar barStyle="light-content" backgroundColor="black" /> */}
-      {/* <View style={styles.navBar}> */}
-      {/* <Text style={styles.navBarTitle}>Settings</Text> */}
-      {/* </View> */}
       <SettingsScreen
         data={this.settingsData}
-        globalTextStyle={{ fontFamily }}
-        // scrollViewProps={{
-        //   refreshControl: (
-        //     <RefreshControl
-        //       refreshing={this.state.refreshing}
-        //       onRefresh={() => {
-        //         this.setState({ refreshing: true })
-        //         setTimeout(() => this.setState({ refreshing: false }), 3000)
-        //       }}
-        //     />
-        //   ),
-        // }}
+        globalTextStyle={{ fontFamily: "Roboto" }}
       />
     </View>
   );
 }
-
-const statusBarHeight = Platform.OS === "ios" ? 35 : 0;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  navBar: {
-    backgroundColor: "black",
-    height: 44 + statusBarHeight,
-    alignSelf: "stretch",
-    paddingTop: statusBarHeight,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  navBarTitle: {
-    color: "white",
-    fontFamily,
-    fontSize: 17,
   },
   heroContainer: {
     marginTop: 40,
@@ -227,12 +182,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   heroTitle: {
-    fontFamily,
+    fontFamily: "Roboto",
     color: "black",
     fontSize: 24,
   },
   heroSubtitle: {
-    fontFamily,
+    fontFamily: "Roboto",
     color: "#999",
     fontSize: 14,
   },

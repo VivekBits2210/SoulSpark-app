@@ -1,22 +1,17 @@
 import * as React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { useRouter, useSearchParams } from "expo-router";
 import Icon from "react-native-vector-icons/AntDesign";
-import { random_number } from "../constants";
-
-const { height } = Dimensions.get("window");
+import {
+  url_refresh_hack,
+  aws_url,
+  window,
+  normalize_font,
+} from "../constants";
 
 export default function ExpandedProfile() {
   const router = useRouter();
-  const { name, age, bio, photo, bot_id } = useSearchParams();
+  const { name, age, bio, photo, bot_profile_id } = useSearchParams();
 
   const handleBackPress = () => {
     router.back();
@@ -28,7 +23,7 @@ export default function ExpandedProfile() {
         <Image
           style={styles.image}
           source={{
-            uri: `https://soulspark-profile-pictures.s3.us-west-1.amazonaws.com/${bot_id}.jpg?random_number=${random_number}`,
+            uri: `${aws_url}/${bot_profile_id}.jpg?url_refresh_hack=${url_refresh_hack}`,
           }}
           resizeMode="cover"
         />
@@ -40,19 +35,31 @@ export default function ExpandedProfile() {
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              style={[
-                styles.singleButton,
-                { backgroundColor: "black" },
-              ]}
+              style={[styles.singleButton, { backgroundColor: "black" }]}
               onPress={handleBackPress}
               activeOpacity={0.65}
             >
-              <Icon name={"caretup"} size={20} color={"white"} />
+              <Icon
+                name={"caretup"}
+                size={window.height / 50}
+                color={"white"}
+              />
             </TouchableOpacity>
           </View>
         </View>
       </View>
-      <Text style={{ textAlign: "justify", fontFamily: "Roboto", fontSize: 16, padding: 30, textShadowColor: "grey", textShadowRadius: 2 }}>{bio}</Text>
+      <Text
+        style={{
+          textAlign: "left",
+          fontFamily: "Roboto",
+          fontSize: normalize_font(17),
+          padding: window.height / 25,
+          textShadowColor: "grey",
+          textShadowRadius: 2,
+        }}
+      >
+        {bio}
+      </Text>
     </View>
   );
 }
@@ -62,7 +69,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   card: {
-    height: 0.85 * height,
+    height: 0.8 * window.height,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
@@ -81,26 +88,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
   },
-  heroContainer: {
-    marginTop: 40,
-    marginBottom: 50,
-    paddingVertical: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: "#ccc",
-    flexDirection: "row",
-  },
-  heroImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    borderWidth: 3,
-    borderColor: "black",
-    marginHorizontal: 20,
-  },
   photoDescriptionContainer: {
     flexDirection: "row",
     width: "100%",
@@ -115,7 +102,7 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: "left",
-    fontSize: 25,
+    fontSize: normalize_font(24),
     color: "white",
     textShadowColor: "black",
     textShadowRadius: 10,

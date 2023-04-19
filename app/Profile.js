@@ -1,13 +1,21 @@
 import React from "react";
 import { View, Text } from "react-native-animatable";
-import {  TextInput } from "react-native-gesture-handler";
+import { TextInput } from "react-native-gesture-handler";
 import { useForm, Controller } from "react-hook-form";
 import { Picker } from "@react-native-picker/picker";
-import { Pressable, StyleSheet, ScrollView } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
 import { Chip } from "react-native-paper";
-import { useState } from "react";
-import SearchableDropdown from 'react-native-searchable-dropdown';
-
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "expo-router";
+import { api_url, normalize_font } from "../constants";
+import { ActivityIndicator } from "react-native-paper";
+import Toast from "react-native-toast-message";
 
 const ages = [];
 for (let i = 18; i <= 60; i++) {
@@ -27,48 +35,42 @@ const interests = [
   "sports",
 ];
 
-const countries = [
-  { id: 1, name: "Afghanistan" },
-  { id: 2, name: "Albania" },
-  { id: 3, name: "Algeria" },
-  { id: 4, name: "American Samoa" },
-  { id: 5, name: "Andorra" },
-  { id: 6, name: "Angola" },
-  { id: 7, name: "Anguilla" },
-  { id: 8, name: "Antarctica" },
-  { id: 9, name: "Antigua and Barbuda" },
-  { id: 10, name: "Argentina" },
-  { id: 11, name: "Armenia" },
-  { id: 12, name: "Aruba" },
-  { id: 13, name: "Australia" },
-  { id: 14, name: "Austria" },
-  { id: 15, name: "Azerbaijan" },
-  { id: 16, name: "Bahamas" },
-  { id: 17, name: "Bahrain" },
-  { id: 18, name: "Bangladesh" },
-  { id: 19, name: "Barbados" },
-  { id: 20, name: "Belarus" },
-  { id: 21, name: "Belgium" },
-  { id: 22, name: "Belize" },
-  { id: 23, name: "Benin" },
-  { id: 24, name: "Bermuda" },
-  { id: 25, name: "Bhutan" },
-  { id: 26, name: "Bolivia" },
-  { id: 27, name: "Bosnia and Herzegovina" },
-  { id: 28, name: "Botswana" },
-  { id: 29, name: "Bouvet Island" },
-  { id: 30, name: "Brazil" },
-];
-
 const Profile = () => {
+  const { encryption, picture } = useSearchParams();
+  const router = useRouter();
+  const [gender, setGender] = useState("Male");
+  const [genderFocus, setGenderFocus] = useState("Female");
+  const [selectedInterests, setSelectedInterests] = useState([]);
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [userProfile, setUserProfile] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  function loadUserInfo() {
+    fetch(
+      `${api_url}/user-profiles/fetch-user-info?email=${encryption}&picture=${picture}`
+    )
+      .then((res) => res.json())
+      .then((json) => {
+        console.log("data fetched", json);
+        const { name, age, gender, gender_focus, interests } = json;
+        setUserProfile(json);
+        setName(name);
+        setAge(String(age));
+        setGender(gender);
+        setGenderFocus(gender_focus);
+        setSelectedInterests(interests ? interests.split(",") : "");
+        // console.log(json);
+        setIsLoading(false);
+      });
+  }
+  useEffect(loadUserInfo, []);
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [selectedInterests, setSelectedInterests] = useState([]);
-
-  const [selectedCountry, setSelectedCountry] = useState(countries[5]);
 
   const toggleInterest = (interest) => {
     if (selectedInterests.includes(interest)) {
@@ -78,122 +80,171 @@ const Profile = () => {
     }
   };
 
-  const [gender, setGender] = useState("Male");
-  const [genderFocus, setGenderFocus] = useState("Female");
-
   return (
-    <ScrollView
-      style={{
-        backgroundColor: "#fff",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        paddingHorizontal: 20,
-        paddingVertical: 40,
-        gap: 20,
-      }}
-    >
-      <CustomInput customName="Name" />
-      <Controller
-        control={control}
-        name="age"
-        render={({ field: { onChange, value } }) => (
-          <View style={styles.textBox}>
-            <Text style={styles.label}>Select an age</Text>
-            <Picker selectedValue={value} onValueChange={onChange}>
-              {ages.map((item, key) => (
-                <Picker.Item key={key} label={item} value={item} />
-              ))}
-            </Picker>
-          </View>
-        )}
-        rules={{
-          required: {
-            value: true,
-            message: "Please fill your Age",
-          },
-        }}
-      />
-      <CustomRadioInput
-        values={["Male", "Female"]}
-        element={<Pressable style={styles.radioSelect} />}
-        onPress={(value) => {
-          setGender(value);
-        }}
-        currValue={gender}
-        count={2}
-        customName="Select your gender"
-      />
-      <CustomRadioInput
-        values={["Male", "Female", "Any"]}
-        element={<Pressable style={styles.radioSelect} />}
-        onPress={(value) => {
-          setGenderFocus(value);
-        }}
-        currValue={genderFocus}
-        count={3}
-        customName="Select your preference"
-      />
-      <View style={styles.chipContainer}>
-        {interests.map((interest, index) => (
-          <Chip
-            key={index}
-            mode="outlined"
-            selected={selectedInterests.includes(interest)}
-            onPress={() => {
-              toggleInterest(interest);
+    <>
+      <SafeAreaView style={styles.safeArea}>
+        {isLoading ? (
+          <View
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
             }}
-            style={[
-              styles.chip,
-              selectedInterests.includes(interest)
-                ? styles.chipSelected
-                : styles.chipUnselected,
-            ]}
-            textStyle={
-              selectedInterests.includes(interest)
-                ? styles.chipTextSelected
-                : styles.chipTextUnselected
-            }
           >
-            {interest}
-          </Chip>
-        ))}
-      </View>
-      <SearchableDropdown
-        onItemSelect={(item) => {
-          console.log(item);
-          setSelectedCountry(item);
-        }}
-        containerStyle={{ padding: 5 }}
-        itemStyle={{
-          padding: 10,
-          marginTop: 2,
-          backgroundColor: "#f5f5f5",
-          borderColor: "#bbb",
-          borderWidth: 1,
-          borderRadius: 5,
-        }}
-        itemTextStyle={{ color: "#222" }}
-        itemsContainerStyle={{ maxHeight: 140 }}
-        items={countries}
-        defaultIndex={selectedCountry.id - 1}
-        resetValue={false}
-        textInputProps={{
-          placeholder: "placeholder",
-          underlineColorAndroid: "transparent",
-          style: {
-            padding: 12,
-            borderWidth: 1,
-            borderColor: "#ccc",
-            borderRadius: 5,
-          },
-          onTextChange: (text) => console.log(text),
-        }}
-        listProps={{
-          nestedScrollEnabled: true,
-        }}
-      />
-    </ScrollView>
+            <ActivityIndicator size="large" color="#000" />
+          </View>
+        ) : (
+          <ScrollView
+            contentContainerStyle={styles.scrollView}
+            style={{
+              backgroundColor: "#fff",
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              paddingHorizontal: 20,
+              paddingVertical: 40,
+              gap: 20,
+            }}
+          >
+            <CustomInput
+              customName="Name"
+              value={name}
+              onChangeText={setName}
+            />
+            <Controller
+              control={control}
+              name="age"
+              render={({ field: { onChange, value } }) => (
+                <View style={styles.textBox}>
+                  <Text style={styles.label}>Select an age</Text>
+                  <Picker selectedValue={age} onValueChange={setAge}>
+                    {ages.map((item, key) => (
+                      <Picker.Item key={key} label={item} value={item} />
+                    ))}
+                  </Picker>
+                </View>
+              )}
+              rules={{
+                required: {
+                  value: true,
+                  message: "Please fill your Age",
+                },
+              }}
+            />
+            <CustomRadioInput
+              key={"key1"}
+              keys={["key01", "key02"]}
+              values={["M", "F"]}
+              labels={["Male", "Female"]}
+              element={<Pressable style={styles.radioSelect} />}
+              onPress={(value) => {
+                setGender(value);
+              }}
+              currValue={gender}
+              count={2}
+              customName="Select your gender"
+            />
+            <CustomRadioInput
+              key={"key2"}
+              keys={["key11", "key12"]}
+              values={["M", "F", "E"]}
+              labels={["Male", "Female", "Any"]}
+              element={<Pressable style={styles.radioSelect} />}
+              onPress={(value) => {
+                setGenderFocus(value);
+              }}
+              currValue={genderFocus}
+              count={3}
+              customName="Select your preference"
+            />
+            <View style={styles.textBox}>
+              <Text style={styles.label}>Select your interests</Text>
+              <View style={styles.chipContainer}>
+                {interests.map((interest, index) => (
+                  <Chip
+                    key={index}
+                    mode="outlined"
+                    selected={selectedInterests.includes(interest)}
+                    onPress={() => {
+                      toggleInterest(interest);
+                    }}
+                    style={[
+                      styles.chip,
+                      selectedInterests.includes(interest)
+                        ? styles.chipSelected
+                        : styles.chipUnselected,
+                    ]}
+                    textStyle={
+                      selectedInterests.includes(interest)
+                        ? styles.chipTextSelected
+                        : styles.chipTextUnselected
+                    }
+                    selectedColor="white"
+                  >
+                    {interest}
+                  </Chip>
+                ))}
+              </View>
+            </View>
+
+            <View
+              style={{
+                display: "flex",
+                paddingVertical: "5%",
+                alignContent: "center",
+                alignItems: "center",
+                marginBottom: 40,
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  alignContent: "center",
+                  alignItems: "center",
+                  borderRadius: 4,
+                  backgroundColor: "black",
+                  width: "17%",
+                  paddingVertical: 5,
+                }}
+                onPress={() => {
+                  formValue = {
+                    name: name,
+                    age: age,
+                    gender: gender,
+                    gender_focus: genderFocus,
+                    interests: selectedInterests.join(","),
+                  };
+                  console.log("formValues", formValue);
+                  formValue.email = encryption;
+                  fetch(`${api_url}/user-profiles/post-attribute`, {
+                    method: "POST",
+                    body: JSON.stringify(formValue),
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  })
+                    .then((res) => res.json())
+                    .then((json) => console.log("Profile Form", json));
+                  router.back();
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: normalize_font(14),
+                    fontFamily: "Roboto",
+                  }}
+                >
+                  SAVE
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        )}
+      </SafeAreaView>
+      <Toast />
+    </>
   );
 };
 
@@ -221,6 +272,8 @@ const CustomInput = (props) => {
         style={{
           fontSize: 20,
         }}
+        value={props.value}
+        onChangeText={props.onChangeText}
       ></TextInput>
     </View>
   );
@@ -243,8 +296,9 @@ const CustomRadioInput = (props) => {
             style={
               props.currValue === props.values[i] ? styles.selectedText : {}
             }
+            key={props.keys[i]}
           >
-            {props.values[i]}
+            {props.labels[i]}
           </Text>
         ),
       })
@@ -280,7 +334,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 10,
     paddingHorizontal: 20,
-    borderRadius: 20,
+    borderRadius: 10,
     backgroundColor: "black",
   },
   selectedText: {
@@ -292,13 +346,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 10,
     paddingHorizontal: 20,
-    borderRadius: 20,
+    borderRadius: 10,
     backgroundColor: "white",
   },
   chipContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
+    backgroundColor: "#f5f5f5",
+    borderRadius: 10,
+    padding: 10,
+    borderColor: "#e4e4e4",
+    borderWidth: 1,
+    alignSelf: "stretch",
+    marginVertical: 7,
   },
   chip: {
     margin: 4,
@@ -389,6 +450,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 12,
     marginBottom: 20,
+  },
+  safeArea: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  scrollView: {
+    flexGrow: 1,
   },
 });
 

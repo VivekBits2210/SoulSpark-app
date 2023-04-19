@@ -2,20 +2,17 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { encrypEmail } from "../constants";
+import { user, api_url } from "../constants";
 
 const UnmatchMenu = (props) => {
   const router = useRouter();
-  const [menuVisible, setMenuVisible] = useState(false);
+  // const [menuVisible, setMenuVisible] = useState(false);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const [unmatchedVisible, setUnmatchedVisible] = useState(false);
   const { id } = props;
-  const toggleMenu = () => {
-    setMenuVisible(!menuVisible);
-  };
 
   const showConfirmation = () => {
-    setMenuVisible(false);
+    // setMenuVisible(false);
     setConfirmationVisible(true);
   };
 
@@ -24,21 +21,19 @@ const UnmatchMenu = (props) => {
   };
 
   const handleUnmatch = () => {
-    // unmatch button
     let data = new FormData();
-    data.append("email", encrypEmail);
-    data.append("bot_id", id);
-    fetch(`https://api-soulspark.com/chat-module/unmatch`, {
+    data.append("email", props.encryption);
+    data.append("bot_profile_id", id);
+    console.log("Form data", data, typeof data);
+    fetch(`${api_url}/chat-module/unmatch`, {
       method: "POST",
       body: data,
       redirect: "follow",
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        setConfirmationVisible(false);
-        setUnmatchedVisible(true);
-        router.back();
-      });
+    }).then((res) => {
+      setConfirmationVisible(false);
+      setUnmatchedVisible(true);
+      router.back();
+    });
   };
 
   const hideUnmatched = () => {
@@ -49,7 +44,6 @@ const UnmatchMenu = (props) => {
     <View>
       <TouchableOpacity onPress={showConfirmation} style={styles.kebabButton}>
         <Ionicons name={"close-circle-outline"} color={"red"} size={25} />
-        {/* <Text style={styles.menuItem}>X</Text> */}
       </TouchableOpacity>
       <Modal
         animationType="fade"
@@ -99,15 +93,6 @@ const UnmatchMenu = (props) => {
 };
 
 const styles = StyleSheet.create({
-  //   container: {
-  //     flex: 1,
-  //     justifyContent: 'center',
-  //     alignItems: 'center',
-  //   },
-  kebabMenu: {
-    fontSize: 24,
-    color: "white",
-  },
   kebabButton: {
     justifyContent: "center",
     alignItems: "flex-end",
@@ -119,17 +104,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.4)",
-  },
-  menuContainer: {
-    backgroundColor: "white",
-    borderRadius: 4,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-  },
-  menuItem: {
-    fontSize: 18,
-    color: "red",
-    paddingVertical: 8,
   },
   confirmationContainer: {
     backgroundColor: "white",
@@ -148,14 +122,17 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "black",
-    borderRadius: 4,
+    height: 40,
+    borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 8,
     marginHorizontal: 8,
+    justifyContent: "center",
   },
   buttonText: {
     fontSize: 14,
     color: "white",
+    textAlign: "center",
   },
   buttonTextClose: {
     fontSize: 14,

@@ -1,15 +1,12 @@
 import CryptoJS from "crypto-js";
 
-function encryptEmail(email, key) {
-  // Convert the key from a hexadecimal string to a WordArray
-  const keyWordArray = CryptoJS.enc.Hex.parse(key);
+export default function encryptEmail(email, key) {
+  const utf8Key = CryptoJS.enc.Hex.parse(key);
+  const utf8Email = CryptoJS.enc.Utf8.parse(email);
 
-  // Encrypt the plaintext with AES-CBC
-  const encrypted = CryptoJS.AES.encrypt(plaintext, keyWordArray, {
-    mode: CryptoJS.mode.CBC,
+  const encrypted = CryptoJS.AES.encrypt(utf8Email, utf8Key, {
+    mode: CryptoJS.mode.ECB,
     padding: CryptoJS.pad.Pkcs7,
   });
-
-  // Return the concatenation of the IV and ciphertext as a hexadecimal string
-  return encrypted.iv.toString() + encrypted.ciphertext.toString();
+  return encrypted.ciphertext.toString(CryptoJS.enc.Hex);
 }
