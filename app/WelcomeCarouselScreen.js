@@ -38,7 +38,7 @@ import { ActivityIndicator } from "react-native-paper";
 import { encryptionKey } from "../constants/secrets";
 
 const redirectUri = makeRedirectUri({
-  native: "com.soulspark.testpublishapp:/oauth2redirect",
+  native: "com.soulspark.testpublishapptwo:/oauth2redirect",
   useProxy: true,
 });
 
