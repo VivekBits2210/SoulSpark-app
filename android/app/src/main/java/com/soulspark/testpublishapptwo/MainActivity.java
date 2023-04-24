@@ -1,4 +1,4 @@
-package com.soulspark.testpublishapp;
+package com.soulspark.testpublishapptwo;
 
 import android.os.Build;
 import android.os.Bundle;

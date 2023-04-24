@@ -113,14 +113,15 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.soulspark.testpublishapp'
+    namespace 'com.soulspark.testpublishapptwo'
     defaultConfig {
-        applicationId 'com.soulspark.testpublishapp'
+        applicationId 'com.soulspark.testpublishapptwo'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0.2"
-        manifestPlaceholders = [appAuthRedirectScheme: 'com.soulspark.testpublishapp']
+        manifestPlaceholders = [appAuthRedirectScheme: 'com.soulspark.testpublishapptwo']
+
     }
 
     splits {

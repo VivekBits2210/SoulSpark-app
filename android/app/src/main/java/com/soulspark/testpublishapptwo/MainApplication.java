@@ -1,4 +1,4 @@
-package com.soulspark.testpublishapp;
+package com.soulspark.testpublishapptwo;
 
 import android.app.Application;
 import android.content.res.Configuration;

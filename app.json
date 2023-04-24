@@ -1,6 +1,6 @@
 {
   "expo": {
-    "scheme": "com.soulspark.testpublishapp",
+    "scheme": "com.soulspark.testpublishapptwo",
     "web": {
       "bundler": "metro"
     },
@@ -19,7 +19,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.soulspark.testpublishapp"
+      "bundleIdentifier": "com.soulspark.testpublishapptwo"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +27,7 @@
         "resizeMode": "contain",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.soulspark.testpublishapp"
+      "package": "com.soulspark.testpublishapptwo"
     },
     "extra": {
       "eas": {
