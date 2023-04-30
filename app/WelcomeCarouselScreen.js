@@ -118,22 +118,43 @@ function WelcomeCarouselScreen() {
   }, []);
 
   useEffect(() => {
-    const cleaner = async () =>{
-      await AsyncStorage.removeItem("auth")
-      await AsyncStorage.removeItem("emailEncryption")
+    const cleaner = async () => {
+      await AsyncStorage.removeItem("auth");
+      await AsyncStorage.removeItem("emailEncryption");
     };
 
     if (userInfo) {
       console.log("here?", userInfo);
-      if (userInfo.error?.status === "UNAUTHENTICATED"){
-        cleaner().then(()=>{
+      if (userInfo.error?.status === "UNAUTHENTICATED") {
+        cleaner().then(() => {
           router.replace("");
-        })
-      }
-      else {
-      const pictureHexString = "emptyString";
-      if (!pressedGoogleButton) {
-        const timer = setTimeout(() => {
+        });
+      } else {
+        const pictureHexString = "emptyString";
+        if (!pressedGoogleButton) {
+          const timer = setTimeout(() => {
+            fetch(
+              `${api_url}/user-profiles/fetch-user-info?email=${userInfo.emailEncryption}`
+            )
+              .then((res) => res.json())
+              .then((json) => {
+                router.push(
+                  json.age && json.gender
+                    ? !json.interests
+                      ? `InterestsScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
+                      : `MyTabs?encryption=${
+                          userInfo.emailEncryption
+                        }&picture=${pictureHexString}&refresh=${true}`
+                    : `FormScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
+                );
+              });
+            // router.push(
+            //   `MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
+            // );
+          }, 2000);
+
+          return () => clearTimeout(timer);
+        } else {
           fetch(
             `${api_url}/user-profiles/fetch-user-info?email=${userInfo.emailEncryption}`
           )
@@ -143,31 +164,13 @@ function WelcomeCarouselScreen() {
                 json.age && json.gender
                   ? !json.interests
                     ? `InterestsScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
-                    : `MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}&refresh=${true}`
+                    : `MyTabs?encryption=${
+                        userInfo.emailEncryption
+                      }&picture=${pictureHexString}&refresh=${true}`
                   : `FormScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
               );
             });
-          // router.push(
-          //   `MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
-          // );
-        }, 2000);
-
-        return () => clearTimeout(timer);
-      } else {
-        fetch(
-          `${api_url}/user-profiles/fetch-user-info?email=${userInfo.emailEncryption}`
-        )
-          .then((res) => res.json())
-          .then((json) => {
-            router.push(
-              json.age && json.gender
-                ? !json.interests
-                  ? `InterestsScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
-                  : `MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}&refresh=${true}`
-                : `FormScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
-            );
-          });
-      }
+        }
       }
     }
   }, [userInfo]);
@@ -379,30 +382,53 @@ function WelcomeCarouselScreen() {
         }}
       >
         {!auth ? (
-          <Pressable
-            style={({ pressed }) => [
-              styles.customButton,
-              pressed ? styles.customButtonPressed : {},
-            ]}
-            onPress={() => {
-              promptAsync({ useProxy: true, showInRecents: true });
-              setPressedGoogleButton(true);
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              backgroundColor: "white",
+              width: "100%",
+              gap: 10,
             }}
           >
-            <View style={{ flex: 0.2 }}>
-              <Image source={googleLogo} style={styles.logo} />
-            </View>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
+            <Pressable
+              style={({ pressed }) => [
+                styles.customButton,
+                pressed ? styles.customButtonPressed : {},
+              ]}
+              onPress={() => {
+                promptAsync({ useProxy: true, showInRecents: true });
+                setPressedGoogleButton(true);
               }}
             >
-              <Text style={styles.customButtonText}>Continue with Google</Text>
-            </View>
-          </Pressable>
+              <View style={{ flex: 0.2 }}>
+                <Image source={googleLogo} style={styles.logo} />
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={styles.customButtonText}>
+                  Continue with Google
+                </Text>
+              </View>
+            </Pressable>
+            <Pressable
+              style={({ pressed }) => [
+                styles.customButton,
+                pressed ? styles.customButtonPressed : {},
+              ]}
+              onPress={() => {
+                router.push("/Register");
+              }}
+            >
+              <Text style={styles.customButtonText}>Login with Email</Text>
+            </Pressable>
+          </View>
         ) : (
           showUserData()
         )}
