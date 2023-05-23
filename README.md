@@ -1,6 +1,6 @@
 # SoulSpark - Your AI Friend
 
-SoulSpark is a revolutionary Android application powered by GPT-3.5-Turbo, one of OpenAI's most advanced models. It's built using React Native and Expo, allowing for seamless development and usage.
+SoulSpark is a Android application powered by GPT-3.5-Turbo, one of OpenAI's most advanced models. It's built using React Native and Expo, allowing for seamless development and usage.
 
 ## Table of Contents
 
