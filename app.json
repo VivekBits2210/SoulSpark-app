@@ -1,6 +1,5 @@
 {
   "expo": {
-    "scheme": "com.soulspark.testpublishapptwo",
     "web": {
       "bundler": "metro"
     },
@@ -12,6 +11,7 @@
     "name": "soulspark",
     "slug": "soulspark",
     "version": "1.0.2",
+    "scheme": "soulspark",
     "orientation": "portrait",
     "icon": "./assets/logo_better.png",
     "updates": {

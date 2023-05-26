@@ -1,15 +1,11 @@
-import { Buffer } from "buffer";
 import * as React from "react";
-// import TimeZone from 'react-native-timezone';
 import {
   Text,
   View,
   StyleSheet,
-  Dimensions,
   Image,
   Pressable,
   Platform,
-  Button,
 } from "react-native";
 import Animated, {
   Extrapolate,
@@ -21,7 +17,7 @@ import Carousel from "react-native-reanimated-carousel";
 import { useNavigation, useRouter } from "expo-router";
 import { SBItem } from "../components/SBItem";
 import { window, normalize_font, api_url } from "../constants";
-// Images
+
 import googleLogo from "../assets/g-logo-black.jpg";
 import m0 from "../assets/cropped_smiling_woman.jpg";
 import m1 from "../assets/cropped_journey.jpg";
@@ -58,8 +54,6 @@ function WelcomeCarouselScreen() {
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId:
       "123407580501-bnpepikal9j1k7178c7v29au38ne7bsu.apps.googleusercontent.com",
-    iosClientId:
-      "123407580501-3m0u09eqspq7sk4oem79ssdjh736j7jp.apps.googleusercontent.com",
     expoClientId:
       "123407580501-s1iti9qokaqkeavio2ifptef48qiedo4.apps.googleusercontent.com",
     redirectUri: redirectUri,
@@ -67,7 +61,6 @@ function WelcomeCarouselScreen() {
   });
 
   useEffect(() => {
-    // console.log("persist ran?");
     if (response && response?.type === "success") {
       setAuth(response.authentication);
     }
@@ -224,35 +217,6 @@ function WelcomeCarouselScreen() {
       console.log("Invalid platform - not handled");
     }
   };
-
-  // const refreshToken = async () => {
-  //   const clientId = getClientId();
-  //   console.log(auth);
-  //   const tokenResult = await AuthSession.refreshAsync(
-  //     {
-  //       clientId: clientId,
-  //       refreshToken: auth.refreshToken,
-  //     },
-  //     {
-  //       tokenEndpoint: "https://www.googleapis.com/oauth2/v4/token",
-  //     }
-  //   );
-
-  //   tokenResult.refreshToken = auth.refreshToken;
-
-  //   setAuth(tokenResult);
-  //   await AsyncStorage.setItem("auth", JSON.stringify(tokenResult));
-  //   setRequireRefresh(false);
-  // };
-
-  // if (requireRefresh) {
-  //   return (
-  //     <View style={styles.container}>
-  //       <Text>Token requires refresh...</Text>
-  //       <Button title="Refresh Token" onPress={refreshToken} />
-  //     </View>
-  //   );
-  // }
 
   const showUserData = () => {
     if (userInfo) {
