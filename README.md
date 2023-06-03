@@ -47,7 +47,7 @@ To install SoulSpark, follow these steps:
 
 4. Start the project.
     ```
-    expo start
+    npx expo start (--tunnel if your phone is on a different network)
     ```
 
 ## Usage
