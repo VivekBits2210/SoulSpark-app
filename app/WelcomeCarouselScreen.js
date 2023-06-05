@@ -35,7 +35,7 @@ import { makeRedirectUri } from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import encryptEmail from "./helpers";
 import { ActivityIndicator } from "react-native-paper";
-import { encryptionKey } from "../constants/secrets";
+// import { encryptionKey } from "../constants/secrets";
 
 const redirectUri = makeRedirectUri({
   native: "com.soulspark.testpublishapptwo:/oauth2redirect",
@@ -53,6 +53,7 @@ function WelcomeCarouselScreen() {
   const [userInfo, setUserInfo] = useState();
   const [auth, setAuth] = useState();
   const [requireRefresh, setRequireRefresh] = useState(false);
+  const [token, setToken] = useState("");
   const [pressedGoogleButton, setPressedGoogleButton] = useState(false);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -62,16 +63,26 @@ function WelcomeCarouselScreen() {
       "123407580501-3m0u09eqspq7sk4oem79ssdjh736j7jp.apps.googleusercontent.com",
     expoClientId:
       "123407580501-s1iti9qokaqkeavio2ifptef48qiedo4.apps.googleusercontent.com",
+    webClientId:
+      "123407580501-s1iti9qokaqkeavio2ifptef48qiedo4.apps.googleusercontent.com",
     redirectUri: redirectUri,
     prompt: "select_account",
   });
 
+  const googleSignInClick = () => {
+    promptAsync();
+    setPressedGoogleButton(true);
+  };
+
   useEffect(() => {
     // console.log("persist ran?");
-    if (response && response?.type === "success") {
-      setAuth(response.authentication);
+    if (!token) {
+      if (response && response?.type === "success") {
+        setToken(response.authentication.accessToken);
+        setAuth(response.authentication);
+      }
     }
-  }, [response]);
+  }, [response, token]);
 
   useEffect(() => {
     if (auth) {
@@ -118,22 +129,43 @@ function WelcomeCarouselScreen() {
   }, []);
 
   useEffect(() => {
-    const cleaner = async () =>{
-      await AsyncStorage.removeItem("auth")
-      await AsyncStorage.removeItem("emailEncryption")
+    const cleaner = async () => {
+      await AsyncStorage.removeItem("auth");
+      await AsyncStorage.removeItem("emailEncryption");
     };
 
     if (userInfo) {
       console.log("here?", userInfo);
-      if (userInfo.error?.status === "UNAUTHENTICATED"){
-        cleaner().then(()=>{
+      if (userInfo.error?.status === "UNAUTHENTICATED") {
+        cleaner().then(() => {
           router.replace("");
-        })
-      }
-      else {
-      const pictureHexString = "emptyString";
-      if (!pressedGoogleButton) {
-        const timer = setTimeout(() => {
+        });
+      } else {
+        const pictureHexString = "emptyString";
+        if (!pressedGoogleButton) {
+          const timer = setTimeout(() => {
+            fetch(
+              `${api_url}/user-profiles/fetch-user-info?email=${userInfo.emailEncryption}`
+            )
+              .then((res) => res.json())
+              .then((json) => {
+                router.push(
+                  json.age && json.gender
+                    ? !json.interests
+                      ? `InterestsScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
+                      : `MyTabs?encryption=${
+                          userInfo.emailEncryption
+                        }&picture=${pictureHexString}&refresh=${true}`
+                    : `FormScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
+                );
+              });
+            // router.push(
+            //   `MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
+            // );
+          }, 2000);
+
+          return () => clearTimeout(timer);
+        } else {
           fetch(
             `${api_url}/user-profiles/fetch-user-info?email=${userInfo.emailEncryption}`
           )
@@ -143,31 +175,13 @@ function WelcomeCarouselScreen() {
                 json.age && json.gender
                   ? !json.interests
                     ? `InterestsScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
-                    : `MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}&refresh=${true}`
+                    : `MyTabs?encryption=${
+                        userInfo.emailEncryption
+                      }&picture=${pictureHexString}&refresh=${true}`
                   : `FormScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
               );
             });
-          // router.push(
-          //   `MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
-          // );
-        }, 2000);
-
-        return () => clearTimeout(timer);
-      } else {
-        fetch(
-          `${api_url}/user-profiles/fetch-user-info?email=${userInfo.emailEncryption}`
-        )
-          .then((res) => res.json())
-          .then((json) => {
-            router.push(
-              json.age && json.gender
-                ? !json.interests
-                  ? `InterestsScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
-                  : `MyTabs?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}&refresh=${true}`
-                : `FormScreen?encryption=${userInfo.emailEncryption}&picture=${pictureHexString}`
-            );
-          });
-      }
+        }
       }
     }
   }, [userInfo]);
@@ -384,10 +398,7 @@ function WelcomeCarouselScreen() {
               styles.customButton,
               pressed ? styles.customButtonPressed : {},
             ]}
-            onPress={() => {
-              promptAsync({ useProxy: true, showInRecents: true });
-              setPressedGoogleButton(true);
-            }}
+            onPress={googleSignInClick}
           >
             <View style={{ flex: 0.2 }}>
               <Image source={googleLogo} style={styles.logo} />
