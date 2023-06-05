@@ -35,7 +35,7 @@ import { makeRedirectUri } from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import encryptEmail from "./helpers";
 import { ActivityIndicator } from "react-native-paper";
-// import { encryptionKey } from "../constants/secrets";
+import { encryptionKey } from "../constants/secrets";
 
 const redirectUri = makeRedirectUri({
   native: "com.soulspark.testpublishapptwo:/oauth2redirect",
