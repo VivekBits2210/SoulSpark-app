@@ -13,24 +13,21 @@
     "slug": "soulspark",
     "version": "1.0.2",
     "orientation": "portrait",
-    "package": "com.soulspark.testpublishapptwo",
     "icon": "./assets/logo_better.png",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.soulspark.testpublishapptwo",
-      "googleServicesFile": "./ios/GoogleService-Info.plist"
+      "bundleIdentifier": "com.soulspark.testpublishapptwo"
     },
     "android": {
-      "googleServicesFile": "./android/google-services.json",
-      "package": "com.soulspark.testpublishapptwo",
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo_better.png",
         "resizeMode": "contain",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.soulspark.testpublishapptwo"
     },
     "extra": {
       "eas": {
