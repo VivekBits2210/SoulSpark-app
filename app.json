@@ -13,7 +13,6 @@
     "slug": "soulspark",
     "version": "1.0.2",
     "orientation": "portrait",
-    "package": "com.soulspark.testpublishapptwo",
     "icon": "./assets/logo_better.png",
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -28,7 +27,6 @@
       "package": "com.soulspark.testpublishapptwo",
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo_better.png",
-        "resizeMode": "contain",
         "backgroundColor": "#FFFFFF"
       }
     },
