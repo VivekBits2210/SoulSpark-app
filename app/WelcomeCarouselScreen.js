@@ -35,7 +35,6 @@ import { makeRedirectUri } from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import encryptEmail from "./helpers";
 import { ActivityIndicator } from "react-native-paper";
-import { encryptionKey } from "../constants/secrets";
 
 const redirectUri = makeRedirectUri({
   native: "com.soulspark.testpublishapptwo:/oauth2redirect",
@@ -201,7 +200,7 @@ function WelcomeCarouselScreen() {
 
     userInfoResponse.json().then((data) => {
       console.log("ID", data["email"]);
-      data["emailEncryption"] = encryptEmail(data["email"], encryptionKey);
+      data["emailEncryption"] = encryptEmail(data["email"], process.env.encryptionKey);
       console.log("email", data["email"]);
       console.log("encryption", data["emailEncryption"]);
       // console.log("user info", data);
