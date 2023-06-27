@@ -4,7 +4,6 @@ const { getDefaultConfig } = require("expo/metro-config");
 const defaultConfig = getDefaultConfig(__dirname);
 module.exports = {
     ...defaultConfig,
-    sourceExts: ['js', 'json', 'ts', 'tsx'],
     transformer: {
       ...defaultConfig.transformer,
       getTransformOptions: async () => ({
